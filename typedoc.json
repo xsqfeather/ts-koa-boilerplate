@@ -1,0 +1,6 @@
+{
+  "entryPoints": [
+    "./server/index.ts"
+  ],
+  "out": "public/docs"
+}

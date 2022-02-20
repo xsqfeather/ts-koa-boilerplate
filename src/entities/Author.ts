@@ -10,15 +10,6 @@ export class Author extends BaseEntity {
   @Property()
   email: string;
 
-  @Property()
-  age?: number;
-
-  @Property()
-  termsAccepted = false;
-
-  @Property()
-  born?: Date;
-
   constructor(name: string, email: string) {
     super();
     this.name = name;

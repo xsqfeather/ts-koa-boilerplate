@@ -9,6 +9,7 @@ const options: Options = {
   highlighter: new MongoHighlighter(),
   debug: true,
   clientUrl: "mongodb://127.0.0.1:27017",
+  allowGlobalContext: true,
 };
 
 export default options;

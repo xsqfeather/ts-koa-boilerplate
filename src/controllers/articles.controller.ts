@@ -1,14 +1,60 @@
-import { Controller, Get } from "amala";
+import { Loaded } from "@mikro-orm/core";
+import { Body, Controller, Delete, Get, Params, Post, Put, Query } from "amala";
+import Container from "typedi";
+import { CreateArticleInput, UpdateArticleInput } from "../dtos/articles.dto";
+import { DeleteManyInput, ListQuery } from "../dtos/common.dto";
 import { Article } from "../entities/Article";
-import { FindListResult } from "../types/controller";
+import ArticleService from "../services/ArticleService";
+import DTOService from "../services/DTOService";
 
 @Controller("/articles")
 export default class ArticleController {
+  private articleService = Container.get(ArticleService);
+
+  private dtoService = Container.get(DTOService);
+
   @Get("/")
-  index(): FindListResult<Article> {
+  async getList(
+    @Query() query: ListQuery
+  ): Promise<{ data: Loaded<Article, never>[]; total: number }> {
+    const listQueryObject = this.dtoService.parseListQuery(query);
+    const [articles, total] = await this.articleService.getList(
+      listQueryObject
+    );
     return {
-      total: 0,
-      list: [],
+      data: articles,
+      total,
     };
+  }
+
+  @Get("/:id")
+  getOne(@Params("id") id: string): Promise<Loaded<Article, never>> {
+    return this.articleService.getOne(id);
+  }
+
+  @Post("/")
+  async createOne(
+    @Body() createArticleInput: CreateArticleInput
+  ): Promise<Article> {
+    return this.articleService.createOne(createArticleInput);
+  }
+
+  @Put("/:id")
+  async updateOne(
+    @Params("id") id: string,
+    @Body() updateArticleInput: UpdateArticleInput
+  ): Promise<Article> {
+    return this.articleService.updateOne(id, updateArticleInput);
+  }
+
+  @Delete("/")
+  async deleteMany(@Query() deleteInput: DeleteManyInput): Promise<Article[]> {
+    const ids = JSON.parse(deleteInput.ids);
+    return this.articleService.deleteMany(ids);
+  }
+
+  @Delete("/:id")
+  async deleteOne(@Params("id") id: string): Promise<Article> {
+    return this.articleService.deleteOne(id);
   }
 }

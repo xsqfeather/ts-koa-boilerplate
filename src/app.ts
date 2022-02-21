@@ -1,3 +1,7 @@
 import startApp from "./bootstrap/startApp";
 
-startApp();
+startApp({
+  afterStart: async () => {
+    return;
+  },
+});

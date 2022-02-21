@@ -1,17 +1,17 @@
 import "reflect-metadata";
 import useMiddles from "./useMiddles";
-import { EntityManager, MikroORM } from "@mikro-orm/core";
+import { MikroORM } from "@mikro-orm/core";
+import DI from "../DI";
 
-export const DI = {} as {
-  orm: MikroORM;
-  em: EntityManager;
-};
-
-export default async function startApp(): Promise<void> {
-  const app = await useMiddles();
+export default async function startApp(lifeCycle: {
+  afterStart: () => Promise<void>;
+}): Promise<void> {
+  const { afterStart } = lifeCycle;
   DI.orm = await MikroORM.init();
   DI.em = DI.orm.em;
+  const app = await useMiddles();
   app.listen(8001, () => {
     console.log("SERVER RUNNING ON 8001");
+    afterStart();
   });
 }

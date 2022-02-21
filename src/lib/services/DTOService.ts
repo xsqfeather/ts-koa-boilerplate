@@ -1,5 +1,5 @@
 import { Service } from "typedi";
-import { ListQuery, ListQueryObject } from "../dtos/common.dto";
+import { ListQuery, ListQueryObject } from "../../dtos/common.dto";
 
 @Service()
 export default class DTOService {

@@ -5,7 +5,7 @@ import { CreateAuthorInput, UpdateAuthorInput } from "../dtos/authors.dto";
 import { DeleteManyInput, ListQuery } from "../dtos/common.dto";
 import { Author } from "../entities/Author";
 import AuthorService from "../services/AuthorService";
-import DTOService from "../services/DTOService";
+import DTOService from "../lib/services/DTOService";
 
 @Controller("/authors")
 export default class AuthorController {

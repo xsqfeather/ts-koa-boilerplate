@@ -1,19 +1,12 @@
-import { BaseEventEmitter } from "../lib/events/emitters";
 import { Service } from "typedi";
-import { DocumentType } from "@typegoose/typegoose";
-import { on_article_created } from "../constants/events";
-import { Article } from "../models/Article";
+import { Article } from "../entities/Article";
 import OnEvent from "../lib/decorators/OnEvent";
+import { BaseEventEmitter } from "../lib/events/BaseEventEmitter";
 
 @Service()
-export class DemoEmitter extends BaseEventEmitter<
-  typeof on_article_created,
-  DocumentType<Article>
-> {
-  @OnEvent(on_article_created)
-  async onArticleCreated(
-    article: DocumentType<Article>
-  ): Promise<DocumentType<Article>> {
+export class ArticleEmitter extends BaseEventEmitter<Article> {
+  @OnEvent("onCreated")
+  afterCreatedHandler(article: Article): Article {
     return article;
   }
 }

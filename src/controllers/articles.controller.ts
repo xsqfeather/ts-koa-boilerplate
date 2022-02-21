@@ -5,7 +5,7 @@ import { CreateArticleInput, UpdateArticleInput } from "../dtos/articles.dto";
 import { DeleteManyInput, ListQuery } from "../dtos/common.dto";
 import { Article } from "../entities/Article";
 import ArticleService from "../services/ArticleService";
-import DTOService from "../services/DTOService";
+import DTOService from "../lib/services/DTOService";
 
 @Controller("/articles")
 export default class ArticleController {

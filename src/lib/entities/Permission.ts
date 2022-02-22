@@ -7,7 +7,7 @@ import {
 import { ObjectId } from "@mikro-orm/mongodb";
 
 @Entity()
-export class BlockControl {
+export class Permission {
   @PrimaryKey()
   _id!: ObjectId;
 
@@ -15,23 +15,24 @@ export class BlockControl {
   id!: string;
 
   @Property()
-  operation: "read" | "put" | "delete";
+  resource: string;
 
   @Property()
-  operator: "user" | "group" | "role";
-
-  @Property()
-  operatorValue: string;
-
-  @Property()
-  source: string;
-
-  @Property()
-  denyReason: string;
+  operator:
+    | "getList"
+    | "getMany"
+    | "getOne"
+    | "updateOne"
+    | "updateMany"
+    | "deleteOne"
+    | "deleteMany";
 
   @Property()
   beganAt = new Date();
 
   @Property()
   endedAt: Date | null;
+
+  @Property()
+  allowed: boolean;
 }

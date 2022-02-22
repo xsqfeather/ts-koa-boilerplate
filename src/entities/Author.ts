@@ -1,6 +1,6 @@
-import { Entity, Property } from "@mikro-orm/core";
-
-import { BaseEntity } from "./BaseEntity";
+import { Entity, OneToOne, Property } from "@mikro-orm/core";
+import { BaseEntity } from "../lib/entities/BaseEntity";
+import { User } from "../lib/entities/User";
 
 @Entity()
 export class Author extends BaseEntity {
@@ -9,6 +9,9 @@ export class Author extends BaseEntity {
 
   @Property()
   email: string;
+
+  @OneToOne()
+  user: User;
 
   constructor(name: string, email: string) {
     super();

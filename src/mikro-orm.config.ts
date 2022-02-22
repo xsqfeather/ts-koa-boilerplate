@@ -3,8 +3,8 @@ import { MongoHighlighter } from "@mikro-orm/mongo-highlighter";
 
 const options: Options = {
   type: "mongo",
-  entitiesTs: ["src/entities/**/**.ts"],
-  entities: ["dist/entities/**/**.js"],
+  entitiesTs: ["src/entities/**/**.ts", "src/lib/entities/**/**.ts"],
+  entities: ["dist/entities/**/**.js", "src/lib/entities/**/**.js"],
   dbName: "koa-ts-boilerplate",
   highlighter: new MongoHighlighter(),
   debug: true,

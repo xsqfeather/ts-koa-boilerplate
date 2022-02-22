@@ -1,7 +1,6 @@
 import { Entity, ManyToOne, Property } from "@mikro-orm/core";
+import { BaseEntity } from "../lib/entities/BaseEntity";
 import { Author } from "./Author";
-
-import { BaseEntity } from "./BaseEntity";
 
 @Entity()
 export class Article extends BaseEntity {

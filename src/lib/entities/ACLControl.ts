@@ -7,7 +7,7 @@ import {
 import { ObjectId } from "@mikro-orm/mongodb";
 
 @Entity()
-export class BlockControl {
+export class ACLControl {
   @PrimaryKey()
   _id!: ObjectId;
 
@@ -34,4 +34,7 @@ export class BlockControl {
 
   @Property()
   endedAt: Date | null;
+
+  @Property()
+  isApproved: boolean;
 }

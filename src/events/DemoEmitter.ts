@@ -5,8 +5,13 @@ import { BaseEventEmitter } from "../lib/events/BaseEventEmitter";
 
 @Service()
 export class ArticleEmitter extends BaseEventEmitter<Article> {
-  @OnEvent("onCreated")
-  afterCreatedHandler(article: Article): Article {
+  @OnEvent("AfterCreateOneArticle")
+  afterCreateOneHandler(article: Article): Article {
+    return article;
+  }
+
+  @OnEvent("BeforeCreateOneArticle")
+  beforeCreateOneHandler(article: Article): Article {
     return article;
   }
 }

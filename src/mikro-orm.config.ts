@@ -1,15 +1,24 @@
 import { Options } from "@mikro-orm/core";
-import { MongoHighlighter } from "@mikro-orm/mongo-highlighter";
+import { development, production, test } from "./config/db";
 
-const options: Options = {
-  type: "mongo",
-  entitiesTs: ["src/entities/**/**.ts", "src/lib/entities/**/**.ts"],
-  entities: ["dist/entities/**/**.js", "src/lib/entities/**/**.js"],
-  dbName: "koa-ts-boilerplate",
-  highlighter: new MongoHighlighter(),
-  debug: true,
-  clientUrl: "mongodb://127.0.0.1:27017",
-  allowGlobalContext: true,
-};
+function chooseEvnDBOptions(NODE_ENV: string): Options {
+  console.log({ NODE_ENV });
+
+  switch (NODE_ENV) {
+    case "development":
+      return development;
+
+    case "test":
+      return test;
+
+    case "production":
+      return production;
+
+    default:
+      return development;
+  }
+}
+
+const options: Options = chooseEvnDBOptions(process.env.NODE_ENV);
 
 export default options;

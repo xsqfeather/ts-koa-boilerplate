@@ -46,4 +46,7 @@ export class ACLControl {
 
   @Property()
   endedAt: Date | null;
+
+  @Property()
+  isApproved: boolean;
 }

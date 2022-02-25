@@ -10,7 +10,7 @@ import {
   wrap,
 } from "@mikro-orm/core";
 import _ from "lodash";
-import DI from "../../DI";
+import DI from "../DI";
 import { ListQueryObject } from "../../dtos/common.dto";
 
 export default class CurdService<T> {

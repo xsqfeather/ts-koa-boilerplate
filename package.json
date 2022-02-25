@@ -1,6 +1,6 @@
 {
   "name": "ts-koa-boilerplate",
-  "version": "1.0.0",
+  "version": "0.0.1alpha",
   "main": "index.js",
   "author": "Simon 徐",
   "license": "MIT",
@@ -10,9 +10,10 @@
     "@emotion/styled": "^11.3.0",
     "@koa/cors": "^3.1.0",
     "@koa/router": "^10.1.1",
-    "@mikro-orm/core": "^5.0.2",
+    "@mikro-orm/core": "^5.0.4",
     "@mikro-orm/mongo-highlighter": "^1.0.0",
-    "@mikro-orm/mongodb": "^5.0.2",
+    "@mikro-orm/mongodb": "^5.0.4",
+    "@mikro-orm/seeder": "^5.0.4",
     "@mui/icons-material": "^5.1.0",
     "@mui/material": "^5.1.0",
     "amala": "^7.0.0",
@@ -68,6 +69,7 @@
     "webtorrent": "^1.6.0"
   },
   "devDependencies": {
+    "@mikro-orm/cli": "^5.0.4",
     "@typegoose/typegoose": "^9.2.0",
     "@types/bcrypt": "^5.0.0",
     "@types/inflection": "^1.13.0",
@@ -99,19 +101,22 @@
     "typedoc": "^0.22.10",
     "typescript": "^4.5.4"
   },
-  "scripts": {
-    "test": "NODE_ENV=test jest  --coverage",
-    "dev": "NODE_ENV=development nodemon",
-    "build": "tsc --project tsconfig.json",
-    "start": "cross-env NODE_ENV=production node dist/index.js",
-    "lint": "eslint --ext .ts src  test"
-  },
   "mikro-orm": {
     "useTsNode": true,
     "configPaths": [
       "./src/mikro-orm.config.ts",
       "./dist/mikro-orm.config.js"
     ]
+  },
+  "scripts": {
+    "test": "NODE_ENV=test jest  --coverage",
+    "dev": "NODE_ENV=development nodemon",
+    "build": "tsc --project tsconfig.json",
+    "start": "cross-env NODE_ENV=production node dist/index.js",
+    "lint": "eslint --ext .ts src  test",
+    "seeder:create:test": "NODE_ENV=test npx mikro-orm seeder:create",
+    "seeder:create:development": "NODE_ENV=test npx mikro-orm seeder:create",
+    "seeder:create:production": "NODE_ENV=test npx mikro-orm seeder:create"
   },
   "resolutions": {
     "**/@typescript-eslint/eslint-plugin": "^5.9.0",

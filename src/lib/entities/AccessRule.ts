@@ -2,7 +2,10 @@ import { Entity, Property } from "@mikro-orm/core";
 import { BaseEntity } from "./BaseEntity";
 
 @Entity()
-export class RuleCondition extends BaseEntity {
+export class AccessRule extends BaseEntity {
+  @Property()
+  name: string;
+
   @Property()
   fact: string;
 
@@ -13,5 +16,5 @@ export class RuleCondition extends BaseEntity {
   value: string;
 
   @Property()
-  path: string;
+  allowed: boolean;
 }

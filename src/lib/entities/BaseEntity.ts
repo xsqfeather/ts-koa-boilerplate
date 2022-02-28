@@ -16,4 +16,13 @@ export abstract class BaseEntity {
 
   @Property({ onCreate: () => null })
   deletedAt?: null | Date = null;
+
+  @Property()
+  acl?: {
+    read: {
+      roles: string[];
+      attrs: string[];
+      users: string[];
+    };
+  };
 }

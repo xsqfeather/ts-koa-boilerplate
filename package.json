@@ -112,11 +112,13 @@
   "scripts": {
     "test": "NODE_ENV=test jest  --coverage",
     "dev": "NODE_ENV=development nodemon",
-    "build": "tsc --project tsconfig.json",
-    "start": "cross-env NODE_ENV=production node dist/index.js",
-    "lint": "eslint --ext .ts src  test",
+    "clean": "rm -rf dist",
+    "build": "npm run lint && npm run clean && tsc",
+    "start": "NODE_ENV=production node dist/app.js",
+    "lint": "eslint --ext .ts src",
     "seeder:create:test": "NODE_ENV=test npx mikro-orm seeder:create",
     "seeder:create:development": "NODE_ENV=test npx mikro-orm seeder:create",
+    "seeder:run:development": "NODE_ENV=test npx mikro-orm seeder:run",
     "seeder:create:production": "NODE_ENV=test npx mikro-orm seeder:create"
   },
   "resolutions": {

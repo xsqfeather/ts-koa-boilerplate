@@ -36,6 +36,10 @@ export const production: Options = {
   entitiesTs: ["src/entities/**/**.ts", "src/lib/entities/**/**.ts"],
   entities: ["dist/entities/**/**.js", "dist/lib/entities/**/**.js"],
   dbName: "koa-ts-test",
+  seeder: {
+    pathTs: "src/seeders/test",
+    path: "dist/seeders/test",
+  },
   highlighter: new MongoHighlighter(),
   debug: true,
   clientUrl: "mongodb://127.0.0.1:27017",

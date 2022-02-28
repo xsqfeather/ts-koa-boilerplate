@@ -1,5 +1,5 @@
 import { Service } from "typedi";
-import DI from "../../DI";
+import DI from "../DI";
 import { User } from "../entities/User";
 import CurdService from "./CurdService";
 

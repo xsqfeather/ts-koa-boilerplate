@@ -11,6 +11,4 @@ export default class AuthService extends CurdService<User> {
   login() {
     //need svg and limited login time by deviceId
   }
-
-  register() {}
 }

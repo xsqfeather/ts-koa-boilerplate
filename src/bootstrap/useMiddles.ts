@@ -7,7 +7,10 @@ export default async function useMiddles(): Promise<
 > {
   const { app, router } = await bootstrapControllers({
     basePath: "/api",
-    controllers: [__dirname + "/../controllers/**/*.controller.ts"],
+    controllers: [
+      __dirname + "/../controllers/**/*.controller.ts",
+      __dirname + "/../lib/controllers/**/*.controller.ts",
+    ],
     versions: {
       1: true,
       2: false,

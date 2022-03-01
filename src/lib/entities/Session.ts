@@ -1,5 +1,6 @@
 import { Entity, Property } from "@mikro-orm/core";
 import { BaseEntity } from "./BaseEntity";
+import { RuleFact } from "./BlockRule";
 
 @Entity()
 export class Session extends BaseEntity {
@@ -13,9 +14,7 @@ export class Session extends BaseEntity {
   };
 
   @Property()
-  attributes: {
-    [x: string]: string | number;
-  };
+  ruleFacts: RuleFact[];
 
   @Property()
   token: string;

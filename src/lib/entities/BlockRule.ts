@@ -3,24 +3,18 @@ import { BaseEntity } from "./BaseEntity";
 import { customRandom, random, urlAlphabet } from "nanoid";
 import charcode from "charcode";
 
-const nanoid = customRandom(urlAlphabet, 6, random);
+const nanoid = customRandom(urlAlphabet, 4, random);
 
 function generateRuleNumber(): string {
   const ruleNumber = nanoid();
-  console.log({ ruleNumber });
 
   const ruleChars = ruleNumber.split("");
   let chars = "AR-";
-  console.log({ ruleChars });
 
   for (let index = 0; index < ruleChars.length; index++) {
     const ruleChar = ruleChars[index];
     chars +=
-      parseInt(ruleChar) !== NaN
-        ? charcode(ruleChar).toString().split("")[0]
-        : ruleChar;
-
-    console.log({ chars });
+      parseInt(ruleChar) !== NaN ? charcode(ruleChar).toString() : ruleChar;
   }
 
   return chars;
@@ -28,8 +22,14 @@ function generateRuleNumber(): string {
 
 export type OperatorType = "eq" | "ne" | "gt" | "lt" | "in";
 
+export interface RuleFact {
+  fact: string;
+  operator: OperatorType;
+  value: string;
+}
+
 @Entity()
-export class AccessRule extends BaseEntity {
+export class BlockRule extends BaseEntity {
   @Property()
   name: string;
 
@@ -46,7 +46,7 @@ export class AccessRule extends BaseEntity {
   value: string;
 
   @Property()
-  allowed: boolean;
+  targets: string[];
 
   @Property({ onCreate: () => new Date() })
   beganAt? = new Date();

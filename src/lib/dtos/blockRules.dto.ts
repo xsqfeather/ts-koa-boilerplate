@@ -1,7 +1,7 @@
-import { IsBoolean, IsOptional, IsString } from "class-validator";
-import { OperatorType } from "../entities/AccessRule";
+import { IsOptional, IsString } from "class-validator";
+import { OperatorType } from "../entities/BlockRule";
 
-export class AccessRuleListFilter {
+export class BlockRuleListFilter {
   @IsString()
   name: string;
 
@@ -13,12 +13,9 @@ export class AccessRuleListFilter {
 
   @IsString()
   value: string;
-
-  @IsBoolean()
-  allowed: boolean;
 }
 
-export class CreateAccessRuleInput {
+export class CreateBlockRuleInput {
   @IsString()
   name: string;
 
@@ -30,12 +27,9 @@ export class CreateAccessRuleInput {
 
   @IsString()
   value: string;
-
-  @IsBoolean()
-  allowed = false;
 }
 
-export class UpdateAccessRuleInput {
+export class UpdateBlockRuleInput {
   @IsString()
   @IsOptional()
   name: string;
@@ -51,7 +45,4 @@ export class UpdateAccessRuleInput {
   @IsString()
   @IsOptional()
   value: string;
-
-  @IsBoolean()
-  allowed = false;
 }

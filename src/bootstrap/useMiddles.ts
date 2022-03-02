@@ -1,6 +1,7 @@
 import cors from "@koa/cors";
 import { bootstrapControllers } from "amala";
 import Koa from "koa";
+import getBlockRuleTargets from "../lib/middles/getBlockRuleTargets";
 
 export default async function useMiddles(): Promise<
   Koa<Koa.DefaultState, Koa.DefaultContext>
@@ -27,6 +28,8 @@ export default async function useMiddles(): Promise<
       origin: "*",
     })
   );
+
+  app.use(getBlockRuleTargets);
   app.use(router.routes()).use(router.allowedMethods());
 
   return app;

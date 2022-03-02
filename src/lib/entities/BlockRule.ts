@@ -45,8 +45,8 @@ export class BlockRule extends BaseEntity {
   @Property()
   value: string;
 
-  @Property()
-  targets: string[];
+  @Property({ onCreate: () => [] })
+  targets: string[] = [];
 
   @Property({ onCreate: () => new Date() })
   beganAt? = new Date();

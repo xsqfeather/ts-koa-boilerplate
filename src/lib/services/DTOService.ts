@@ -1,5 +1,6 @@
 import { Service } from "typedi";
 import { ListQuery, ListQueryObject } from "../../dtos/common.dto";
+import * as bcrypt from "bcrypt";
 
 @Service()
 export default class DTOService {
@@ -23,5 +24,16 @@ export default class DTOService {
     }
 
     return listQueryObject;
+  }
+
+  makePassword(plainText: string): string {
+    const saltRounds = 10;
+    const salt = bcrypt.genSaltSync(saltRounds);
+    const hash = bcrypt.hashSync(plainText, salt);
+    return hash;
+  }
+
+  isPasswordMatch(plainText: string, hash: string): boolean {
+    return bcrypt.compareSync(plainText, hash);
   }
 }

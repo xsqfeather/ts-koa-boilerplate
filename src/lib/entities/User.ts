@@ -6,6 +6,8 @@ export class UserProfile {
   age: number;
 
   gender: "female" | "male";
+
+  username: string;
 }
 
 @Embeddable()
@@ -15,9 +17,6 @@ export class UserStatus {
 
 @Entity()
 export class User extends BaseEntity {
-  @Property()
-  username: string;
-
   @Property()
   password: string;
 
@@ -30,9 +29,9 @@ export class User extends BaseEntity {
   @Embedded()
   useStatus!: UserStatus;
 
-  constructor(username: string, password: string) {
+  constructor(profile: UserProfile, password: string) {
     super();
-    this.username = username;
+    this.profile = profile;
     this.password = password;
   }
 }

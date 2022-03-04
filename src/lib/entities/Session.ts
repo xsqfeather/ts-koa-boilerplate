@@ -10,7 +10,11 @@ export class Session extends BaseEntity {
     userId: string | null;
     deviceId: string | null;
     roleName: string | null;
-    roleId: string | null;
+  };
+
+  @Property()
+  info: {
+    ip: string | null;
   };
 
   @Property()

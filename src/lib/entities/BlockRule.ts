@@ -45,6 +45,9 @@ export class BlockRule extends BaseEntity {
   @Property()
   value: string;
 
+  @Property({ onCreate: () => false })
+  isRemovable = false;
+
   @Property({ onCreate: () => [] })
   targets: string[] = [];
 

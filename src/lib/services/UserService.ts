@@ -21,6 +21,20 @@ export default class UserService extends CurdService<User> {
       return "profile.username";
     }
 
+    if (input.email) {
+      user = await this.findOneByUsername(input.email);
+    }
+    if (user && user.profile?.email) {
+      return "profile.email";
+    }
+
+    return false;
+  }
+
+  checkInputFieldsRequired(input: RegisterInput): boolean {
+    if (!input.email || !input.username || !input.mobile) {
+      return false;
+    }
     return true;
   }
 
@@ -28,6 +42,27 @@ export default class UserService extends CurdService<User> {
     return this.userRepository.findOne({
       profile: {
         username,
+      },
+    });
+  }
+
+  findOneByEmail(email: string): Promise<User> {
+    return this.userRepository.findOne({
+      profile: {
+        email,
+      },
+    });
+  }
+
+  findOneByIdKey(idKey: string): Promise<User> {
+    return this.userRepository.findOne({
+      profile: {
+        $or: [
+          { username: idKey },
+          {
+            email: idKey,
+          },
+        ],
       },
     });
   }

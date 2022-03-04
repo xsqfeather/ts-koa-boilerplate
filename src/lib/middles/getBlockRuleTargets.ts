@@ -61,10 +61,6 @@ export default async function getBlockRuleTargets(
 ): Promise<void> {
   const path = ctx.path;
   const method = ctx.method;
-  console.log({
-    path,
-    method,
-  });
 
   if (
     !path.includes("/api/") &&

@@ -1,16 +1,17 @@
 import { Inject, Service } from "typedi";
-import { BlockRule } from "../entities/BlockRule";
+import { RuleFact } from "../entities/BlockRule";
 import { Session } from "../entities/Session";
+import { User } from "../entities/User";
 import BlockRuleService from "./BlockRuleService";
 import CurdService from "./CurdService";
 
 @Service()
-export default class SessionService extends CurdService<BlockRule> {
+export default class SessionService extends CurdService<Session> {
   @Inject(() => BlockRuleService)
   private blockRuleService: BlockRuleService;
 
   constructor() {
-    super(BlockRule);
+    super(Session);
   }
 
   async getPermissions(session: Session): Promise<string[]> {
@@ -24,5 +25,32 @@ export default class SessionService extends CurdService<BlockRule> {
       blockTargets = blockTargets.concat(blockRule);
     }
     return blockTargets;
+  }
+
+  async createOneByUser(props: {
+    user?: User;
+    otherInfo?: {
+      deviceId?: string;
+      ip?: string;
+    };
+    ruleFacts?: RuleFact[];
+  }): Promise<Session> {
+    const { user, otherInfo, ruleFacts } = props;
+    const session = await this.createOne({
+      identiy: {
+        userId: user?.id || null,
+        deviceId: otherInfo?.deviceId || null,
+      },
+      info: {
+        ip: otherInfo?.deviceId || null,
+      },
+      ruleFacts: [
+        ...(ruleFacts || []),
+        { fact: "role", operator: "eq", value: "loginedUser" },
+      ],
+      beganAt: new Date(),
+      endedAt: null,
+    });
+    return session;
   }
 }

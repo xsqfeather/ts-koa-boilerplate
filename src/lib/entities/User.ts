@@ -8,6 +8,8 @@ export class UserProfile {
   gender: "female" | "male";
 
   username: string;
+
+  email: string;
 }
 
 @Embeddable()

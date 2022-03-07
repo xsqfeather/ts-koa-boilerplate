@@ -18,11 +18,19 @@ export default class CurdService<T> {
 
   private className: string;
 
+  private entity: EntityName<T>;
+
   constructor(entity: EntityName<T>) {
+    this.entity = entity;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     this.className = (entity as any).name;
 
-    this.repository = DI.orm.em.getRepository(entity);
+    this.repository = DI?.orm?.em.getRepository(entity);
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  changeEm(em: any): void {
+    this.repository = em.getRepository(this.entity);
   }
 
   async getPaged(

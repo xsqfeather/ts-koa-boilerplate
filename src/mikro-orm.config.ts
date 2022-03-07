@@ -1,9 +1,7 @@
 import { Options } from "@mikro-orm/core";
 import { development, production, test } from "./config/db";
 
-function chooseEvnDBOptions(NODE_ENV: string): Options {
-  console.log({ NODE_ENV });
-
+export function chooseEvnDBOptions(NODE_ENV: string): Options {
   switch (NODE_ENV) {
     case "development":
       return development;

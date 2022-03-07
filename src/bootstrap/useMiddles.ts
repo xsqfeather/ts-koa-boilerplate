@@ -18,9 +18,11 @@ export default async function useMiddles(): Promise<
     },
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     errorHandler: async (err: any, ctx: Koa.Context) => {
+      console.error(err);
       ctx.status = err?.output?.statusCode || 500;
       ctx.body = err?.data ? err.data : err;
     },
+    flow: [getBlockRuleTargets],
   });
 
   app.use(
@@ -29,7 +31,6 @@ export default async function useMiddles(): Promise<
     })
   );
 
-  app.use(getBlockRuleTargets);
   app.use(router.routes()).use(router.allowedMethods());
 
   return app;

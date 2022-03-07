@@ -6,7 +6,7 @@ import CurdService from "./CurdService";
 
 @Service()
 export default class UserService extends CurdService<User> {
-  private userRepository = DI.orm.em.getRepository(User);
+  private userRepository = DI?.orm?.em.getRepository(User);
 
   constructor() {
     super(User);
@@ -56,14 +56,13 @@ export default class UserService extends CurdService<User> {
 
   findOneByIdKey(idKey: string): Promise<User> {
     return this.userRepository.findOne({
-      profile: {
-        $or: [
-          { username: idKey },
-          {
-            email: idKey,
-          },
-        ],
-      },
+      $or: [
+        { "profile.username": idKey },
+        {
+          "profile.email": idKey,
+        },
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      ] as any,
     });
   }
 }

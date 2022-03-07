@@ -7,7 +7,7 @@ import { User } from "../entities/User";
 import UserService from "../services/UserService";
 import DTOService from "../services/DTOService";
 
-@Controller("/block_rules")
+@Controller("/users")
 export default class UserController {
   private userService = Container.get(UserService);
 

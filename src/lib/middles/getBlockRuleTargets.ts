@@ -61,19 +61,9 @@ export default async function getBlockRuleTargets(
 ): Promise<void> {
   const path = ctx.path;
   const method = ctx.method;
-
-  if (
-    !path.includes("/api/") &&
-    !path.includes("/login") &&
-    !path.includes("/register")
-  ) {
-    ctx.body = "This is an invalided interface";
-    ctx.status = 404;
-    return;
-  }
+  console.log({ path, method });
 
   const resource = path.split("/")[3];
-
   if (!resource) {
     ctx.body = "This is an invalided interface";
     ctx.status = 404;

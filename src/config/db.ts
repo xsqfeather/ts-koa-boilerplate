@@ -5,10 +5,6 @@ export const development: Options = {
   type: "mongo",
   entitiesTs: ["src/entities/**/**.ts", "src/lib/entities/**/**.ts"],
   entities: ["dist/entities/**/**.js", "dist/lib/entities/**/**.js"],
-  seeder: {
-    pathTs: "src/seeders/development",
-    path: "dist/seeders/development",
-  },
   dbName: "koa-ts-development",
   highlighter: new MongoHighlighter(),
   debug: true,
@@ -37,8 +33,8 @@ export const production: Options = {
   entities: ["dist/entities/**/**.js", "dist/lib/entities/**/**.js"],
   dbName: "koa-ts-test",
   seeder: {
-    pathTs: "src/seeders/test",
-    path: "dist/seeders/test",
+    pathTs: "src/seeders",
+    path: "dist/seeders",
   },
   highlighter: new MongoHighlighter(),
   debug: true,

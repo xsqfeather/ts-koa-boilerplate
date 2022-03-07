@@ -3,18 +3,22 @@ import { BaseEntity } from "./BaseEntity";
 
 @Embeddable()
 export class UserProfile {
-  age: number;
+  age?: number;
 
-  gender: "female" | "male";
+  gender?: "female" | "male";
 
-  username: string;
+  username?: string;
 
-  email: string;
+  email?: string;
 }
 
 @Embeddable()
 export class UserStatus {
   isBlocked: boolean;
+
+  constructor() {
+    this.isBlocked = true;
+  }
 }
 
 @Entity()
@@ -25,11 +29,11 @@ export class User extends BaseEntity {
   @Property()
   roles: string[];
 
-  @Embedded()
+  @Embedded(() => UserProfile, { nullable: true, object: true })
   profile!: UserProfile;
 
-  @Embedded()
-  useStatus!: UserStatus;
+  @Embedded(() => UserStatus, { nullable: true, object: true })
+  userStatus?: UserStatus = new UserStatus();
 
   constructor(profile: UserProfile, password: string) {
     super();

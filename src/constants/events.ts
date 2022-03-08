@@ -40,3 +40,10 @@ export const OnCategoryCreated = "OnCategoryCreated";
 export const OnCategoryUpdated = "OnCategoryUpdated";
 export const OnCategorysDeleted = "OnCategorysDeleted";
 export const OnCategoryDeleted = "OnCategoryDeleted";
+/* goods events for socket and emittery */
+export const OnGoodsListed = "OnGoodsListed";
+export const OnGoodShowed = "OnGoodShowed";
+export const OnGoodCreated = "OnGoodCreated";
+export const OnGoodUpdated = "OnGoodUpdated";
+export const OnGoodsDeleted = "OnGoodsDeleted";
+export const OnGoodDeleted = "OnGoodDeleted";

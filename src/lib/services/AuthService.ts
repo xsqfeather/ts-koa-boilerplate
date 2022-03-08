@@ -41,12 +41,14 @@ export default class AuthService extends CurdService<User> {
     success: boolean;
   }> {
     const user = await this.userService.findOneByIdKey(input.idKey);
+
     if (!user) {
       return {
         result: new ErrorMsg("auth", "login", "user is not exist"),
         success: false,
       };
     }
+
     if (this.dtoService.isPasswordMatch(input.password, user.password)) {
       user.password = null;
       const session = await this.sessionService.createOne({

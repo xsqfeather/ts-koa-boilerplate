@@ -12,20 +12,20 @@ export class Session extends BaseEntity {
     roleName: string | null;
   };
 
-  @Property()
-  info: {
-    ip: string | null;
-  };
+  @Property({ nullable: true })
+  info?: {
+    ip: string;
+  } | null = null;
 
   @Property()
-  ruleFacts: RuleFact[];
-
-  @Property()
-  token: string;
+  ruleFacts: RuleFact[] = [];
 
   @Property()
   beganAt = new Date();
 
   @Property()
-  endedAt: Date | null;
+  isAlive = true;
+
+  @Property({ nullable: true })
+  endedAt: Date | null = null;
 }

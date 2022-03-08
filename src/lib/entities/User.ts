@@ -29,11 +29,13 @@ export class User extends BaseEntity {
   @Property()
   roles: string[];
 
-  @Embedded(() => UserProfile, { nullable: true, object: true })
+  @Property()
   profile!: UserProfile;
 
-  @Embedded(() => UserStatus, { nullable: true, object: true })
-  userStatus?: UserStatus = new UserStatus();
+  @Property()
+  userStatus?: UserStatus = {
+    isBlocked: false,
+  };
 
   constructor(profile: UserProfile, password: string) {
     super();

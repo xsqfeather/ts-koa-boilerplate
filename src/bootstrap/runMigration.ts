@@ -1,15 +1,19 @@
-import _ from "lodash";
-import * as seeders from "../migrations";
+import MigrationService from "../lib/services/MigrationService";
 export async function runMigration(): Promise<void> {
-  console.log({ seeders });
-  console.log(_.values(seeders));
+  const migrations = await new MigrationService().allUnDone();
+  for (let index = 0; index < migrations.length; index++) {
+    const migration = migrations[index];
 
-  for (let index = 0; index < _.values(seeders).length; index++) {
-    const element = _.values(seeders)[index];
-    console.log({ element });
-    console.log(element.default.name);
-    const { up, down } = element.default();
-    console.log({ up, down });
-    await up();
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    const migrationMethod = require(`../migrations/${migration.createdAt
+      .getTime()
+      .toString()}-${migration.name}`);
+    if (migrationMethod) {
+      const { up } = migrationMethod.default();
+      if (!up) {
+        console.error(`${migration.name} not return an up function`);
+      }
+      await up();
+    }
   }
 }

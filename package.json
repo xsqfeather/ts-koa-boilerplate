@@ -99,7 +99,8 @@
     "lint": "eslint --ext .ts src",
     "migration:create": "ts-node ./scripts/seedCreator.ts",
     "migration:down": "ts-node ./scripts/migration/up.ts",
-    "migration:up": "ts-node .."
+    "migration:up": "ts-node ..",
+    "admin:set": "ts-node ./scripts/adminSet.ts"
   },
   "resolutions": {
     "**/@typescript-eslint/eslint-plugin": "^5.9.0",

@@ -65,4 +65,12 @@ export default class UserService extends CurdService<User> {
       ] as any,
     });
   }
+
+  deleteSuperAdmin(): Promise<number> {
+    return this.userRepository.nativeDelete({
+      roles: {
+        $in: ["super"],
+      },
+    });
+  }
 }

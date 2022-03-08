@@ -42,6 +42,7 @@
     "moment": "^2.29.1",
     "nanoid": "^3.3.1",
     "next": "^12.0.3",
+    "node-machine-id": "^1.1.12",
     "puppeteer": "^11.0.0",
     "query-string": "^7.0.1",
     "raw-loader": "^4.0.2",
@@ -100,7 +101,8 @@
     "migration:create": "ts-node ./scripts/seedCreator.ts",
     "migration:down": "ts-node ./scripts/migration/up.ts",
     "migration:up": "ts-node ..",
-    "admin:set": "ts-node ./scripts/adminSet.ts"
+    "admin:set": "ts-node ./scripts/adminSet.ts",
+    "resource:create": "ts-node ./scripts/templateBuilder.ts"
   },
   "resolutions": {
     "**/@typescript-eslint/eslint-plugin": "^5.9.0",

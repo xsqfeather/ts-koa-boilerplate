@@ -30,22 +30,22 @@ export const generateModelCodeText = (
     let returnText = "";
     for (const prop of classProps) {
       returnText += `
-        @prop()
+        @Property()
         public ${prop.name}: ${prop.type};
         `;
     }
     return returnText;
   };
   return `
-    import { getModelForClass${
-      classProps.length === 0 ? "" : " ,prop"
-    } } from "@typegoose/typegoose";
-    import BaseClass from "./BaseClass";
+    import { Entity ${
+      classProps.length === 0 ? "" : " ,Property"
+    } } from "@mikro-orm/core";
 
-    export class ${modelName} extends BaseClass {
+    import { BaseEntity } from "../lib/entities/BaseEntity";
+
+    @Entity()
+    export class ${modelName} extends BaseEntity {
         ${propsText()}
     }
-    export const ${modelName}Model = getModelForClass(${modelName});
-
     `;
 };

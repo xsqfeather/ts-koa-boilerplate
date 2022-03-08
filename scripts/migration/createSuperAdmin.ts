@@ -11,10 +11,11 @@ export default async function createSuperAdmin(
   await userService.deleteSuperAdmin();
 
   const profile = new UserProfile();
+  const hash = dtoService.makePassword(password);
   profile.username = username;
   await userService.createOne({
     profile,
-    password: dtoService.makePassword(password),
+    password: hash,
     roles: ["super"],
   });
 }

@@ -2,7 +2,6 @@ import { Body, Controller, Ctx, Post } from "amala";
 import { Context } from "koa";
 import Container from "typedi";
 import { LoginInput, RegisterInput } from "../dtos/auth.dto";
-import { Session } from "../entities/Session";
 import { User } from "../entities/User";
 import AuthService from "../services/AuthService";
 import { ErrorMsg } from "../valueObjects";
@@ -16,7 +15,10 @@ export default class AuthController {
     @Body() input: LoginInput,
     @Ctx() ctx: Context
   ): Promise<
-    | Session
+    | {
+        token: string;
+        success: number;
+      }
     | {
         code: string;
         reason: string;
@@ -24,7 +26,10 @@ export default class AuthController {
   > {
     const loginRlt = await this.authService.login(input);
     if (loginRlt.success) {
-      return loginRlt.result as Session;
+      return {
+        token: loginRlt.result as string,
+        success: 1,
+      };
     }
 
     ctx.status = 401;

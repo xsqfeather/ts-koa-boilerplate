@@ -41,6 +41,10 @@ export default class CurdService<T> {
       range = [0, 9],
       sort = ["createdAt", -1],
     } = listQuery;
+    console.log({ listQuery });
+
+    console.log([sort[0]], sort[1]);
+
     const records = await this.repository.findAndCount(
       {
         ...filter,

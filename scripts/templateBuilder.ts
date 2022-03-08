@@ -50,10 +50,10 @@ const ruleClassProps = mapRuleClassProps(classProps);
 const modelTxt = generateModelCodeText(SourceName, classProps);
 const serviceTxt = generateServiceCodeText(SourceName);
 const dtoText = generateDtoText(SourceName, ruleClassProps);
-const controllerText = generateControllerCodeText(SourceName, classProps);
+const controllerText = generateControllerCodeText(SourceName);
 
 writeFileSync(
-  path.resolve(__dirname, `../src/models/${SourceName}.ts`),
+  path.resolve(__dirname, `../src/entities/${SourceName}.ts`),
   modelTxt
 );
 
@@ -64,6 +64,8 @@ writeFileSync(
 
 const source_name = inflect.underscore(SourceName);
 const source_names = inflect.pluralize(source_name);
+const smallSourceName = inflect.camelize(SourceName, false);
+const sourceNames = inflect.pluralize(smallSourceName);
 
 const eventComments = `/* ${source_names} events for socket and emittery */ \n`;
 const listEvent = `export const On${SourceName}sListed = "On${SourceName}sListed";`;
@@ -74,12 +76,12 @@ const deleteManyEvent = `export const On${SourceName}sDeleted = "On${SourceName}
 const deleteOneEvent = `export const On${SourceName}Deleted = "On${SourceName}Deleted"`;
 
 writeFileSync(
-  path.resolve(__dirname, `../src/dtos/${source_names}.dto.ts`),
+  path.resolve(__dirname, `../src/dtos/${sourceNames}.dto.ts`),
   dtoText
 );
 
 writeFileSync(
-  path.resolve(__dirname, `../src/controllers/${SourceName}Controller.ts`),
+  path.resolve(__dirname, `../src/controllers/${sourceNames}.controller.ts`),
   controllerText
 );
 
@@ -101,9 +103,10 @@ exec("yarn lint --fix", () => {
   console.log(
     path.resolve(__dirname, `../src/services/${SourceName}Service.ts`)
   );
-  console.log(path.resolve(__dirname, `../src/dtos/${source_names}.dto.ts`));
+  console.log(path.resolve(__dirname, `../src/dtos/${sourceNames}.dto.ts`));
   console.log(
-    path.resolve(__dirname, `../src/controllers/${SourceName}Controller.ts`)
+    path.resolve(__dirname, `../src/controllers/${sourceNames}.controller.ts`)
   );
   console.log("updated", path.resolve(__dirname, `../src/constants/events.ts`));
+  process.exit();
 });

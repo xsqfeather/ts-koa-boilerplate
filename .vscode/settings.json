@@ -6,17 +6,17 @@
     "bignumber",
     "bson",
     "camelize",
-    "charcode",
     "dtos",
     "Embeddable",
     "Emittery",
     "ipfs",
-    "logined",
     "mikro",
+    "templating",
     "tinymce",
     "typedi",
     "typegoose",
-    "upsert"
+    "upsert",
+    "yellicode"
   ],
   "[typescriptreact]": {
     "editor.defaultFormatter": "rvest.vs-code-prettier-eslint"

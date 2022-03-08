@@ -2,18 +2,12 @@ import { Inject, Service } from "typedi";
 import { ErrorMsg } from "../valueObjects";
 import { LoginInput, RegisterInput } from "../dtos/auth.dto";
 import { User } from "../entities/User";
-import CurdService from "./CurdService";
 import UserService from "./UserService";
 import DTOService from "./DTOService";
-import { Session } from "../entities/Session";
 import SessionService from "./SessionService";
 
 @Service()
-export default class AuthService extends CurdService<User> {
-  constructor() {
-    super(User);
-  }
-
+export default class AuthService {
   @Inject(() => UserService)
   userService: UserService;
 
@@ -33,11 +27,10 @@ export default class AuthService extends CurdService<User> {
     if (!this.userService.checkInputFieldsRequired(input)) {
       return new ErrorMsg("auth", "register", `some field required`);
     }
-    return null;
   }
 
   async login(input: LoginInput): Promise<{
-    result: Session | ErrorMsg;
+    result: string | ErrorMsg;
     success: boolean;
   }> {
     const user = await this.userService.findOneByIdKey(input.idKey);
@@ -50,15 +43,17 @@ export default class AuthService extends CurdService<User> {
     }
 
     if (this.dtoService.isPasswordMatch(input.password, user.password)) {
-      user.password = null;
-      const session = await this.sessionService.createOne({
-        identiy: {
-          userId: user.id,
-          username: user.profile.username,
-        },
+      const session = await this.sessionService.createOneByUser({
+        user,
+        ruleFacts: user.roles.map((role) => ({
+          fact: "role",
+          operator: "eq",
+          value: role,
+        })),
       });
+
       return {
-        result: session,
+        result: this.dtoService.createToken(session.id),
         success: true,
       };
     }
@@ -72,6 +67,8 @@ export default class AuthService extends CurdService<User> {
     result: User | ErrorMsg;
     success: boolean;
   }> {
+    console.log({ registraer: input });
+
     const checkRlt = await this.beforeRegisterCheck(input);
     if (checkRlt) {
       return {

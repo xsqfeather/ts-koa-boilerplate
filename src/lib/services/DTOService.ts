@@ -1,11 +1,18 @@
 import { Service } from "typedi";
-import { ListQuery, ListQueryObject } from "../../dtos/common.dto";
 import * as bcrypt from "bcrypt";
+import JWT from "jsonwebtoken";
+import { machineIdSync } from "node-machine-id";
+
+import { ListQuery, ListQueryObject } from "../../dtos/common.dto";
 
 @Service()
 export default class DTOService {
   parseListQuery(listQuery: ListQuery): ListQueryObject {
-    const { range, sort, filter } = listQuery;
+    const {
+      range = "[0,9]",
+      sort = '["createdAt","DESC"]',
+      filter,
+    } = listQuery;
     const listQueryObject = new ListQueryObject();
     try {
       listQueryObject.range = JSON.parse(range);
@@ -13,6 +20,8 @@ export default class DTOService {
       throw new Error(error);
     }
     try {
+      console.log({ sort });
+
       listQueryObject.sort = JSON.parse(sort);
     } catch (error) {
       throw new Error(error);
@@ -35,5 +44,9 @@ export default class DTOService {
 
   isPasswordMatch(plainText: string, hash: string): boolean {
     return bcrypt.compareSync(plainText, hash);
+  }
+
+  createToken(sessionId: string): string {
+    return JWT.sign({ sessionId }, machineIdSync(), { expiresIn: "1d" });
   }
 }

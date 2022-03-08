@@ -1,10 +1,12 @@
-import { IsString } from "class-validator";
+import { IsOptional, IsString } from "class-validator";
 
 export class ListQuery {
   @IsString()
+  @IsOptional()
   range?: string;
 
   @IsString()
+  @IsOptional()
   sort?: string;
 
   @IsString()

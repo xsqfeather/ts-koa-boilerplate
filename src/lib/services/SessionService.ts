@@ -1,4 +1,5 @@
 import { Inject, Service } from "typedi";
+import DI from "../DI";
 import { RuleFact } from "../entities/BlockRule";
 import { Session } from "../entities/Session";
 import { User } from "../entities/User";
@@ -7,6 +8,8 @@ import CurdService from "./CurdService";
 
 @Service()
 export default class SessionService extends CurdService<Session> {
+  private sessionRepository = DI.orm.em.getRepository(Session);
+
   @Inject(() => BlockRuleService)
   private blockRuleService: BlockRuleService;
 
@@ -51,6 +54,15 @@ export default class SessionService extends CurdService<Session> {
       beganAt: new Date(),
       endedAt: null,
     });
+
+    if (user?.id) {
+      this.sessionRepository.nativeDelete({
+        identiy: {
+          userId: user?.id,
+        },
+      });
+    }
+
     return session;
   }
 }

@@ -1,4 +1,4 @@
-import { Embeddable, Embedded, Entity, Property } from "@mikro-orm/core";
+import { Embeddable, Entity, Property } from "@mikro-orm/core";
 import { BaseEntity } from "./BaseEntity";
 
 @Embeddable()

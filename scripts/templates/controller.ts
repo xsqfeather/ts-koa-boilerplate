@@ -11,69 +11,46 @@ export interface classPropRuleType extends classPropType {
   rule: string;
 }
 
-export const generateControllerCodeText = (
-  SourceName: string,
-  classProps: classPropType[]
-): string => {
+export const generateControllerCodeText = (SourceName: string): string => {
   const sourceName = inflect.camelize(SourceName, false);
   const sourceNames = inflect.pluralize(sourceName);
-  const source_name = inflect.underscore(SourceName);
-  const source_names = inflect.pluralize(source_name);
-  const projection = (): string => {
-    let text = "id";
-    for (let index = 0; index < classProps.length; index++) {
-      const prop = classProps[index];
-      text += ` ${prop.name}`;
-    }
-    return text;
-  };
+
   return `
-   import { DocumentType } from "@typegoose/typegoose";
-
-import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  Params,
-  Post as HttpPost,
-  Put,
-  Query,
-} from "amala";
+   import { Loaded } from "@mikro-orm/core";
+import { Body, Controller, Delete, Get, Params, Post, Put, Query } from "amala";
 import Container from "typedi";
-import { ${SourceName} } from "../models/${SourceName}";
-import {
-  Create${SourceName}Input,
-  Update${SourceName}Input,
-} from "../dtos/${source_names}.dto";
-import { ${SourceName}Service } from "../services/${SourceName}Service";
-import { FindListResult } from "../types/controller";
+import { Create${SourceName}Input, Update${SourceName}Input } from "../dtos/${sourceNames}.dto";
+import { DeleteManyInput, ListQuery } from "../dtos/common.dto";
+import { ${SourceName} } from "../entities/${SourceName}";
+import ${SourceName}Service from "../services/${SourceName}Service";
+import DTOService from "../lib/services/DTOService";
 
-@Controller("/erotic_${source_names}")
+@Controller("/${sourceNames}")
 export default class ${SourceName}Controller {
   private ${sourceName}Service = Container.get(${SourceName}Service);
 
-  @Get("/")
-  async index(
-    @Query() query?: { filter?: string; range?: string; sort?: string }
-  ): Promise<FindListResult<${SourceName}>> {
-    const [${sourceNames}, total] = await this.${sourceName}Service.getList({
-      query,
-      projection: "${projection()}",
-    });
+  private dtoService = Container.get(DTOService);
 
+  @Get("/")
+  async getList(
+    @Query() query: ListQuery
+  ): Promise<{ data: Loaded<${SourceName}, never>[]; total: number }> {
+    const listQueryObject = this.dtoService.parseListQuery(query);
+    const [${sourceNames}, total] = await this.${sourceName}Service.getList(
+      listQueryObject
+    );
     return {
-      total: total,
-      list: ${sourceNames},
+      data: ${sourceNames},
+      total,
     };
   }
 
   @Get("/:id")
-  async getOne(@Params("id") id: string): Promise<${SourceName}> {
-    return this.${sourceName}Service.getOne(id, "${projection()}");
+  getOne(@Params("id") id: string): Promise<Loaded<${SourceName}, never>> {
+    return this.${sourceName}Service.getOne(id);
   }
 
-  @HttpPost("/")
+  @Post("/")
   async createOne(
     @Body() create${SourceName}Input: Create${SourceName}Input
   ): Promise<${SourceName}> {
@@ -84,22 +61,20 @@ export default class ${SourceName}Controller {
   async updateOne(
     @Params("id") id: string,
     @Body() update${SourceName}Input: Update${SourceName}Input
-  ): Promise<{ prev: ${SourceName}; now: ${SourceName} | null }> {
+  ): Promise<${SourceName}> {
     return this.${sourceName}Service.updateOne(id, update${SourceName}Input);
   }
 
+  @Delete("/")
+  async deleteMany(@Query() deleteInput: DeleteManyInput): Promise<${SourceName}[]> {
+    const ids = JSON.parse(deleteInput.ids);
+    return this.${sourceName}Service.deleteMany(ids);
+  }
+
   @Delete("/:id")
-  async deleteOne(@Params("id") id: string): Promise<DocumentType<${SourceName}>> {
+  async deleteOne(@Params("id") id: string): Promise<${SourceName}> {
     return this.${sourceName}Service.deleteOne(id);
   }
-
-  @Delete("/")
-  async deleteMany(
-    @Query() query: { filter: string }
-  ): Promise<FindListResult<${SourceName}>> {
-    return this.${sourceName}Service.deleteMany(query);
-  }
 }
-
-    `;
+ `;
 };

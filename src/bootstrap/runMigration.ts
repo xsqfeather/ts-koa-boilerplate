@@ -1,5 +1,8 @@
+import { machineIdSync } from "node-machine-id";
 import MigrationService from "../lib/services/MigrationService";
 export async function runMigration(): Promise<void> {
+  console.log("machine==========", machineIdSync());
+
   const migrations = await new MigrationService().allUnDone();
   for (let index = 0; index < migrations.length; index++) {
     const migration = migrations[index];

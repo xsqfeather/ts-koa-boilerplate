@@ -28,6 +28,6 @@ export class StorageFile extends BaseEntity {
   @Property()
   localPath: string;
 
-  @ManyToOne()
+  @ManyToOne(() => StorageDir)
   dir: StorageDir;
 }

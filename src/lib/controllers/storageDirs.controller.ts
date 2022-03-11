@@ -9,6 +9,7 @@ import {
 import { StorageDir } from "../entities/StorageDir";
 import StorageDirService from "../services/StorageDirService";
 import DTOService from "../services/DTOService";
+import { filter } from "lodash";
 
 @Controller("/storageDirs")
 export default class StorageDirController {
@@ -21,9 +22,17 @@ export default class StorageDirController {
     @Query() query: ListQuery
   ): Promise<{ data: Loaded<StorageDir, never>[]; total: number }> {
     const listQueryObject = this.dtoService.parseListQuery(query);
-    const [storageDirs, total] = await this.storageDirService.getList(
-      listQueryObject
-    );
+    console.log({ listQueryObject });
+
+    const [storageDirs, total] = await this.storageDirService.getList({
+      ...listQueryObject,
+      filter: {
+        ...filter,
+        superior: {
+          $ne: null,
+        },
+      },
+    });
     return {
       data: storageDirs,
       total,
@@ -39,7 +48,7 @@ export default class StorageDirController {
   async createOne(
     @Body() createStorageDirInput: CreateStorageDirInput
   ): Promise<StorageDir> {
-    return this.storageDirService.createOne(createStorageDirInput);
+    return this.storageDirService.createNewDir(createStorageDirInput);
   }
 
   @Put("/:id")

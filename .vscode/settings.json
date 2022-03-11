@@ -10,6 +10,7 @@
     "Embeddable",
     "Emittery",
     "ipfs",
+    "IPFSHTTP",
     "mikro",
     "templating",
     "tinymce",

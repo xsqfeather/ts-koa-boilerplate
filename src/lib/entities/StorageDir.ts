@@ -1,7 +1,11 @@
 import { Entity, ManyToOne, OneToMany, Property } from "@mikro-orm/core";
 import { BaseEntity } from "./BaseEntity";
 import { StorageFile } from "./StorageFile";
-import { User } from "./User";
+
+enum StorageDirStatus {
+  Creating = "Creating",
+  Done = "Done",
+}
 
 @Entity()
 export class StorageDir extends BaseEntity {
@@ -9,14 +13,17 @@ export class StorageDir extends BaseEntity {
   name: string;
 
   @Property()
+  ipfsPath: string;
+
+  @Property({ nullable: true })
   ipfsCid: string;
 
   @OneToMany(() => StorageFile, (file) => file.dir)
-  files: StorageFile[];
+  files: StorageFile[] = [];
 
-  @ManyToOne()
-  superior: StorageDir;
+  @ManyToOne(() => StorageDir, { nullable: true })
+  superior?: StorageDir;
 
-  @ManyToOne()
-  owner: User;
+  @Property()
+  status: StorageDirStatus = StorageDirStatus.Creating;
 }

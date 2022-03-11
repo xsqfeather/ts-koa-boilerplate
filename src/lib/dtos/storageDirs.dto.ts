@@ -8,10 +8,26 @@ export class StorageDirListFilter {
 export class CreateStorageDirInput {
   @IsString()
   name: string;
+
+  @IsString()
+  @IsOptional()
+  superior?: string;
+
+  @IsString()
+  @IsOptional()
+  ipfsPath?: string;
 }
 
 export class UpdateStorageDirInput {
   @IsString()
   @IsOptional()
   name: string;
+
+  @IsString()
+  @IsOptional()
+  superior?: string;
+
+  @IsString()
+  @IsOptional()
+  ipfsPath?: string;
 }

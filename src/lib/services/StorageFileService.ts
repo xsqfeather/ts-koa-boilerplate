@@ -19,12 +19,4 @@ export default class StorageFileService extends CurdService<StorageFile> {
   async deleteFile(query: FilterQuery<StorageFile>): Promise<void> {
     await this.storageFileRepository.nativeDelete(query);
   }
-
-  saveIntoIpfs() {
-    console.log("123");
-  }
-
-  //   updateFileStream(readStream: ReadableStream) {
-  //      return readStream.pipeTo()
-  //   }
 }

@@ -1,4 +1,5 @@
 // import { FilterQuery } from "@mikro-orm/core";
+import { CID } from "ipfs-http-client";
 import { Inject, Service } from "typedi";
 import DI from "../DI";
 import { StorageDir } from "../entities/StorageDir";
@@ -31,6 +32,7 @@ export default class StorageFileService extends CurdService<StorageFile> {
         content: file,
       },
     ];
-    return this.storageFileRepository.create({ ipfsPath });
+    const rlt = (await this.ipfsService.add(source))[0];
+    return this.storageFileRepository.create({ ipfsPath, ipfsCid: rlt });
   }
 }

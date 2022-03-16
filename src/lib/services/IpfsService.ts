@@ -28,7 +28,7 @@ export default class IpfsService {
     }
   }
 
-  async add(fileArg: { path: string; content: File }) {
-    await ipfsClient.addAll([fileArg]);
+  async add(fileArg: { path: string; content: File }[]) {
+    return ipfsClient.addAll(fileArg);
   }
 }

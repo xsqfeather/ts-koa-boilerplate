@@ -37,7 +37,7 @@ export default async function useMiddles(): Promise<
 
   app.use(mount("/statics/", serve(process.cwd() + "/statics/")));
 
-  // pageRouter.get("/", (ctx: Context) => {
+  // pageRouter.get("/_imgs/:filename", (ctx: Context) => {
   //   ctx.body = "hello";
   // });
 

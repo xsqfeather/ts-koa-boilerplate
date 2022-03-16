@@ -1,6 +1,6 @@
 import { Service } from "typedi";
 import * as bcrypt from "bcrypt";
-import JWT from "jsonwebtoken";
+import JWT, { JwtPayload } from "jsonwebtoken";
 import { machineIdSync } from "node-machine-id";
 
 import { ListQuery, ListQueryObject } from "../../dtos/common.dto";
@@ -48,5 +48,25 @@ export default class DTOService {
 
   createToken(sessionId: string): string {
     return JWT.sign({ sessionId }, machineIdSync(), { expiresIn: "1d" });
+  }
+
+  verifyToken(token: string): {
+    decoded?: JwtPayload | string;
+    error?: Error;
+  } & {
+    authorization: boolean;
+  } {
+    try {
+      const decoded = JWT.verify(token, machineIdSync());
+      return {
+        decoded,
+        authorization: true,
+      };
+    } catch (error) {
+      return {
+        authorization: false,
+        error,
+      };
+    }
   }
 }

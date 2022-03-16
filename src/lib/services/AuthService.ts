@@ -67,8 +67,6 @@ export default class AuthService {
     result: User | ErrorMsg;
     success: boolean;
   }> {
-    console.log({ registraer: input });
-
     const checkRlt = await this.beforeRegisterCheck(input);
     if (checkRlt) {
       return {

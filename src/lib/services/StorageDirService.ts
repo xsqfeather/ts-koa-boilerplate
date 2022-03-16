@@ -17,31 +17,6 @@ export default class StorageDirService extends CurdService<StorageDir> {
     super(StorageDir);
   }
 
-  // async deleteDir(query: FilterQuery<StorageFile>): Promise<void> {
-  //   await this.storageFileRepository.nativeDelete(query);
-  // }
-
-  // async createDir(superDir: StorageDir): Promise<void> {
-  //   return;
-  // }
-
-  async getRootDir(user?: User): Promise<StorageDir> {
-    const path = user ? "/" + user.id : "/home";
-    const rootDir = await this.storageFileRepository.findOne({
-      ipfsPath: path,
-      superior: null,
-    });
-    if (rootDir) {
-      return rootDir;
-    }
-    const ipfsResult = await this.ipfsService.createDir(path);
-    return this.createOne({
-      name: "home",
-      ipfsPath: path,
-      ipfsCid: ipfsResult.cid.toString(),
-    });
-  }
-
   async createNewDir(
     createStorageDirInput: CreateStorageDirInput
   ): Promise<StorageDir> {
@@ -69,32 +44,28 @@ export default class StorageDirService extends CurdService<StorageDir> {
     });
   }
 
-  async getPublicImageDir(): Promise<StorageDir> {
-    const path = "/images";
-    const rootDir = await this.storageFileRepository.findOne({
-      ipfsPath: path,
+  async getOrCreateDir(dirPath: string): Promise<StorageDir> {
+    const dir = await this.storageFileRepository.findOne({
+      ipfsPath: dirPath,
       superior: null,
     });
-    if (rootDir) {
-      return rootDir;
+    if (dir) {
+      return dir;
     }
-    const ipfsResult = await this.ipfsService.createDir(path);
+    const ipfsResult = await this.ipfsService.createDir(dirPath);
     return this.createOne({
-      name: "home",
-      ipfsPath: path,
+      name: "images",
+      ipfsPath: dirPath,
       ipfsCid: ipfsResult.cid.toString(),
     });
   }
 
-  // async getPublicAssetsDir(): Promise<void> {
-  //   return;
-  // }
+  async getPublicImageDir(): Promise<StorageDir> {
+    return this.getOrCreateDir("/images");
+  }
 
-  // async getPublicUsersDir(): Promise<void> {
-  //   return;
-  // }
-
-  // async getUserDir(user: User): Promise<void> {
-  //   return;
-  // }
+  async getRootDir(user?: User): Promise<StorageDir> {
+    const path = user ? "/" + user.id : "/home";
+    return this.getOrCreateDir(path);
+  }
 }

@@ -27,4 +27,8 @@ export default class IpfsService {
       return this.createDir(path);
     }
   }
+
+  async add(fileArg: { path: string; content: File }) {
+    await ipfsClient.addAll([fileArg]);
+  }
 }

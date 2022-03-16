@@ -1,7 +1,22 @@
-import { PrimaryKey, Property, SerializedPrimaryKey } from "@mikro-orm/core";
+import {
+  Entity,
+  PrimaryKey,
+  Property,
+  SerializedPrimaryKey,
+} from "@mikro-orm/core";
 import { ObjectId } from "@mikro-orm/mongodb";
 
-export abstract class BaseEntity {
+@Entity()
+export class Tenant {
+  @Property()
+  name: string;
+
+  @Property()
+  website: string;
+
+  @Property()
+  secret: string;
+
   @PrimaryKey()
   _id!: ObjectId;
 
@@ -16,7 +31,4 @@ export abstract class BaseEntity {
 
   @Property({ onCreate: () => null })
   deletedAt?: null | Date = null;
-
-  @Property()
-  tenantId: null | string = null;
 }

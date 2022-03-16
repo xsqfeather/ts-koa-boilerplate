@@ -1,11 +1,15 @@
 import cors from "@koa/cors";
+// import Router from "@koa/router";
 import { bootstrapControllers } from "amala";
 import Koa from "koa";
+import serve from "koa-static";
 import getBlockRuleTargets from "../lib/middles/getBlockRuleTargets";
+import mount from "koa-mount";
 
 export default async function useMiddles(): Promise<
   Koa<Koa.DefaultState, Koa.DefaultContext>
 > {
+  // const pageRouter = new Router();
   const { app, router } = await bootstrapControllers({
     basePath: "/api",
     controllers: [
@@ -30,6 +34,14 @@ export default async function useMiddles(): Promise<
       origin: "*",
     })
   );
+
+  app.use(mount("/statics/", serve(process.cwd() + "/statics/")));
+
+  // pageRouter.get("/", (ctx: Context) => {
+  //   ctx.body = "hello";
+  // });
+
+  // app.use(pageRouter.routes()).use(pageRouter.allowedMethods());
 
   app.use(router.routes()).use(router.allowedMethods());
 

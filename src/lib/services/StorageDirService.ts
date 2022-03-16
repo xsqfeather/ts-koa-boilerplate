@@ -69,9 +69,22 @@ export default class StorageDirService extends CurdService<StorageDir> {
     });
   }
 
-  // async getPublicImageDir(): Promise<void> {
-  //   return;
-  // }
+  async getPublicImageDir(): Promise<StorageDir> {
+    const path = "/images";
+    const rootDir = await this.storageFileRepository.findOne({
+      ipfsPath: path,
+      superior: null,
+    });
+    if (rootDir) {
+      return rootDir;
+    }
+    const ipfsResult = await this.ipfsService.createDir(path);
+    return this.createOne({
+      name: "home",
+      ipfsPath: path,
+      ipfsCid: ipfsResult.cid.toString(),
+    });
+  }
 
   // async getPublicAssetsDir(): Promise<void> {
   //   return;

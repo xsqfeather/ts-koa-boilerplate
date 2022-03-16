@@ -11,7 +11,7 @@ export class StorageFile extends BaseEntity {
   ext: string;
 
   @Property()
-  mime: string;
+  type: string;
 
   @Property()
   ipfsPath: string;

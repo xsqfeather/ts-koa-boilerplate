@@ -1,11 +1,22 @@
 import { Loaded } from "@mikro-orm/core";
-import { Body, Controller, Delete, Get, Params, Post, Put, Query } from "amala";
+import {
+  Body,
+  Controller,
+  Delete,
+  Flow,
+  Get,
+  Params,
+  Post,
+  Put,
+  Query,
+} from "amala";
 import Container from "typedi";
 import { CreateArticleInput, UpdateArticleInput } from "../dtos/articles.dto";
 import { DeleteManyInput, ListQuery } from "../dtos/common.dto";
 import { Article } from "../entities/Article";
 import ArticleService from "../services/ArticleService";
 import DTOService from "../lib/services/DTOService";
+import authMiddleware from "../lib/middles/authMIddleware";
 
 @Controller("/articles")
 export default class ArticleController {
@@ -33,6 +44,7 @@ export default class ArticleController {
   }
 
   @Post("/")
+  @Flow([authMiddleware])
   async createOne(
     @Body() createArticleInput: CreateArticleInput
   ): Promise<Article> {

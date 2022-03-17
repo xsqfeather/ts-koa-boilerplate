@@ -1,5 +1,5 @@
 // import { FilterQuery } from "@mikro-orm/core";
-import { CID } from "ipfs-http-client";
+// import { CID } from "ipfs-http-client";
 import { Inject, Service } from "typedi";
 import DI from "../DI";
 import { StorageDir } from "../entities/StorageDir";

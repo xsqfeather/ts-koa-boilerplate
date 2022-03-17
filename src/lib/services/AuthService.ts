@@ -52,6 +52,8 @@ export default class AuthService {
         })),
       });
 
+      console.log({ session });
+
       return {
         result: this.dtoService.createToken(session.id),
         success: true,

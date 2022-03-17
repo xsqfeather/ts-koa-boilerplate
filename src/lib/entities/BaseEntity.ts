@@ -17,6 +17,6 @@ export abstract class BaseEntity {
   @Property({ onCreate: () => null })
   deletedAt?: null | Date = null;
 
-  @Property()
-  tenantId: null | string = null;
+  @Property({ nullable: true })
+  tenantId?: null | string = null;
 }

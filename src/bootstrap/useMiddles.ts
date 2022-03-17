@@ -5,6 +5,7 @@ import Koa from "koa";
 import serve from "koa-static";
 import getBlockRuleTargets from "../lib/middles/getBlockRuleTargets";
 import mount from "koa-mount";
+import { koaSwagger } from "koa2-swagger-ui";
 
 export default async function useMiddles(): Promise<
   Koa<Koa.DefaultState, Koa.DefaultContext>
@@ -27,11 +28,22 @@ export default async function useMiddles(): Promise<
       ctx.body = err?.data ? err.data : err;
     },
     flow: [getBlockRuleTargets],
+    enableOpenApi: true,
+    openApiPath: "/api/doc",
   });
 
   app.use(
     cors({
       origin: "*",
+    })
+  );
+
+  app.use(
+    koaSwagger({
+      routePrefix: "/swagger", // host at /swagger instead of default /docs
+      swaggerOptions: {
+        url: "/api/doc", // example path to json
+      },
     })
   );
 

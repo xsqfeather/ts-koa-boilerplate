@@ -12,20 +12,24 @@ import {
 } from "amala";
 import Container from "typedi";
 import { DeleteManyInput, ListQuery } from "../../dtos/common.dto";
-import {
-  CreateStorageFileInput,
-  UpdateStorageFileInput,
-} from "../dtos/storageFiles.dto";
+import { UpdateStorageFileInput } from "../dtos/storageFiles.dto";
 import { StorageFile } from "../entities/StorageFile";
 import StorageFileService from "../services/StorageFileService";
 import DTOService from "../services/DTOService";
 import { filter } from "lodash";
+import IpfsService from "../services/IpfsService";
 
 @Controller("/storageFiles")
 export default class StorageFileController {
   private storageFileService = Container.get(StorageFileService);
 
+  private ipfsService = Container.get(IpfsService);
+
   private dtoService = Container.get(DTOService);
+
+  constructor() {
+    this.ipfsService.initIpfsClient();
+  }
 
   @Get("/")
   async getList(
@@ -56,12 +60,16 @@ export default class StorageFileController {
 
   @Post("/")
   async createOne(
-    @Body() createStorageFileInput: CreateStorageFileInput,
+    // @Body() createStorageFileInput: CreateStorageFileInput,
     @Files() files: Record<string, File>
-  ): Promise<StorageFile> {
-    console.log({ files });
-
-    return this.storageFileService.createOne(createStorageFileInput);
+  ): Promise<{
+    location: string;
+  }> {
+    const fileHash = await this.ipfsService.addOneFile(files["file"]);
+    const fileLocation = `https://files.woogege.com/ipfs/${fileHash}`;
+    return {
+      location: fileLocation,
+    };
   }
 
   @Put("/:id")

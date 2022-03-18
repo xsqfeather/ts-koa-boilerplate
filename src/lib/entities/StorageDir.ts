@@ -16,6 +16,9 @@ export class StorageDir extends BaseEntity {
   ipfsPath: string;
 
   @Property({ nullable: true })
+  ipns: string;
+
+  @Property({ nullable: true })
   ipfsCid: string;
 
   @OneToMany(() => StorageFile, (file) => file.dir)

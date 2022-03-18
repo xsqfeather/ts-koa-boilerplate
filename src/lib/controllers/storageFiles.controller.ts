@@ -65,7 +65,9 @@ export default class StorageFileController {
   ): Promise<{
     location: string;
   }> {
-    const fileHash = await this.ipfsService.addOneFile(files["file"]);
+    const fileHash = await this.storageFileService.addOnePublicImage(
+      files["file"]
+    );
     const fileLocation = `https://files.woogege.com/ipfs/${fileHash}`;
     return {
       location: fileLocation,

@@ -1,3 +1,5 @@
+import { EntityData, EntityDTO, Loaded, wrap } from "@mikro-orm/core";
+import _ from "lodash";
 import { Inject, Service } from "typedi";
 import DI from "../DI";
 import { CreateStorageDirInput } from "../dtos/storageDirs.dto";
@@ -8,7 +10,7 @@ import IpfsService from "./IpfsService";
 
 @Service()
 export default class StorageDirService extends CurdService<StorageDir> {
-  private storageFileRepository = DI.orm.em.getRepository(StorageDir);
+  private storageDirRepository = DI.orm.em.getRepository(StorageDir);
 
   @Inject(() => IpfsService)
   private ipfsService: IpfsService;
@@ -23,12 +25,12 @@ export default class StorageDirService extends CurdService<StorageDir> {
     const { superior } = createStorageDirInput;
     let superDir = null;
     if (superior) {
-      superDir = await this.storageFileRepository.findOne({ id: superior });
+      superDir = await this.storageDirRepository.findOne({ id: superior });
     } else {
       superDir = await this.getRootDir();
     }
     const dirPath = superDir.ipfsPath + "/" + createStorageDirInput.name;
-    const newDir = await this.storageFileRepository.findOne({
+    const newDir = await this.storageDirRepository.findOne({
       ipfsPath: dirPath,
       superior: null,
     });
@@ -45,7 +47,7 @@ export default class StorageDirService extends CurdService<StorageDir> {
   }
 
   async getOrCreateDir(dirPath: string): Promise<StorageDir> {
-    const dir = await this.storageFileRepository.findOne({
+    const dir = await this.storageDirRepository.findOne({
       ipfsPath: dirPath,
       superior: null,
     });
@@ -66,6 +68,17 @@ export default class StorageDirService extends CurdService<StorageDir> {
 
   async getRootDir(user?: User): Promise<StorageDir> {
     const path = user ? "/" + user.id : "/home";
-    return this.getOrCreateDir(path);
+    const dir = await this.getOrCreateDir(path);
+    console.log({ dir });
+
+    const ipnsRlt = await this.ipfsService.publishName(dir.ipfsCid);
+    dir.ipns = ipnsRlt.value;
+    wrap(dir).assign(
+      _.omit(dir, ["deletedAt", "id", "_id", "updatedAt"]) as unknown as
+        | EntityData<Loaded<StorageDir, never>>
+        | Partial<EntityDTO<Loaded<StorageDir, never>>>
+    );
+    await this.storageDirRepository.flush();
+    return dir;
   }
 }

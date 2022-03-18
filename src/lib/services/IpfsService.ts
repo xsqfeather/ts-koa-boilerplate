@@ -2,6 +2,7 @@ import { Service } from "typedi";
 import { create, IPFSHTTPClient } from "ipfs-http-client";
 import { StatResult } from "ipfs-core-types/src/files/index";
 import { unlinkSync, readFileSync } from "fs";
+import { PublishResult } from "ipfs-core-types/src/name";
 
 let ipfsClient: IPFSHTTPClient;
 @Service()
@@ -29,11 +30,28 @@ export default class IpfsService {
     }
   }
 
-  async addOneFile(file: File): Promise<string> {
+  async addOneFile({
+    ipfsPath,
+    file,
+  }: {
+    file: File;
+    ipfsPath: string;
+  }): Promise<string> {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const filePath = (file as any).path;
-    const uploadRlt = await ipfsClient.add(readFileSync(filePath));
-    unlinkSync(filePath);
-    return uploadRlt.cid.toString();
+    const filePath = (file as any)?.path;
+    if (filePath) {
+      const uploadRlt = await ipfsClient.add({
+        path: ipfsPath,
+        content: readFileSync(filePath),
+      });
+      unlinkSync(filePath);
+      console.log();
+
+      return uploadRlt.cid.toString();
+    }
+  }
+
+  publishName(ipfsCid: string): Promise<PublishResult> {
+    return ipfsClient.name.publish(ipfsCid);
   }
 }

@@ -30,23 +30,19 @@ export default class IpfsService {
     }
   }
 
-  async addOneFile({
-    ipfsPath,
-    file,
-  }: {
-    file: File;
-    ipfsPath: string;
-  }): Promise<string> {
+  async addOneFile(file: File): Promise<string> {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const filePath = (file as any)?.path;
     if (filePath) {
-      const uploadRlt = await ipfsClient.add({
-        path: ipfsPath,
-        content: readFileSync(filePath),
+      const uploadRlt = await ipfsClient.add(readFileSync(filePath), {
+        progress: (bytes: number, path?: string) => {
+          console.log({
+            bytes,
+            path,
+          });
+        },
       });
       unlinkSync(filePath);
-      console.log();
-
       return uploadRlt.cid.toString();
     }
   }

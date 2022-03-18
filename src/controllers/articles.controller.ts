@@ -9,6 +9,7 @@ import {
   Post,
   Put,
   Query,
+  Files,
 } from "amala";
 import Container from "typedi";
 import { CreateArticleInput, UpdateArticleInput } from "../dtos/articles.dto";
@@ -17,12 +18,15 @@ import { Article } from "../entities/Article";
 import ArticleService from "../services/ArticleService";
 import DTOService from "../lib/services/DTOService";
 import authMiddleware from "../lib/middles/authMIddleware";
+import StorageFileService from "../lib/services/StorageFileService";
 
 @Controller("/articles")
 export default class ArticleController {
   private articleService = Container.get(ArticleService);
 
   private dtoService = Container.get(DTOService);
+
+  private storageFileService = Container.get(StorageFileService);
 
   @Get("/")
   async getList(
@@ -57,6 +61,11 @@ export default class ArticleController {
     @Body() updateArticleInput: UpdateArticleInput
   ): Promise<Article> {
     return this.articleService.updateOne(id, updateArticleInput);
+  }
+
+  @Post("/cover/upload")
+  async uploadCover(@Files() files: Record<string, File>): Promise<string> {
+    return this.storageFileService.addOnePublicImage(files["file"]);
   }
 
   @Delete("/")

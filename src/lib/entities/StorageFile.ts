@@ -14,12 +14,9 @@ export class StorageFile extends BaseEntity {
   type: string;
 
   @Property()
-  ipfsPath: string;
-
-  @Property()
   ipfsCid: string;
 
-  @Property()
+  @Property({ nullable: true })
   magnet: string;
 
   @Property()

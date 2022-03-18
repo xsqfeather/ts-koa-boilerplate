@@ -13,13 +13,7 @@ export class StorageDir extends BaseEntity {
   name: string;
 
   @Property()
-  ipfsPath: string;
-
-  @Property({ nullable: true })
-  ipns: string;
-
-  @Property({ nullable: true })
-  ipfsCid: string;
+  path: string;
 
   @OneToMany(() => StorageFile, (file) => file.dir)
   files: StorageFile[] = [];

@@ -25,7 +25,7 @@ export default function useOtherRoutes(
     });
   });
   otherRouter.get("/_imgs/:filename", (ctx: Context) => {
-    ctx.body = "hello";
+    const filepath = "/images/" + ctx.params.filename;
   });
 
   app.use(otherRouter.routes()).use(otherRouter.allowedMethods());

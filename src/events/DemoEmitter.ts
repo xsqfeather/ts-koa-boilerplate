@@ -1,6 +1,6 @@
 import { Service } from "typedi";
 import { Article } from "../entities/Article";
-import OnEvent from "../lib/decorators/OnEvent";
+import { OnEvent } from "../lib/decorators/OnEvent";
 import { BaseEventEmitter } from "../lib/events/BaseEventEmitter";
 
 @Service()

@@ -11,11 +11,7 @@ export class CreateStorageDirInput {
 
   @IsString()
   @IsOptional()
-  superior?: string;
-
-  @IsString()
-  @IsOptional()
-  ipfsPath?: string;
+  superiorId?: string;
 }
 
 export class UpdateStorageDirInput {
@@ -26,8 +22,4 @@ export class UpdateStorageDirInput {
   @IsString()
   @IsOptional()
   superior?: string;
-
-  @IsString()
-  @IsOptional()
-  ipfsPath?: string;
 }

@@ -10,6 +10,7 @@ import {
   Put,
   Query,
   Files,
+  Ctx,
 } from "amala";
 import Container from "typedi";
 import { CreateArticleInput, UpdateArticleInput } from "../dtos/articles.dto";
@@ -19,6 +20,7 @@ import ArticleService from "../services/ArticleService";
 import DTOService from "../lib/services/DTOService";
 import authMiddleware from "../lib/middles/authMIddleware";
 import StorageFileService from "../lib/services/StorageFileService";
+import Koa from "koa";
 
 @Controller("/articles")
 export default class ArticleController {
@@ -63,9 +65,29 @@ export default class ArticleController {
     return this.articleService.updateOne(id, updateArticleInput);
   }
 
-  @Post("/cover/upload")
-  async uploadCover(@Files() files: Record<string, File>): Promise<string> {
-    return this.storageFileService.addOnePublicImage(files["file"]);
+  @Post("/edit/upload")
+  async uploadCover(
+    @Files() files: Record<string, File>,
+    @Ctx() ctx: Koa.Context
+  ): Promise<{
+    location?: string;
+    success: boolean;
+    reason?: string;
+  }> {
+    const { success, reason, uploaded } =
+      await this.storageFileService.addOnePublicImage(files["file"]);
+    if (!success) {
+      ctx.status = 403;
+      return {
+        success,
+        reason,
+      };
+    }
+
+    return {
+      success,
+      location: `${ctx.origin}/_imgs/${uploaded?.fileName}`,
+    };
   }
 
   @Delete("/")

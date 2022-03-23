@@ -40,7 +40,19 @@ export default class StorageDirController {
   async createOne(
     @Body() createStorageDirInput: CreateStorageDirInput
   ): Promise<StorageDir> {
-    return this.storageDirService.createNewDir(createStorageDirInput);
+    let superDir: StorageDir;
+    if (createStorageDirInput.superiorId) {
+      superDir = await this.storageDirService.getById(
+        createStorageDirInput.superiorId
+      );
+    } else {
+      superDir = await this.storageDirService.getRootDir();
+    }
+    return this.storageDirService.createOne({
+      ...createStorageDirInput,
+      path: superDir.path + "/" + createStorageDirInput.name,
+      superiorId: superDir.id,
+    });
   }
 
   @Put("/:id")

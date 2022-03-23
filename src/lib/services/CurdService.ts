@@ -41,9 +41,6 @@ export default class CurdService<T> {
       range = [0, 9],
       sort = ["createdAt", -1],
     } = listQuery;
-    console.log({ listQuery });
-
-    console.log([sort[0]], sort[1]);
 
     const records = await this.repository.findAndCount(
       {
@@ -83,7 +80,7 @@ export default class CurdService<T> {
           | EntityData<Loaded<T, never>>
           | Partial<EntityDTO<Loaded<T, never>>>
       );
-      await this.repository.flush();
+      await this.repository.persistAndFlush(record);
     } catch (error) {
       console.error(error);
     }

@@ -1,4 +1,3 @@
-import _ from "lodash";
 import { Service } from "typedi";
 import DI from "../DI";
 import { CreateStorageDirInput } from "../dtos/storageDirs.dto";
@@ -17,10 +16,10 @@ export default class StorageDirService extends CurdService<StorageDir> {
   async createNewDir(
     createStorageDirInput: CreateStorageDirInput
   ): Promise<StorageDir> {
-    const { superior } = createStorageDirInput;
+    const { superiorId } = createStorageDirInput;
     let superDir: StorageDir;
-    if (superior) {
-      superDir = await this.storageDirRepository.findOne({ id: superior });
+    if (superiorId) {
+      superDir = await this.storageDirRepository.findOne({ id: superiorId });
     } else {
       superDir = await this.getRootDir();
     }
@@ -34,13 +33,14 @@ export default class StorageDirService extends CurdService<StorageDir> {
     }
     return this.createOne({
       ...createStorageDirInput,
-      superior: superDir.id,
+      superiorId: superDir.id,
     });
   }
 
   async getOrCreateDir(superPath: string, name: string): Promise<StorageDir> {
     const dir = await this.storageDirRepository.findOne({
       path: superPath + "/" + name,
+      deletedAt: null,
     });
     if (dir) {
       return dir;
@@ -53,6 +53,10 @@ export default class StorageDirService extends CurdService<StorageDir> {
 
   async getPublicImageDir(): Promise<StorageDir> {
     return this.getOrCreateDir("", "images");
+  }
+
+  async getPublicVideoDir(): Promise<StorageDir> {
+    return this.getOrCreateDir("", "videos");
   }
 
   async getRootDir(user?: User): Promise<StorageDir> {

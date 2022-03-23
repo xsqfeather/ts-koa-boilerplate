@@ -2,22 +2,26 @@ import { Loaded } from "@mikro-orm/core";
 import {
   Body,
   Controller,
+  Ctx,
   Delete,
+  Files,
   Get,
   Params,
   Post,
   Put,
   Query,
-  Files,
 } from "amala";
 import Container from "typedi";
 import { DeleteManyInput, ListQuery } from "../../dtos/common.dto";
-import { UpdateStorageFileInput } from "../dtos/storageFiles.dto";
+import {
+  CreateStorageFileInput,
+  UpdateStorageFileInput,
+} from "../dtos/storageFiles.dto";
 import { StorageFile } from "../entities/StorageFile";
 import StorageFileService from "../services/StorageFileService";
 import DTOService from "../services/DTOService";
-import { filter } from "lodash";
 import IpfsService from "../services/IpfsService";
+import Koa from "koa";
 
 @Controller("/storageFiles")
 export default class StorageFileController {
@@ -36,17 +40,10 @@ export default class StorageFileController {
     @Query() query: ListQuery
   ): Promise<{ data: Loaded<StorageFile, never>[]; total: number }> {
     const listQueryObject = this.dtoService.parseListQuery(query);
-    console.log({ listQueryObject });
 
-    const [storageFiles, total] = await this.storageFileService.getList({
-      ...listQueryObject,
-      filter: {
-        ...filter,
-        superior: {
-          $ne: null,
-        },
-      },
-    });
+    const [storageFiles, total] = await this.storageFileService.getList(
+      listQueryObject
+    );
     return {
       data: storageFiles,
       total,
@@ -60,17 +57,33 @@ export default class StorageFileController {
 
   @Post("/")
   async createOne(
-    // @Body() createStorageFileInput: CreateStorageFileInput,
-    @Files() files: Record<string, File>
+    @Body() createStorageFileInput: CreateStorageFileInput
+  ): Promise<StorageFile> {
+    return this.storageFileService.createOne(createStorageFileInput);
+  }
+
+  @Post("/upload")
+  async uploadFile(
+    @Files() files: Record<string, File>,
+    @Ctx() ctx: Koa.Context
   ): Promise<{
-    location: string;
+    location?: string;
+    success: boolean;
+    reason?: string;
   }> {
-    const fileHash = await this.storageFileService.addOnePublicImage(
-      files["file"]
-    );
-    const fileLocation = `https://files.woogege.com/ipfs/${fileHash}`;
+    const { success, reason, uploaded } =
+      await this.storageFileService.addOnePublicImage(files["file"]);
+    if (!success) {
+      ctx.status = 403;
+      return {
+        success,
+        reason,
+      };
+    }
+
     return {
-      location: fileLocation,
+      success,
+      location: `${ctx.origin}/_imgs/${uploaded?.fileName}`,
     };
   }
 

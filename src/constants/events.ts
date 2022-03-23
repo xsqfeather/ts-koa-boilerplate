@@ -47,3 +47,10 @@ export const OnGoodCreated = "OnGoodCreated";
 export const OnGoodUpdated = "OnGoodUpdated";
 export const OnGoodsDeleted = "OnGoodsDeleted";
 export const OnGoodDeleted = "OnGoodDeleted";
+/* video_collectors events for socket and emittery */
+export const OnVideoCollectorsListed = "OnVideoCollectorsListed";
+export const OnVideoCollectorShowed = "OnVideoCollectorShowed";
+export const OnVideoCollectorCreated = "OnVideoCollectorCreated";
+export const OnVideoCollectorUpdated = "OnVideoCollectorUpdated";
+export const OnVideoCollectorsDeleted = "OnVideoCollectorsDeleted";
+export const OnVideoCollectorDeleted = "OnVideoCollectorDeleted";

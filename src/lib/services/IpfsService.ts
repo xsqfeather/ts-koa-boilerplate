@@ -8,7 +8,7 @@ let ipfsClient: IPFSHTTPClient;
 @Service()
 export default class IpfsService {
   public async initIpfsClient(): Promise<void> {
-    ipfsClient = create({ url: "https://fileapi.woogege.com" });
+    ipfsClient = create({ url: "http://127.0.0.1:5001" });
   }
 
   public async createDir(path: string): Promise<StatResult> {
@@ -49,5 +49,13 @@ export default class IpfsService {
 
   publishName(ipfsCid: string): Promise<PublishResult> {
     return ipfsClient.name.publish(ipfsCid);
+  }
+
+  async catFile(ipfsCid: string): Promise<Buffer> {
+    const chucks: Uint8Array[] = [];
+    for await (const chunk of ipfsClient.cat(ipfsCid)) {
+      chucks.push(chunk);
+    }
+    return Buffer.concat(chucks as unknown as readonly Uint8Array[]);
   }
 }

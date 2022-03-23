@@ -1,6 +1,4 @@
-import Emittery from "emittery";
-
-export const emitter = new Emittery();
+import { emitter } from "../decorators/OnEvent";
 
 export class BaseEventEmitter<T> {
   emit(eventName: string, payload: T | null | undefined): void {

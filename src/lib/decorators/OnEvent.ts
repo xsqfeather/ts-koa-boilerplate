@@ -1,18 +1,28 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import Emittery from "emittery";
-const emitter = new Emittery();
+export const emitter = new Emittery();
 
-export default function OnEvent(
+export const OnEvent = (
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   eventName: string
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-): (target: any, propertyKey: string, descriptor: PropertyDescriptor) => void {
+): ((
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  target: Object,
+  propertyKey: string,
+  descriptor: PropertyDescriptor
+) => void) => {
   // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-  return function (
+  return (
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     target: any,
     propertyKey: string
-  ): void {
+  ): void => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    emitter.on(eventName as unknown as string, (target as any)[propertyKey]);
+
+    emitter.on(
+      eventName as unknown as string,
+      target[propertyKey].bind(target)
+    );
   };
-}
+};

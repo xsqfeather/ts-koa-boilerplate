@@ -54,3 +54,10 @@ export const OnVideoCollectorCreated = "OnVideoCollectorCreated";
 export const OnVideoCollectorUpdated = "OnVideoCollectorUpdated";
 export const OnVideoCollectorsDeleted = "OnVideoCollectorsDeleted";
 export const OnVideoCollectorDeleted = "OnVideoCollectorDeleted";
+/* tasks events for socket and emittery */
+export const OnTasksListed = "OnTasksListed";
+export const OnTaskShowed = "OnTaskShowed";
+export const OnTaskCreated = "OnTaskCreated";
+export const OnTaskUpdated = "OnTaskUpdated";
+export const OnTasksDeleted = "OnTasksDeleted";
+export const OnTaskDeleted = "OnTaskDeleted";

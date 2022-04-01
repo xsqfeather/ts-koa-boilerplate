@@ -42,9 +42,31 @@ export default class CurdService<T> {
       sort = ["createdAt", -1],
     } = listQuery;
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const query: any = {};
+    if (filter.q) {
+      query["$or"] = [
+        {
+          vod_name: {
+            $regex: new RegExp(`${filter.q}.*`),
+          },
+        },
+        {
+          type_name: {
+            $regex: new RegExp(`${filter.q}.*`),
+          },
+        },
+        {
+          vod_remarks: {
+            $regex: new RegExp(`${filter.q}.*`),
+          },
+        },
+      ];
+    }
+
     const records = await this.repository.findAndCount(
       {
-        ...filter,
+        ...query,
         deletedAt: null,
       },
       {

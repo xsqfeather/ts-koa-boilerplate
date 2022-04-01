@@ -3,252 +3,252 @@ import { BaseEntity } from "../lib/entities/BaseEntity";
 
 @Entity()
 export class VodResource extends BaseEntity {
-  @Property()
-  group_id: string;
+  @Property({ nullable: true })
+  group_id?: string;
 
-  @Property()
+  @Property({ nullable: true })
   type_id: number;
 
-  @Property()
-  type_id_1: number;
+  @Property({ nullable: true })
+  type_id_1?: number;
 
-  @Property()
-  type_name: string;
+  @Property({ nullable: true })
+  type_name?: string;
 
-  @Property()
+  @Property({ nullable: true })
   vod_actor: string;
 
-  @Property()
+  @Property({ nullable: true })
   vod_area: string;
 
-  @Property()
-  vod_author: string;
+  @Property({ nullable: true })
+  vod_author?: string;
 
-  @Property()
-  vod_behind: string;
+  @Property({ nullable: true })
+  vod_behind?: string;
 
-  @Property()
-  vod_blurb: string;
+  @Property({ nullable: true })
+  vod_blurb?: string;
 
-  @Property()
+  @Property({ nullable: true })
   vod_class: string;
 
-  @Property()
+  @Property({ nullable: true })
   vod_color: string;
 
-  @Property()
+  @Property({ nullable: true })
   vod_content: string;
 
-  @Property()
+  @Property({ nullable: true })
   vod_copyright: number;
 
-  @Property()
+  @Property({ nullable: true })
   vod_director: string;
 
-  @Property()
+  @Property({ nullable: true })
   vod_douban_id: number;
 
-  @Property()
+  @Property({ nullable: true })
   vod_douban_score: string;
 
-  @Property()
+  @Property({ nullable: true })
   vod_down: number;
 
-  @Property()
+  @Property({ nullable: true })
   vod_down_from: string;
 
-  @Property()
+  @Property({ nullable: true })
   vod_down_note: string;
 
-  @Property()
+  @Property({ nullable: true })
   vod_down_server: string;
 
-  @Property()
+  @Property({ nullable: true })
   vod_down_url: string;
 
-  @Property()
+  @Property({ nullable: true })
   vod_duration: string;
 
-  @Property()
+  @Property({ nullable: true })
   vod_en: string;
 
-  @Property()
+  @Property({ nullable: true })
   vod_hits: number;
 
-  @Property()
+  @Property({ nullable: true })
   vod_hits_day: number;
 
-  @Property()
+  @Property({ nullable: true })
   vod_hits_month: number;
 
-  @Property()
+  @Property({ nullable: true })
   vod_hits_week: number;
 
-  @Property()
+  @Property({ nullable: true })
   vod_id: number;
 
-  @Property()
+  @Property({ nullable: true })
   vod_isend: number;
 
-  @Property()
+  @Property({ nullable: true })
   vod_jumpurl: string;
 
-  @Property()
+  @Property({ nullable: true })
   vod_lang: string;
 
-  @Property()
+  @Property({ nullable: true })
   vod_letter: string;
 
-  @Property()
+  @Property({ nullable: true })
   vod_level: number;
 
-  @Property()
+  @Property({ nullable: true })
   vod_lock: number;
 
-  @Property()
+  @Property({ nullable: true })
   vod_name: string;
 
-  @Property()
+  @Property({ nullable: true })
   vod_pic: string;
 
   @Property({ nullable: true })
   vod_pic_screenshot: string[] | string;
 
-  @Property()
+  @Property({ nullable: true })
   vod_pic_slide: string;
 
-  @Property()
+  @Property({ nullable: true })
   vod_pic_thumb: string;
 
-  @Property()
+  @Property({ nullable: true })
   vod_play_from: string;
 
-  @Property()
+  @Property({ nullable: true })
   vod_play_note: string;
 
-  @Property()
+  @Property({ nullable: true })
   vod_play_server: string;
 
-  @Property()
+  @Property({ nullable: true })
   vod_play_url: string;
 
-  @Property()
+  @Property({ nullable: true })
   vod_plot: string;
 
-  @Property()
+  @Property({ nullable: true })
   vod_plot_detail: string;
 
-  @Property()
+  @Property({ nullable: true })
   vod_plot_name: string;
 
-  @Property()
+  @Property({ nullable: true })
   vod_points: number;
 
-  @Property()
+  @Property({ nullable: true })
   vod_points_down: number;
 
-  @Property()
+  @Property({ nullable: true })
   vod_points_play: number;
 
-  @Property()
+  @Property({ nullable: true })
   vod_pubdate: string;
 
-  @Property()
+  @Property({ nullable: true })
   vod_pwd: string;
 
-  @Property()
+  @Property({ nullable: true })
   vod_pwd_down: string;
 
-  @Property()
+  @Property({ nullable: true })
   vod_pwd_down_url: string;
 
-  @Property()
+  @Property({ nullable: true })
   vod_pwd_play: string;
 
-  @Property()
+  @Property({ nullable: true })
   vod_pwd_play_url: string;
 
-  @Property()
+  @Property({ nullable: true })
   vod_pwd_url: string;
 
-  @Property()
+  @Property({ nullable: true })
   vod_rel_art: string;
 
-  @Property()
+  @Property({ nullable: true })
   vod_rel_vod: string;
 
-  @Property()
+  @Property({ nullable: true })
   vod_remarks: string;
 
-  @Property()
+  @Property({ nullable: true })
   vod_reurl: string;
 
-  @Property()
+  @Property({ nullable: true })
   vod_score: string;
 
-  @Property()
+  @Property({ nullable: true })
   vod_score_all: number;
 
-  @Property()
+  @Property({ nullable: true })
   vod_score_num: number;
 
-  @Property()
+  @Property({ nullable: true })
   vod_serial: string;
 
-  @Property()
+  @Property({ nullable: true })
   vod_state: string;
 
-  @Property()
+  @Property({ nullable: true })
   vod_status: number;
 
-  @Property()
+  @Property({ nullable: true })
   vod_sub: string;
 
-  @Property()
+  @Property({ nullable: true })
   vod_tag: string;
 
-  @Property()
+  @Property({ nullable: true })
   vod_time: string;
 
-  @Property()
+  @Property({ nullable: true })
   vod_time_add: number;
 
-  @Property()
+  @Property({ nullable: true })
   vod_time_hits: number;
 
-  @Property()
+  @Property({ nullable: true })
   vod_time_make: number;
 
-  @Property()
+  @Property({ nullable: true })
   vod_total: number;
 
-  @Property()
+  @Property({ nullable: true })
   vod_tpl: string;
 
-  @Property()
+  @Property({ nullable: true })
   vod_tpl_down: string;
 
-  @Property()
+  @Property({ nullable: true })
   vod_tpl_play: string;
 
-  @Property()
+  @Property({ nullable: true })
   vod_trysee: number;
 
-  @Property()
+  @Property({ nullable: true })
   vod_tv: string;
 
-  @Property()
+  @Property({ nullable: true })
   vod_up: number;
 
-  @Property()
+  @Property({ nullable: true })
   vod_version: string;
 
-  @Property()
+  @Property({ nullable: true })
   vod_weekday: string;
 
-  @Property()
+  @Property({ nullable: true })
   vod_writer: string;
 
-  @Property()
+  @Property({ nullable: true })
   vod_year: string;
 }

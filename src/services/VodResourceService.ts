@@ -18,30 +18,44 @@ export default class VodResourceService extends CurdService<VodResource> {
     super(VodResource);
   }
 
-  async bulkInsertFromUrl(url: string): Promise<number> {
-    const { data } = await axios.get(url);
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const repeatNames = await this.vodResourceRepository.find({
-      vod_name: {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        $in: data.list.map((v: any) => v.vod_name),
-      },
-    });
-    const vodResourcesToCreated = data.list
-      ?.filter((v: any) => !repeatNames.includes(v.vod_name))
-      ?.map((item: any) => {
-        item.vod_pic_screenshot = item.vod_pic_screenshot?.toString();
-        return this.vodResourceRepository.create(item);
+  async bulkInsertFromUrl(url: string, type = "json"): Promise<number> {
+    try {
+      const rlt = await axios.get(url);
+      const { data } = rlt;
+      // eslint-disable-next-line @typescript-eslint/no-var-requires
+      const xml2js = require("xml2js");
+      const parser = new xml2js.Parser({
+        explicitArray: false,
+        mergeAttrs: true,
       });
 
-    if (data.list.length <= 0) {
-      return 0;
+      let list =
+        type === "json" ? data.list : await parser.parseStringPromise(data);
+
+      if (!list) {
+        list = data.data;
+      }
+      const repeatNames = await this.vodResourceRepository.find({
+        vod_name: {
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          $in: list.map((v: any) => v.vod_name),
+        },
+      });
+      const vodResourcesToCreated = list
+        ?.filter((v: any) => !repeatNames.includes(v.vod_name))
+        ?.map((item: any) => {
+          item.vod_pic_screenshot = item.vod_pic_screenshot?.toString();
+          return this.vodResourceRepository.create(item);
+        });
+
+      if (list.length <= 0) {
+        return 0;
+      }
+      await this.vodResourceRepository.persistAndFlush(vodResourcesToCreated);
+      return list.length;
+    } catch (error) {
+      console.error(error);
     }
-
-    await this.vodResourceRepository.persistAndFlush(vodResourcesToCreated);
-
-    return data.list.length;
   }
 
   async bulkInsertFromUpdated(videoCollector: VideoCollector): Promise<void> {
@@ -56,10 +70,11 @@ export default class VodResourceService extends CurdService<VodResource> {
       return;
     }
     const { currentPage, url } = videoCollector;
-    const listUrl = url + "&pg=" + currentPage.toString();
+    const listUrl =
+      url + (url.includes("?") ? "&" : "?") + "pg=" + currentPage.toString();
     console.log({ listUrl });
 
-    const inserted = await this.bulkInsertFromUrl(listUrl);
+    const inserted = await this.bulkInsertFromUrl(listUrl, videoCollector.type);
     if (inserted > 0) {
       await this.videoCollectorService.updateOneWithEffect(videoCollector.id, {
         currentPage: videoCollector.currentPage + 1,

@@ -1,5 +1,5 @@
 import { Service } from "typedi";
-import { create, IPFSHTTPClient } from "ipfs-http-client";
+import { create, IPFSHTTPClient, urlSource } from "ipfs-http-client";
 import { StatResult } from "ipfs-core-types/src/files/index";
 import { unlinkSync, readFileSync } from "fs";
 import { PublishResult } from "ipfs-core-types/src/name";
@@ -45,6 +45,12 @@ export default class IpfsService {
       unlinkSync(filePath);
       return uploadRlt.cid.toString();
     }
+  }
+
+  async addOneFileFromUrl(url: string): Promise<string> {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const uploadRlt = await ipfsClient.add(urlSource(url) as any);
+    return uploadRlt.cid.toString();
   }
 
   publishName(ipfsCid: string): Promise<PublishResult> {

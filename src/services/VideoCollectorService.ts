@@ -19,10 +19,13 @@ export default class VideoCollectorService extends CurdService<VideoCollector> {
   ): Promise<VideoCollector> {
     const videoCollector = await this.updateOne(id, updateVideoCollectorInput);
 
-    this.videoCollectorEmitter.emit(
-      "AfterUpdateOneVideoCollector",
-      videoCollector
-    );
+    setTimeout(() => {
+      this.videoCollectorEmitter.emit(
+        "AfterUpdateOneVideoCollector",
+        videoCollector
+      );
+    }, 10000);
+
     return videoCollector;
   }
 }

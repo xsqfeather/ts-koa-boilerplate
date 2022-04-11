@@ -406,6 +406,7 @@ blockquote {
   color: #000;
   font-size: 14px;
   color: rgba(0, 0, 0, 0.7);
+  padding-right: 5px;
 }
 
 /*-------------------------------
@@ -422,10 +423,13 @@ overlay search
 
 .toggle-wrap {
   position: relative;
+  color: wheat;
 }
 
 .search_toggle {
   cursor: pointer;
+  padding-right: 5px;
+  
 }
 
 .toggle-wrap.active {
@@ -698,7 +702,10 @@ overlay search
 }
 
 .header-top {
-  position: relative !important;
+  position: fixed;
+  width: 100%;
+  z-index: 99999;
+  top: 0;
 }
 
 .navigation-dark .navbar-toggler span {
@@ -871,16 +878,22 @@ overlay search
   padding: 50px 80px;
 }
 
+
 .slider-item {
   margin: 0px 10px;
+  min-height: 500px;
 }
 
 .slider-item img {
   width: 100%;
+  min-height: 500px;
+  height: auto;
 }
 
 .slider-item-content {
   position: relative;
+  min-height: 500px;
+  height: auto;
 }
 
 .slider-post-content {
@@ -1252,6 +1265,7 @@ overlay search
 
 .post-title {
   text-transform: capitalize;
+  word-break: break-all;
 }
 
 .letter-spacing-1 {

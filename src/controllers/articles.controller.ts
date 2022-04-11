@@ -46,7 +46,7 @@ export default class ArticleController {
 
   @Get("/:id")
   getOne(@Params("id") id: string): Promise<Loaded<Article, never>> {
-    return this.articleService.getOne(id);
+    return this.articleService.getOne(+id);
   }
 
   @Post("/")
@@ -62,12 +62,12 @@ export default class ArticleController {
     @Params("id") id: string,
     @Body() updateArticleInput: UpdateArticleInput
   ): Promise<Article> {
-    return this.articleService.updateOne(id, updateArticleInput);
+    return this.articleService.updateOne(+id, updateArticleInput);
   }
 
   @Post("/edit/upload")
   async uploadCover(
-    @Files() files: Record<string, File>,
+    @Files() files: Record<string, any>,
     @Ctx() ctx: Koa.Context
   ): Promise<{
     location?: string;
@@ -98,6 +98,6 @@ export default class ArticleController {
 
   @Delete("/:id")
   async deleteOne(@Params("id") id: string): Promise<Article> {
-    return this.articleService.deleteOne(id);
+    return this.articleService.deleteOne(+id);
   }
 }

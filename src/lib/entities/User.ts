@@ -26,13 +26,13 @@ export class User extends BaseEntity {
   @Property()
   password: string;
 
-  @Property()
+  @Property({ type: "json" })
   roles: string[];
 
-  @Property()
-  profile!: UserProfile;
+  @Property({ type: "json", nullable: true })
+  profile?: UserProfile;
 
-  @Property()
+  @Property({ type: "json" })
   userStatus?: UserStatus = {
     isBlocked: false,
   };

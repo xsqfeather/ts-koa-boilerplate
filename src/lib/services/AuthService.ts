@@ -34,6 +34,7 @@ export default class AuthService {
     success: boolean;
   }> {
     const user = await this.userService.findOneByIdKey(input.idKey);
+    console.log({ user });
 
     if (!user) {
       return {

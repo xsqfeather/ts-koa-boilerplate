@@ -32,7 +32,7 @@ export default class CategoryController {
 
   @Get("/:id")
   getOne(@Params("id") id: string): Promise<Loaded<Category, never>> {
-    return this.categoryService.getOne(id);
+    return this.categoryService.getOne(+id);
   }
 
   @Post("/")
@@ -47,7 +47,7 @@ export default class CategoryController {
     @Params("id") id: string,
     @Body() updateCategoryInput: UpdateCategoryInput
   ): Promise<Category> {
-    return this.categoryService.updateOne(id, updateCategoryInput);
+    return this.categoryService.updateOne(+id, updateCategoryInput);
   }
 
   @Delete("/")
@@ -58,6 +58,6 @@ export default class CategoryController {
 
   @Delete("/:id")
   async deleteOne(@Params("id") id: string): Promise<Category> {
-    return this.categoryService.deleteOne(id);
+    return this.categoryService.deleteOne(+id);
   }
 }

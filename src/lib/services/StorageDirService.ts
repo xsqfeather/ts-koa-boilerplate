@@ -33,7 +33,7 @@ export default class StorageDirService extends CurdService<StorageDir> {
     }
     return this.createOne({
       ...createStorageDirInput,
-      superiorId: superDir.id,
+      superior: superDir.id,
     });
   }
 

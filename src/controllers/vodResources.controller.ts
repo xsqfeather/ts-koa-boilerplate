@@ -32,7 +32,7 @@ export default class VodResourceController {
 
   @Get("/:id")
   getOne(@Params("id") id: string): Promise<Loaded<VodResource, never>> {
-    return this.vodResourceService.getOne(id);
+    return this.vodResourceService.getOne(+id);
   }
 
   @Post("/")
@@ -47,7 +47,7 @@ export default class VodResourceController {
     @Params("id") id: string,
     @Body() updateVodResourceInput: UpdateVodResourceInput
   ): Promise<VodResource> {
-    return this.vodResourceService.updateOne(id, updateVodResourceInput);
+    return this.vodResourceService.updateOne(+id, updateVodResourceInput);
   }
 
   @Delete("/")
@@ -60,6 +60,6 @@ export default class VodResourceController {
 
   @Delete("/:id")
   async deleteOne(@Params("id") id: string): Promise<VodResource> {
-    return this.vodResourceService.deleteOne(id);
+    return this.vodResourceService.deleteOne(+id);
   }
 }

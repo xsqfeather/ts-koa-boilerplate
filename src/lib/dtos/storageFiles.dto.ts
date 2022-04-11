@@ -6,9 +6,9 @@ export class StorageFileListFilter {
 }
 
 export class CreateStorageFileInput {
-  file: File;
+  file: any;
 }
 
 export class UpdateStorageFileInput {
-  file: File;
+  file: any;
 }

@@ -33,7 +33,7 @@ export default class StorageDirController {
 
   @Get("/:id")
   getOne(@Params("id") id: string): Promise<Loaded<StorageDir, never>> {
-    return this.storageDirService.getOne(id);
+    return this.storageDirService.getOne(+id);
   }
 
   @Post("/")
@@ -51,7 +51,7 @@ export default class StorageDirController {
     return this.storageDirService.createOne({
       ...createStorageDirInput,
       path: superDir.path + "/" + createStorageDirInput.name,
-      superiorId: superDir.id,
+      superior: superDir.id,
     });
   }
 
@@ -60,7 +60,7 @@ export default class StorageDirController {
     @Params("id") id: string,
     @Body() updateStorageDirInput: UpdateStorageDirInput
   ): Promise<StorageDir> {
-    return this.storageDirService.updateOne(id, updateStorageDirInput);
+    return this.storageDirService.updateOne(+id, updateStorageDirInput);
   }
 
   @Delete("/")
@@ -73,6 +73,6 @@ export default class StorageDirController {
 
   @Delete("/:id")
   async deleteOne(@Params("id") id: string): Promise<StorageDir> {
-    return this.storageDirService.deleteOne(id);
+    return this.storageDirService.deleteOne(+id);
   }
 }

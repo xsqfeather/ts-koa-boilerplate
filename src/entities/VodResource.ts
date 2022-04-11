@@ -36,7 +36,7 @@ export class VodResource extends BaseEntity {
   @Property({ nullable: true })
   vod_color: string;
 
-  @Property({ nullable: true })
+  @Property({ type: "text", nullable: true })
   vod_content: string;
 
   @Property({ nullable: true })
@@ -129,13 +129,13 @@ export class VodResource extends BaseEntity {
   @Property({ nullable: true })
   vod_play_server: string;
 
-  @Property({ nullable: true })
+  @Property({ type: "text", nullable: true })
   vod_play_url: string;
 
   @Property({ nullable: true })
   vod_plot: string;
 
-  @Property({ nullable: true })
+  @Property({ type: "text", nullable: true })
   vod_plot_detail: string;
 
   @Property({ nullable: true })

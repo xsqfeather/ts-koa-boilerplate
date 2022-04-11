@@ -27,7 +27,7 @@ export default class GoodController {
 
   @Get("/:id")
   getOne(@Params("id") id: string): Promise<Loaded<Good, never>> {
-    return this.goodService.getOne(id);
+    return this.goodService.getOne(+id);
   }
 
   @Post("/")
@@ -40,7 +40,7 @@ export default class GoodController {
     @Params("id") id: string,
     @Body() updateGoodInput: UpdateGoodInput
   ): Promise<Good> {
-    return this.goodService.updateOne(id, updateGoodInput);
+    return this.goodService.updateOne(+id, updateGoodInput);
   }
 
   @Delete("/")
@@ -51,6 +51,6 @@ export default class GoodController {
 
   @Delete("/:id")
   async deleteOne(@Params("id") id: string): Promise<Good> {
-    return this.goodService.deleteOne(id);
+    return this.goodService.deleteOne(+id);
   }
 }

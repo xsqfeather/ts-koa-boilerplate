@@ -27,7 +27,7 @@ export default class UserController {
 
   @Get("/:id")
   getOne(@Params("id") id: string): Promise<Loaded<User, never>> {
-    return this.userService.getOne(id);
+    return this.userService.getOne(+id);
   }
 
   @Post("/")
@@ -40,7 +40,7 @@ export default class UserController {
     @Params("id") id: string,
     @Body() updateUserInput: UpdateUserInput
   ): Promise<User> {
-    return this.userService.updateOne(id, updateUserInput);
+    return this.userService.updateOne(+id, updateUserInput);
   }
 
   @Delete("/")
@@ -51,6 +51,6 @@ export default class UserController {
 
   @Delete("/:id")
   async deleteOne(@Params("id") id: string): Promise<User> {
-    return this.userService.deleteOne(id);
+    return this.userService.deleteOne(+id);
   }
 }

@@ -61,3 +61,10 @@ export const OnTaskCreated = "OnTaskCreated";
 export const OnTaskUpdated = "OnTaskUpdated";
 export const OnTasksDeleted = "OnTasksDeleted";
 export const OnTaskDeleted = "OnTaskDeleted";
+/* vod_types events for socket and emittery */
+export const OnVodTypesListed = "OnVodTypesListed";
+export const OnVodTypeShowed = "OnVodTypeShowed";
+export const OnVodTypeCreated = "OnVodTypeCreated";
+export const OnVodTypeUpdated = "OnVodTypeUpdated";
+export const OnVodTypesDeleted = "OnVodTypesDeleted";
+export const OnVodTypeDeleted = "OnVodTypeDeleted";

@@ -29,7 +29,7 @@ export default class CustomersController {
 
   @Get("/:id")
   getOne(@Params("id") id: string): Promise<Loaded<Visitor, never>> {
-    return this.visitorService.getOne(id);
+    return this.visitorService.getOne(+id);
   }
 
   @Post("/")
@@ -44,7 +44,7 @@ export default class CustomersController {
     @Params("id") id: string,
     @Body() updateVisitorInput: UpdateVisitorInput
   ): Promise<Visitor> {
-    return this.visitorService.updateOne(id, updateVisitorInput);
+    return this.visitorService.updateOne(+id, updateVisitorInput);
   }
 
   @Delete("/")
@@ -55,6 +55,6 @@ export default class CustomersController {
 
   @Delete("/:id")
   async deleteOne(@Params("id") id: string): Promise<Visitor> {
-    return this.visitorService.deleteOne(id);
+    return this.visitorService.deleteOne(+id);
   }
 }

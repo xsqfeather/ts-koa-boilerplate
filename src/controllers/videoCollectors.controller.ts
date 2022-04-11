@@ -32,7 +32,7 @@ export default class VideoCollectorController {
 
   @Get("/:id")
   getOne(@Params("id") id: string): Promise<Loaded<VideoCollector, never>> {
-    return this.videoCollectorService.getOne(id);
+    return this.videoCollectorService.getOne(+id);
   }
 
   @Post("/")
@@ -48,7 +48,7 @@ export default class VideoCollectorController {
     @Body() updateVideoCollectorInput: UpdateVideoCollectorInput
   ): Promise<VideoCollector> {
     return this.videoCollectorService.updateOneWithEffect(
-      id,
+      +id,
       updateVideoCollectorInput
     );
   }
@@ -63,6 +63,6 @@ export default class VideoCollectorController {
 
   @Delete("/:id")
   async deleteOne(@Params("id") id: string): Promise<VideoCollector> {
-    return this.videoCollectorService.deleteOne(id);
+    return this.videoCollectorService.deleteOne(+id);
   }
 }

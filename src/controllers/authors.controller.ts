@@ -27,7 +27,7 @@ export default class AuthorController {
 
   @Get("/:id")
   getOne(@Params("id") id: string): Promise<Loaded<Author, never>> {
-    return this.authorService.getOne(id);
+    return this.authorService.getOne(+id);
   }
 
   @Post("/")
@@ -42,7 +42,7 @@ export default class AuthorController {
     @Params("id") id: string,
     @Body() updateAuthorInput: UpdateAuthorInput
   ): Promise<Author> {
-    return this.authorService.updateOne(id, updateAuthorInput);
+    return this.authorService.updateOne(+id, updateAuthorInput);
   }
 
   @Delete("/")
@@ -53,6 +53,6 @@ export default class AuthorController {
 
   @Delete("/:id")
   async deleteOne(@Params("id") id: string): Promise<Author> {
-    return this.authorService.deleteOne(id);
+    return this.authorService.deleteOne(+id);
   }
 }

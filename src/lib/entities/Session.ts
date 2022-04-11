@@ -4,20 +4,20 @@ import { RuleFact } from "./BlockRule";
 
 @Entity()
 export class Session extends BaseEntity {
-  @Property()
+  @Property({ type: "json", nullable: true })
   identiy: {
     username: string | null;
-    userId: string | null;
+    userId: number | null;
     deviceId: string | null;
     roleName: string | null;
   };
 
-  @Property({ nullable: true })
+  @Property({ type: "json", nullable: true })
   info?: {
     ip: string;
   } | null = null;
 
-  @Property()
+  @Property({ type: "json" })
   ruleFacts: RuleFact[] = [];
 
   @Property()

@@ -1,43 +1,44 @@
 import { Options } from "@mikro-orm/core";
-import { MongoHighlighter } from "@mikro-orm/mongo-highlighter";
+import { TsMorphMetadataProvider } from "@mikro-orm/reflection";
 
 export const development: Options = {
-  type: "mongo",
+  metadataProvider: TsMorphMetadataProvider,
+  type: "postgresql",
   entitiesTs: ["src/entities/**/**.ts", "src/lib/entities/**/**.ts"],
   entities: ["dist/entities/**/**.js", "dist/lib/entities/**/**.js"],
-  dbName: "koa-ts-development",
-  highlighter: new MongoHighlighter(),
-  debug: true,
-  clientUrl: "mongodb://127.0.0.1:27017",
+  host: "localhost",
+  port: 5432,
+  user: "postgres",
+  password: "123666",
+  dbName: "koa_ts_development",
   allowGlobalContext: true,
+  debug: true,
 };
 
 export const test: Options = {
-  type: "mongo",
+  metadataProvider: TsMorphMetadataProvider,
+  type: "postgresql",
   entitiesTs: ["src/entities/**/**.ts", "src/lib/entities/**/**.ts"],
   entities: ["dist/entities/**/**.js", "dist/lib/entities/**/**.js"],
-  dbName: "koa-ts-test",
-  seeder: {
-    pathTs: "src/seeders/test",
-    path: "dist/seeders/test",
-  },
-  highlighter: new MongoHighlighter(),
-  debug: true,
-  clientUrl: "mongodb://127.0.0.1:27017",
+  host: "localhost",
+  port: 5432,
+  user: "postgres",
+  password: "123666",
+  dbName: "koa_ts_test",
   allowGlobalContext: true,
+  debug: true,
 };
 
 export const production: Options = {
-  type: "mongo",
+  metadataProvider: TsMorphMetadataProvider,
+  type: "postgresql",
   entitiesTs: ["src/entities/**/**.ts", "src/lib/entities/**/**.ts"],
   entities: ["dist/entities/**/**.js", "dist/lib/entities/**/**.js"],
-  dbName: "koa-ts-test",
-  seeder: {
-    pathTs: "src/seeders",
-    path: "dist/seeders",
-  },
-  highlighter: new MongoHighlighter(),
-  debug: true,
-  clientUrl: "mongodb://127.0.0.1:27017",
+  host: "localhost",
+  port: 5432,
+  user: "postgres",
+  password: "123666",
+  dbName: "koa_ts_production",
   allowGlobalContext: true,
+  debug: true,
 };

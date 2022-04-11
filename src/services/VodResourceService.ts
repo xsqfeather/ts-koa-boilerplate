@@ -6,6 +6,8 @@ import axios from "axios";
 import { VideoCollector } from "../entities/VideoCollector";
 import DI from "../lib/DI";
 import VideoCollectorService from "./VideoCollectorService";
+import VodTypeService from "./VodTypeService";
+import { Loaded } from "@mikro-orm/core";
 
 @Service()
 export default class VodResourceService extends CurdService<VodResource> {
@@ -14,8 +16,18 @@ export default class VodResourceService extends CurdService<VodResource> {
   @Inject(() => VideoCollectorService)
   private videoCollectorService: VideoCollectorService;
 
+  @Inject(() => VodTypeService)
+  private vodTypeService: VodTypeService;
+
   constructor() {
     super(VodResource);
+  }
+
+  async findHits(limit = 5): Promise<Loaded<VodResource, never>[]> {
+    return this.vodResourceRepository.find(
+      {},
+      { limit, orderBy: { vod_hits: "DESC" } }
+    );
   }
 
   async bulkInsertFromUrl(url: string, type = "json"): Promise<number> {
@@ -41,6 +53,27 @@ export default class VodResourceService extends CurdService<VodResource> {
           $in: list.map((v: any) => v.vod_name),
         },
       });
+
+      const repeatTypeNames = list.map((v: any) => v.type_name);
+      for (let index = 0; index < repeatTypeNames.length; index++) {
+        const typeName = repeatTypeNames[index];
+        console.log("====================================");
+
+        console.log({ typeName });
+
+        if (!typeName) {
+          continue;
+        }
+        const count = await this.vodTypeService.countByName(typeName);
+        if (count > 1) {
+          await this.vodTypeService.deleteByName(typeName);
+        }
+        if (count === 0) {
+          await this.vodTypeService.createOne({
+            name: typeName,
+          });
+        }
+      }
       const vodResourcesToCreated = list
         ?.filter((v: any) => !repeatNames.includes(v.vod_name))
         ?.map((item: any) => {

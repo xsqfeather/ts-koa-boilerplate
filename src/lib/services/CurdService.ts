@@ -47,19 +47,13 @@ export default class CurdService<T> {
     if (filter.q) {
       query["$or"] = [
         {
-          vod_name: {
-            $regex: new RegExp(`${filter.q}.*`),
-          },
+          vod_name: new RegExp(`${filter.q}.*`),
         },
         {
-          type_name: {
-            $regex: new RegExp(`${filter.q}.*`),
-          },
+          type_name: new RegExp(`${filter.q}.*`),
         },
         {
-          vod_remarks: {
-            $regex: new RegExp(`${filter.q}.*`),
-          },
+          vod_remarks: new RegExp(`${filter.q}.*`),
         },
       ];
     }
@@ -75,6 +69,7 @@ export default class CurdService<T> {
         orderBy: {
           [sort[0]]: sort[1],
         } as QueryOrderMap<T>,
+        cache: true,
       }
     );
     console.log(`after ${this.className} emitter`);
@@ -91,7 +86,7 @@ export default class CurdService<T> {
     }
   }
 
-  async putOne(id: string, input: RequiredEntityData<T>): Promise<T | null> {
+  async putOne(id: number, input: RequiredEntityData<T>): Promise<T | null> {
     const record = await this.repository.findOne(id as FilterQuery<T>);
     if (!record) {
       return null;
@@ -110,7 +105,7 @@ export default class CurdService<T> {
     return record;
   }
 
-  async removeMany(ids: string[]): Promise<T[]> {
+  async removeMany(ids: number[]): Promise<T[]> {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const records = this.repository.find({
       id: { $in: ids },
@@ -124,11 +119,11 @@ export default class CurdService<T> {
     return records;
   }
 
-  async getById(id: string): Promise<Loaded<T, never>> {
+  async getById(id: number): Promise<Loaded<T, never>> {
     return this.repository.findOne(id as FilterQuery<T>);
   }
 
-  async removeOne(id: string): Promise<T> {
+  async removeOne(id: number): Promise<T> {
     const record = this.repository.findOne(id as FilterQuery<T>);
     await this.repository.nativeUpdate(
       { id } as FilterQuery<T>,
@@ -143,7 +138,7 @@ export default class CurdService<T> {
     return this.getPaged(listQuery);
   }
 
-  getOne(id: string): Promise<Loaded<T, never>> {
+  getOne(id: number): Promise<Loaded<T, never>> {
     return this.getById(id);
   }
 
@@ -151,15 +146,15 @@ export default class CurdService<T> {
     return this.insertOne(input);
   }
 
-  async updateOne(id: string, input: RequiredEntityData<T>): Promise<T | null> {
+  async updateOne(id: number, input: RequiredEntityData<T>): Promise<T | null> {
     return this.putOne(id, input);
   }
 
-  async deleteMany(ids: string[]): Promise<T[]> {
+  async deleteMany(ids: number[]): Promise<T[]> {
     return this.removeMany(ids);
   }
 
-  async deleteOne(id: string): Promise<T> {
+  async deleteOne(id: number): Promise<T> {
     return this.removeOne(id);
   }
 }

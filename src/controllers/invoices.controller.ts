@@ -29,7 +29,7 @@ export default class InvoiceController {
 
   @Get("/:id")
   getOne(@Params("id") id: string): Promise<Loaded<Invoice, never>> {
-    return this.invoiceService.getOne(id);
+    return this.invoiceService.getOne(+id);
   }
 
   @Post("/")
@@ -44,7 +44,7 @@ export default class InvoiceController {
     @Params("id") id: string,
     @Body() updateInvoiceInput: UpdateInvoiceInput
   ): Promise<Invoice> {
-    return this.invoiceService.updateOne(id, updateInvoiceInput);
+    return this.invoiceService.updateOne(+id, updateInvoiceInput);
   }
 
   @Delete("/")
@@ -55,6 +55,6 @@ export default class InvoiceController {
 
   @Delete("/:id")
   async deleteOne(@Params("id") id: string): Promise<Invoice> {
-    return this.invoiceService.deleteOne(id);
+    return this.invoiceService.deleteOne(+id);
   }
 }

@@ -27,7 +27,7 @@ export default class CommandController {
 
   @Get("/:id")
   getOne(@Params("id") id: string): Promise<Loaded<Order, never>> {
-    return this.orderService.getOne(id);
+    return this.orderService.getOne(+id);
   }
 
   @Post("/")
@@ -40,7 +40,7 @@ export default class CommandController {
     @Params("id") id: string,
     @Body() updateOrderInput: UpdateOrderInput
   ): Promise<Order> {
-    return this.orderService.updateOne(id, updateOrderInput);
+    return this.orderService.updateOne(+id, updateOrderInput);
   }
 
   @Delete("/")
@@ -51,6 +51,6 @@ export default class CommandController {
 
   @Delete("/:id")
   async deleteOne(@Params("id") id: string): Promise<Order> {
-    return this.orderService.deleteOne(id);
+    return this.orderService.deleteOne(+id);
   }
 }

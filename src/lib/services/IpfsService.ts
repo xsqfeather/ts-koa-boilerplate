@@ -30,7 +30,7 @@ export default class IpfsService {
     }
   }
 
-  async addOneFile(file: File): Promise<string> {
+  async addOneFile(file: any): Promise<string> {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const filePath = (file as any)?.path;
     if (filePath) {

@@ -52,7 +52,7 @@ export default class StorageFileController {
 
   @Get("/:id")
   getOne(@Params("id") id: string): Promise<Loaded<StorageFile, never>> {
-    return this.storageFileService.getOne(id);
+    return this.storageFileService.getOne(+id);
   }
 
   @Post("/")
@@ -64,7 +64,7 @@ export default class StorageFileController {
 
   @Post("/upload")
   async uploadFile(
-    @Files() files: Record<string, File>,
+    @Files() files: Record<string, any>,
     @Ctx() ctx: Koa.Context
   ): Promise<{
     location?: string;
@@ -92,7 +92,7 @@ export default class StorageFileController {
     @Params("id") id: string,
     @Body() updateStorageFileInput: UpdateStorageFileInput
   ): Promise<StorageFile> {
-    return this.storageFileService.updateOne(id, updateStorageFileInput);
+    return this.storageFileService.updateOne(+id, updateStorageFileInput);
   }
 
   @Delete("/")
@@ -105,6 +105,6 @@ export default class StorageFileController {
 
   @Delete("/:id")
   async deleteOne(@Params("id") id: string): Promise<StorageFile> {
-    return this.storageFileService.deleteOne(id);
+    return this.storageFileService.deleteOne(+id);
   }
 }

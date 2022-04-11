@@ -11,7 +11,7 @@ export class CreateStorageDirInput {
 
   @IsString()
   @IsOptional()
-  superiorId?: string;
+  superiorId?: number;
 }
 
 export class UpdateStorageDirInput {
@@ -21,5 +21,5 @@ export class UpdateStorageDirInput {
 
   @IsString()
   @IsOptional()
-  superior?: string;
+  superior?: number;
 }

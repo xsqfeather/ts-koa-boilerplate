@@ -32,7 +32,7 @@ export default class BlockRuleController {
 
   @Get("/:id")
   getOne(@Params("id") id: string): Promise<Loaded<BlockRule, never>> {
-    return this.blockRuleService.getOne(id);
+    return this.blockRuleService.getOne(+id);
   }
 
   @Post("/")
@@ -47,7 +47,7 @@ export default class BlockRuleController {
     @Params("id") id: string,
     @Body() updateBlockRuleInput: UpdateBlockRuleInput
   ): Promise<BlockRule> {
-    return this.blockRuleService.updateOne(id, updateBlockRuleInput);
+    return this.blockRuleService.updateOne(+id, updateBlockRuleInput);
   }
 
   @Delete("/")
@@ -60,6 +60,6 @@ export default class BlockRuleController {
 
   @Delete("/:id")
   async deleteOne(@Params("id") id: string): Promise<BlockRule> {
-    return this.blockRuleService.deleteOne(id);
+    return this.blockRuleService.deleteOne(+id);
   }
 }

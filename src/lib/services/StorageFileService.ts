@@ -31,7 +31,7 @@ export default class StorageFileService extends CurdService<StorageFile> {
     return this.ipfsService.catFile(storageFile.ipfsCid);
   }
 
-  async addOnePublicFile(file: File, dir: StorageDir): Promise<StorageFile> {
+  async addOnePublicFile(file: any, dir: StorageDir): Promise<StorageFile> {
     const fileNumber = nanoid();
     const exts = file.name.split(".");
     const ext = exts[exts.length - 1];
@@ -49,7 +49,7 @@ export default class StorageFileService extends CurdService<StorageFile> {
     });
   }
 
-  async addOnePublicImage(file: File): Promise<{
+  async addOnePublicImage(file: any): Promise<{
     success: boolean;
     uploaded?: StorageFile;
     reason?: string;
@@ -82,7 +82,7 @@ export default class StorageFileService extends CurdService<StorageFile> {
     });
   }
 
-  async addOnePublicVideo(file: File): Promise<{
+  async addOnePublicVideo(file: any): Promise<{
     success: boolean;
     uploaded?: StorageFile;
     reason?: string;

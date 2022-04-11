@@ -27,7 +27,7 @@ export default class TaskController {
 
   @Get("/:id")
   getOne(@Params("id") id: string): Promise<Loaded<Task, never>> {
-    return this.taskService.getOne(id);
+    return this.taskService.getOne(+id);
   }
 
   @Post("/")
@@ -40,7 +40,7 @@ export default class TaskController {
     @Params("id") id: string,
     @Body() updateTaskInput: UpdateTaskInput
   ): Promise<Task> {
-    return this.taskService.updateOne(id, updateTaskInput);
+    return this.taskService.updateOne(+id, updateTaskInput);
   }
 
   @Delete("/")
@@ -51,6 +51,6 @@ export default class TaskController {
 
   @Delete("/:id")
   async deleteOne(@Params("id") id: string): Promise<Task> {
-    return this.taskService.deleteOne(id);
+    return this.taskService.deleteOne(+id);
   }
 }

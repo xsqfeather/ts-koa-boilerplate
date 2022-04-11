@@ -27,7 +27,7 @@ export default class ReviewController {
 
   @Get("/:id")
   getOne(@Params("id") id: string): Promise<Loaded<Review, never>> {
-    return this.reviewService.getOne(id);
+    return this.reviewService.getOne(+id);
   }
 
   @Post("/")
@@ -42,7 +42,7 @@ export default class ReviewController {
     @Params("id") id: string,
     @Body() updateReviewInput: UpdateReviewInput
   ): Promise<Review> {
-    return this.reviewService.updateOne(id, updateReviewInput);
+    return this.reviewService.updateOne(+id, updateReviewInput);
   }
 
   @Delete("/")
@@ -53,6 +53,6 @@ export default class ReviewController {
 
   @Delete("/:id")
   async deleteOne(@Params("id") id: string): Promise<Review> {
-    return this.reviewService.deleteOne(id);
+    return this.reviewService.deleteOne(+id);
   }
 }

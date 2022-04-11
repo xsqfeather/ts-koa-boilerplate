@@ -19,7 +19,7 @@ export class StorageFile extends BaseEntity {
   @Property({ nullable: true })
   magnet: string;
 
-  @Property()
+  @Property({ type: "json" })
   otherUrls: [];
 
   @Property()

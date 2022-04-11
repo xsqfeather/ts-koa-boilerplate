@@ -29,7 +29,7 @@ export default class ProductController {
 
   @Get("/:id")
   getOne(@Params("id") id: string): Promise<Loaded<Product, never>> {
-    return this.productService.getOne(id);
+    return this.productService.getOne(+id);
   }
 
   @Post("/")
@@ -44,7 +44,7 @@ export default class ProductController {
     @Params("id") id: string,
     @Body() updateProductInput: UpdateProductInput
   ): Promise<Product> {
-    return this.productService.updateOne(id, updateProductInput);
+    return this.productService.updateOne(+id, updateProductInput);
   }
 
   @Delete("/")
@@ -55,6 +55,6 @@ export default class ProductController {
 
   @Delete("/:id")
   async deleteOne(@Params("id") id: string): Promise<Product> {
-    return this.productService.deleteOne(id);
+    return this.productService.deleteOne(+id);
   }
 }

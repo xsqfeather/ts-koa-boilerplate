@@ -29,7 +29,7 @@ export default class SessionController {
 
   @Get("/:id")
   getOne(@Params("id") id: string): Promise<Loaded<Session, never>> {
-    return this.sessionService.getOne(id);
+    return this.sessionService.getOne(+id);
   }
 
   @Post("/")
@@ -44,7 +44,7 @@ export default class SessionController {
     @Params("id") id: string,
     @Body() updateSessionInput: UpdateSessionInput
   ): Promise<Session> {
-    return this.sessionService.updateOne(id, updateSessionInput);
+    return this.sessionService.updateOne(+id, updateSessionInput);
   }
 
   @Delete("/")
@@ -55,6 +55,6 @@ export default class SessionController {
 
   @Delete("/:id")
   async deleteOne(@Params("id") id: string): Promise<Session> {
-    return this.sessionService.deleteOne(id);
+    return this.sessionService.deleteOne(+id);
   }
 }

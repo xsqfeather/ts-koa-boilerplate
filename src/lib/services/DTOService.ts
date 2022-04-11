@@ -46,7 +46,7 @@ export default class DTOService {
     return bcrypt.compareSync(plainText, hash);
   }
 
-  createToken(sessionId: string): string {
+  createToken(sessionId: number): string {
     return JWT.sign({ sessionId }, machineIdSync(), { expiresIn: "1d" });
   }
 

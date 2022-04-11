@@ -14,7 +14,7 @@ export default class VideoCollectorService extends CurdService<VideoCollector> {
   }
 
   async updateOneWithEffect(
-    id: string,
+    id: number,
     updateVideoCollectorInput: UpdateVideoCollectorInput
   ): Promise<VideoCollector> {
     const videoCollector = await this.updateOne(id, updateVideoCollectorInput);

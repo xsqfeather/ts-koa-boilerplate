@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <% include('head-content') %>
+        <title>巫师影视网</title>
+</head>
+
+<body>
+
+    <% include('header') %>
+
+
+
+        <br />
+        <br />
+        <br /><br />
+
+
+        <section class="section-padding">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="row">
+                            <% for(var i=0; i < types.length; i++){ %>
+
+                                <div class="col-lg-3 col-md-6">
+                                    <article class="post-grid mb-5">
+
+                                        <h3 class="post-title mt-1"><a class="btn btn-primary" href="/types/<%=page%>/<%=types[i] %>">
+                                                <%= types[i] %>
+                                            </a></h3>
+
+                                    </article>
+                                </div>
+                                <% } %>
+                        </div>
+                    </div>
+                    <div class="m-auto">
+                        <div class="pagination mt-5 pt-4">
+                            <ul class="list-inline ">
+                                {{if page!=1}}
+                                <li class="list-inline-item"><a href="/types/<%- page-1 %>" class="prev-posts"><i
+                                            class="ti-arrow-left"></i></a></li>
+                                {{/if}}
+                                {{if page>=3}}
+                                <li class="list-inline-item"><a href="/types/1" class="prev-posts">1</a></li>
+                                <li class="list-inline-item"><a href="/types/2" class="prev-posts">2</a></li>
+                                <li class="list-inline-item"><a href="/types/27" class="prev-posts">...</a></li>
+                                {{/if}}
+                                {{if page>4}}
+                                <li class="list-inline-item"><a href="/types/<%- page-3 %>" class="prev-posts">{{@
+                                        page-2 }}</a></li>
+                                <li class="list-inline-item"><a href="/types/<%- page-2 %>" class="prev-posts">{{@
+                                        page-1 }}</a></li>
+                                {{/if}}
+
+
+                                <li class="list-inline-item">
+                                    <a href="#" class="active">{{@ page }}</a>
+                                </li>
+                                <li class="list-inline-item"><a href="/types/<%- page+1 %>" class="prev-posts">{{@
+                                        page+1 }}</a></li>
+                                <li class="list-inline-item"><a href="/types/<%- page+2 %>" class="prev-posts">{{@
+                                        page+2 }}</a></li>
+                                <li class="list-inline-item"><a href="/types/<%- page+200 %>" class="prev-posts">...</a>
+                                </li>
+                                <li class="list-inline-item"><a href="/types/<%- page+1 %>" class="prev-posts"><i
+                                            class="ti-arrow-right"></i></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <% include('footer') %>
+
+</body>
+
+</html>

@@ -57,9 +57,15 @@ export default class UserService extends CurdService<User> {
   findOneByIdKey(idKey: string): Promise<User> {
     return this.userRepository.findOne({
       $or: [
-        { "profile.username": idKey },
         {
-          "profile.email": idKey,
+          profile: {
+            username: idKey,
+          },
+        },
+        {
+          profile: {
+            email: idKey,
+          },
         },
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
       ] as any,

@@ -21,12 +21,9 @@ export class StorageDir extends BaseEntity {
   @ManyToOne(() => StorageDir, {
     nullable: true,
     lazy: true,
-    referenceColumnName: "superiorId",
+    referenceColumnName: "id",
   })
   superior?: StorageDir;
-
-  @Property({ nullable: true })
-  superiorId: string;
 
   @Property()
   status: StorageDirStatus = StorageDirStatus.Creating;

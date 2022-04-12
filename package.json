@@ -105,9 +105,9 @@
     "build": "npm run lint && npm run clean && tsc",
     "start": "NODE_ENV=production node dist/app.js",
     "lint": "eslint --ext .ts src",
-    "migration:create": "ts-node ./scripts/seedCreator.ts",
-    "migration:down": "ts-node ./scripts/migration/up.ts",
-    "migration:up": "ts-node ..",
+    "migration:create": "yarn mikro-orm migration:create",
+    "migration:down": "yarn mikro-orm migration:down",
+    "migration:up": "yarn mikro-orm migration:up",
     "admin:set": "ts-node ./scripts/adminSet.ts",
     "resource:create": "ts-node ./scripts/templateBuilder.ts"
   },

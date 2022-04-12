@@ -30,6 +30,12 @@ export default class VodResourceService extends CurdService<VodResource> {
     );
   }
 
+  async countByType(typeName: string): Promise<number> {
+    return this.vodResourceRepository.count({
+      type_name: typeName,
+    });
+  }
+
   async bulkInsertFromUrl(url: string, type = "json"): Promise<number> {
     try {
       const rlt = await axios.get(url);
@@ -57,9 +63,6 @@ export default class VodResourceService extends CurdService<VodResource> {
       const repeatTypeNames = list.map((v: any) => v.type_name);
       for (let index = 0; index < repeatTypeNames.length; index++) {
         const typeName = repeatTypeNames[index];
-        console.log("====================================");
-
-        console.log({ typeName });
 
         if (!typeName) {
           continue;

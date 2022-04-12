@@ -79,13 +79,33 @@ export default function useOtherRoutes(
     }
     const vodTypeService = Container.get(VodTypeService);
 
-    const [types] = await vodTypeService.getList({
-      range: [0, 99],
+    const types = await vodTypeService.all();
+    const typeCount = {};
+    for (let index = 0; index < types.length; index++) {
+      const type = types[index];
+      typeCount[type.name] = await vodResourceService.countByType(type.name);
+    }
+
+    const next = await vodResourceService.getById(+post.id + 1);
+    const prev = await vodResourceService.getById(+post.id - 1 || 0);
+
+    const [maybeLikes, maybeLikesCount] = await vodResourceService.getList({
+      range: [0, 2],
+      sort: ["vod_time", "DESC"],
+      filter: {
+        type_name: post.type_name,
+      },
     });
+
     await ctx.render("posts/show.art", {
       post,
       m3u8Addresses,
       types: types.map((type) => type.name || "未知"),
+      typeCount,
+      next,
+      prev,
+      maybeLikes,
+      maybeLikesCount,
     });
   });
 

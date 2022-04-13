@@ -57,6 +57,9 @@ export default class CurdService<T> {
         },
       ];
     }
+    if (filter.type_name) {
+      query.type_name = filter.type_name;
+    }
 
     const records = await this.repository.findAndCount(
       {

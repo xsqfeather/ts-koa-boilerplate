@@ -4,7 +4,7 @@
 <head>
     <% include('head-content') %>
         <title>
-            <%=post.vod_name %>
+            巫师影视网-<%=post.vod_name %>
         </title>
 
 <body>
@@ -130,47 +130,25 @@
                                 你可能也喜欢
                             </h3>
                             <div class="row">
-                                <div class="col-lg-4 col-md-4 col-sm-6">
-                                    <div class="post-block-wrapper mb-4 mb-lg-0">
-                                        <a href="/blog-single.html">
-                                            <img class="img-fluid" src="/statics/images/fashion/img-1.jpg"
-                                                alt="post-thumbnail" />
-                                        </a>
-                                        <div class="post-content mt-3">
-                                            <h5>
-                                                <a href="/blog-single.html">Intel’s new smart glasses actually look
-                                                    good</a>
-                                            </h5>
+                                <% for(var i=0; i < maybeLikes.length; i++){ %>
+                                    <div class="col-lg-4 col-md-4 col-sm-6">
+                                        <div class="post-block-wrapper mb-4 mb-lg-0">
+                                            <a href="/posts/<%=maybeLikes[i].id %>">
+                                                <img class="img-fluid" src="<%= maybeLikes[i].vod_pic %>"
+                                                    alt="post-thumbnail" />
+                                            </a>
+                                            <div class="post-content mt-3">
+                                                <h5>
+                                                    <a href="/posts/<%=maybeLikes[i].id %>">
+                                                        <%= maybeLikes[i].vod_name %>
+                                                    </a>
+                                                </h5>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="col-lg-4 col-md-4 col-sm-6">
-                                    <div class="post-block-wrapper mb-4 mb-lg-0">
-                                        <a href="/blog-single.html">
-                                            <img class="img-fluid" src="/statics/images/fashion/img-2.jpg"
-                                                alt="post-thumbnail" />
-                                        </a>
-                                        <div class="post-content mt-3">
-                                            <h5>
-                                                <a href="/blog-single.html">Free Two-Hour Delivery From Whole Foods</a>
-                                            </h5>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-4 col-md-4 col-sm-6">
-                                    <div class="post-block-wrapper">
-                                        <a href="/blog-single.html">
-                                            <img class="img-fluid" src="/statics/images/fashion/img-3.jpg"
-                                                alt="post-thumbnail" />
-                                        </a>
-                                        <div class="post-content mt-3">
-                                            <h5>
-                                                <a href="/blog-single.html">Snow and Freezing Rain in Paris Forces
-                                                    the</a>
-                                            </h5>
-                                        </div>
-                                    </div>
-                                </div>
+                                    <% } %>
+
+
                             </div>
                         </div>
 
@@ -268,36 +246,47 @@
                                 </div>
 
                                 <div class="sidebar-widget mb-5 ">
-                                    <h4 class="text-center widget-title">Trending Posts</h4>
+                                    <h4 class="text-center widget-title">
+                                        <%= post.type_name %>热门
+                                    </h4>
 
                                     <div class="sidebar-post-item-big">
-                                        <a href="/blog-single.html"><img src="/statics/images/news/img-1.jpg" alt=""
-                                                class="img-fluid"></a>
+                                        <a href="/posts/<%=typeTrends[0].id %>"><img src="<%=typeTrends[0].vod_pic %>"
+                                                alt="<%=typeTrends[0].vod_name %>" class="img-fluid"></a>
                                         <div class="mt-3 media-body">
-                                            <span class="text-muted letter-spacing text-uppercase font-sm">September 10,
-                                                2019</span>
-                                            <h4><a href="/blog-single.html">Meeting With Clarissa, Founder Of Purple
-                                                    Conversation App</a></h4>
+                                            <span class="text-muted letter-spacing text-uppercase font-sm">
+                                                <%=typeTrends[0].vod_time %>
+                                            </span>
+                                            <h4><a href="/posts/<%=typeTrends[0].id %>">
+                                                    <%=typeTrends[0].vod_name %>
+                                                </a></h4>
                                         </div>
                                     </div>
 
                                     <div class="media border-bottom py-3 sidebar-post-item">
-                                        <a href="/#"><img class="mr-4" src="/statics/images/news/thumb-1.jpg"
-                                                alt=""></a>
+                                        <a href="/posts/<%=typeTrends[1].id %>"><img class="mr-4"
+                                                src="<%=typeTrends[1].vod_pic %>"
+                                                alt="<%=typeTrends[1].vod_name %>"></a>
                                         <div class="media-body">
-                                            <span class="text-muted letter-spacing text-uppercase font-sm">September 10,
-                                                2019</span>
-                                            <h4><a href="/blog-single.html">Thoughtful living in los Angeles</a></h4>
+                                            <span class="text-muted letter-spacing text-uppercase font-sm">
+                                                <%=typeTrends[1].vod_time %>
+                                            </span>
+                                            <h4><a href="/posts/<%=typeTrends[1].id %>">
+                                                    <%=typeTrends[1].vod_name %>
+                                                </a></h4>
                                         </div>
                                     </div>
 
                                     <div class="media py-3 sidebar-post-item">
-                                        <a href="/#"><img class="mr-4" src="/statics/images/news/thumb-2.jpg"
-                                                alt=""></a>
+                                        <a href="/posts/<%=typeTrends[2].id %>"><img class="mr-4"
+                                                src="<%=typeTrends[2].vod_pic %>" alt=""></a>
                                         <div class="media-body">
-                                            <span class="text-muted letter-spacing text-uppercase font-sm">September 10,
-                                                2019</span>
-                                            <h4><a href="/blog-single.html">Vivamus molestie gravida turpis.</a></h4>
+                                            <span class="text-muted letter-spacing text-uppercase font-sm">
+                                                <%=typeTrends[2].vod_time %>
+                                            </span>
+                                            <h4><a href="/posts/<%=typeTrends[2].id %>">
+                                                    <%=typeTrends[2].vod_name %>
+                                                </a></h4>
                                         </div>
                                     </div>
                                 </div>
@@ -308,8 +297,8 @@
                                     <ul class="list-unstyled">
                                         <% for(var i=0; i < types.length; i++){ %>
                                             <li class="align-items-center d-flex justify-content-between">
-                                                <a href="/#">{{#types[i]}}</a>
-                                                <span>{{#typeCount[types[i]] }}</span>
+                                                <a href="/type_posts/{{#types[i].id}}/1">{{#types[i].name}}</a>
+                                                <span>{{#typeCount[types[i].name] }}</span>
                                             </li>
                                             <% } %>
 

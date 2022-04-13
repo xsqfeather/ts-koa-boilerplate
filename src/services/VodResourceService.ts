@@ -30,6 +30,13 @@ export default class VodResourceService extends CurdService<VodResource> {
     );
   }
 
+  async findOneAndUpdateHit(id: number): Promise<Loaded<VodResource, never>> {
+    const vod = await this.getById(id);
+    vod.vod_hits = vod.vod_hits + 1;
+    await this.vodResourceRepository.persistAndFlush(vod);
+    return vod;
+  }
+
   async countByType(typeName: string): Promise<number> {
     return this.vodResourceRepository.count({
       type_name: typeName,

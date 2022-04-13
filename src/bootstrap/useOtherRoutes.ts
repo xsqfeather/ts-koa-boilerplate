@@ -68,7 +68,7 @@ export default function useOtherRoutes(
   otherRouter.get("/posts/:id", async (ctx: Context) => {
     const { id } = ctx.params;
     const vodResourceService = Container.get(VodResourceService);
-    const post = await vodResourceService.getById(+id);
+    const post = await vodResourceService.findOneAndUpdateHit(+id);
     const urlWords = post.vod_play_url.split("$");
     const m3u8Addresses = [];
     for (let index = 0; index < urlWords.length; index++) {
@@ -90,8 +90,16 @@ export default function useOtherRoutes(
     const prev = await vodResourceService.getById(+post.id - 1 || 0);
 
     const [maybeLikes, maybeLikesCount] = await vodResourceService.getList({
-      range: [0, 2],
+      range: [0, 5],
       sort: ["vod_time", "DESC"],
+      filter: {
+        type_name: post.type_name,
+      },
+    });
+
+    const [typeTrends, typeTrendsCount] = await vodResourceService.getList({
+      range: [0, 2],
+      sort: ["vod_hits", "DESC"],
       filter: {
         type_name: post.type_name,
       },
@@ -100,12 +108,14 @@ export default function useOtherRoutes(
     await ctx.render("posts/show.art", {
       post,
       m3u8Addresses,
-      types: types.map((type) => type.name || "未知"),
+      types,
       typeCount,
       next,
       prev,
       maybeLikes,
       maybeLikesCount,
+      typeTrends,
+      typeTrendsCount,
     });
   });
 
@@ -115,16 +125,50 @@ export default function useOtherRoutes(
 
     const types = await vodTypeService.all();
 
-    const typeNames = types.map((type) => type.name || "未知");
-    for (let index = 0; index < typeNames.length; index++) {
-      const count = await vodTypeService.countByName(typeNames[index]);
-      if (count > 1) {
-        await vodTypeService.deleteByName(typeNames[index]);
-      }
-    }
     await ctx.render("type/index.art", {
-      types: typeNames,
+      types,
       page: parseInt(page),
+    });
+  });
+
+  otherRouter.get("/type_posts/:type/:page", async (ctx: Context) => {
+    const { page = 1, type } = ctx.params;
+    const vodTypeService = Container.get(VodTypeService);
+    const vodResourceService = Container.get(VodResourceService);
+
+    const vodType = await vodTypeService.getById(type);
+
+    const types = await vodTypeService.all();
+    const typeCount = {};
+    for (let index = 0; index < types.length; index++) {
+      const type = types[index];
+      typeCount[type.name] = await vodResourceService.countByType(type.name);
+    }
+
+    const [typeTrends, typeTrendsCount] = await vodResourceService.getList({
+      range: [0, 2],
+      sort: ["vod_hits", "DESC"],
+      filter: {
+        type_name: vodType.name,
+      },
+    });
+
+    const [vodResources, total] = await vodResourceService.getList({
+      range: [(page - 1) * 100, page * 100 - 1],
+      sort: ["vod_time", "DESC"],
+      filter: {
+        type_name: vodType.name,
+      },
+    });
+    await ctx.render("type/list.art", {
+      vodType,
+      types,
+      typeCount,
+      page: parseInt(page),
+      typeTrends,
+      typeTrendsCount,
+      vodResources,
+      total,
     });
   });
 

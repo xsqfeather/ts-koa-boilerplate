@@ -145,7 +145,7 @@
                                         <% for(var i=0; i < types.length; i++){ %>
                                             <li class="align-items-center d-flex justify-content-between">
                                                 <a href="/type_posts/{{#types[i].id}}/1">{{#types[i].name}}</a>
-                                                <span>{{#typeCount[types[i].name] }}</span>
+                                                <span  style="min-width:80px">{{#typeCount[types[i].name] }}</span>
                                             </li>
                                             <% } %>
 
@@ -174,7 +174,7 @@
 
 
 
-
+ <% include('footer') %>
 </body>
 
 </html>

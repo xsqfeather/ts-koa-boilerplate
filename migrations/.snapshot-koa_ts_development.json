@@ -1095,6 +1095,15 @@
           "primary": false,
           "nullable": false,
           "mappedType": "string"
+        },
+        "count": {
+          "name": "count",
+          "type": "bigint",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "mappedType": "bigint"
         }
       },
       "name": "vod_type",

@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <% include('head-content') %>
+        <title>巫师影视网-搜索词：{{#search}}</title>
+</head>
+
+<body>
+
+    <% include('header') %>
+
+        <br />
+        <br />
+        <br />
+        <br />
+
+
+
+        <div class="breadcrumb-wrapper">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="text-center">
+                            <h2 class="lg-title">搜索词：{{#search}}</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <section class="section-padding">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 col-md-12 col-sm-12 col-xs-12">
+                        <div class="row">
+                            <% for(var i=0; i < vodResources.length; i++){ %>
+
+                                <div class="col-lg-3 col-md-6">
+                                    <article class="post-grid mb-5">
+                                        <a class="post-thumb mb-4 d-block" href="/posts/<%=vodResources[i].id %>">
+                                            <img src="<%= vodResources[i].vod_pic %>" alt="" class="img-fluid w-100">
+                                        </a>
+                                        <span
+                                            class="cat-name text-color font-extra text-sm text-uppercase letter-spacing-1">
+                                            <%= vodResources[i].type_name %>
+                                        </span>
+                                        <h3 class="post-title mt-1"><a href="/posts/<%=vodResources[i].id %>">
+                                                <%= vodResources[i].vod_name %>
+                                            </a></h3>
+                                        <span class="text-muted letter-spacing text-uppercase font-sm">更新于 <%=
+                                                vodResources[i].vod_time %></span>
+                                    </article>
+                                </div>
+                                <% } %>
+                        </div>
+
+                        <div class="pagination mt-5 pt-4">
+                            <ul class="list-inline ">
+                                {{if page!=1}}
+                                <li class="list-inline-item"><a href="/search/<%- page-1 %>?q={{#search}}"
+                                        class="prev-posts"><i class="ti-arrow-left"></i></a></li>
+                                {{/if}}
+                                {{if page>=3}}
+                                <li class="list-inline-item"><a href="/search/1?q={{#search}}" class="prev-posts">1</a>
+                                </li>
+                                <li class="list-inline-item"><a href="/search/2?q={{#search}}" class="prev-posts">2</a>
+                                </li>
+                                <li class="list-inline-item"><a href="/search/27?q={{#search}}"
+                                        class="prev-posts">...</a></li>
+                                {{/if}}
+                                {{if page>4}}
+                                <li class="list-inline-item"><a href="/search/<%- page-3 %>?q={{#search}}"
+                                        class="prev-posts">{{@
+                                        page-2 }}</a></li>
+                                <li class="list-inline-item"><a href="/search/<%- page-2 %>?q={{#search}}"
+                                        class="prev-posts">{{@
+                                        page-1 }}</a></li>
+                                {{/if}}
+
+
+                                <li class="list-inline-item">
+                                    <a href="#" class="active">{{@ page }}</a>
+                                </li>
+                                <li class="list-inline-item"><a href="/search/<%- page+1 %>?q={{#search}}"
+                                        class="prev-posts">{{@
+                                        page+1 }}</a></li>
+                                <li class="list-inline-item"><a href="/search/<%- page+2 %>?q={{#search}}"
+                                        class="prev-posts">{{@
+                                        page+2 }}</a></li>`
+                                <li class="list-inline-item"><a href="/search/<%- page+200 %>?q={{#search}}"
+                                        class="prev-posts">...</a>
+                                </li>
+                                <li class="list-inline-item"><a href="/search/<%- page+1 %>?q={{#search}}"
+                                        class="prev-posts"><i class="ti-arrow-right"></i></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">
+                        <div class="sidebar sidebar-right">
+                            <div class="sidebar-wrap mt-5 mt-lg-0">
+
+
+
+                                <div class="sidebar-widget category mb-5">
+                                    <h4 class="text-center widget-title">所有分类</h4>
+                                    <ul class="list-unstyled">
+                                        <% for(var i=0; i < types.length; i++){ %>
+                                            <li class="align-items-center d-flex justify-content-between">
+                                                <a href="/type_posts/{{#types[i].id}}/1">{{#types[i].name}}</a>
+                                                <span style="min-width:80px">{{#typeCount[types[i].name] }}</span>
+                                            </li>
+                                            <% } %>
+
+                                    </ul>
+                                </div>
+
+                                <!-- <div class="sidebar-widget subscribe mb-5">
+                                    <h4 class="text-center widget-title">Newsletter</h4>
+                                    <input type="text" class="form-control" placeholder="Email Address">
+                                    <a href="#" class="btn btn-primary d-block mt-3">Sign Up</a>
+                                </div> -->
+
+                                <div class="sidebar-widget sidebar-adv mb-5">
+                                    <a href="/#" class="text-center"><img src="/statics/images/adv.png" alt=""
+                                            class="img-fluid w-100">simontaosim@protonmail.com</a>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+
+        <% include('footer') %>
+
+
+</body>
+
+</html>

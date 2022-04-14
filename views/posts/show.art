@@ -23,7 +23,7 @@
                             <div class="post-header mb-5 text-center">
                                 <div class="meta-cat">
                                     <a class="post-category font-extra text-color text-uppercase font-sm letter-spacing-1"
-                                        href="/#">
+                                        href="/type_posts/<%=vodType.id %>/1">
                                         <%=post.type_name %>
                                     </a>
                                     <!-- <a class="post-category font-extra text-color text-uppercase font-sm letter-spacing-1"
@@ -298,7 +298,7 @@
                                         <% for(var i=0; i < types.length; i++){ %>
                                             <li class="align-items-center d-flex justify-content-between">
                                                 <a href="/type_posts/{{#types[i].id}}/1">{{#types[i].name}}</a>
-                                                <span>{{#typeCount[types[i].name] }}</span>
+                                                <span style="min-width:80px">{{#typeCount[types[i].name] }}</span>
                                             </li>
                                             <% } %>
 
@@ -324,7 +324,7 @@
         </section>
 
 
-        <% include('posts/footer') %>
+        <% include('footer') %>
 
 
 </body>

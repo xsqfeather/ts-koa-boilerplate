@@ -27,7 +27,7 @@ export default class VodTypeService extends CurdService<VodType> {
 
   findByName(name: string): Promise<Loaded<VodType, never>> {
     return this.vodTypeRepository.findOne({
-      name: name,
+      name,
       deletedAt: null,
     });
   }

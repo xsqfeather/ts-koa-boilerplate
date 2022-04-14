@@ -105,6 +105,15 @@ export default function useOtherRoutes(
       },
     });
 
+    let vodType = await vodTypeService.findByName(post.type_name);
+
+    if (!vodType) {
+      vodType = await vodTypeService.createOne({
+        name: post.type_name,
+        count: 1,
+      });
+    }
+
     await ctx.render("posts/show.art", {
       post,
       m3u8Addresses,
@@ -116,6 +125,7 @@ export default function useOtherRoutes(
       maybeLikesCount,
       typeTrends,
       typeTrendsCount,
+      vodType,
     });
   });
 
@@ -128,6 +138,39 @@ export default function useOtherRoutes(
     await ctx.render("type/index.art", {
       types,
       page: parseInt(page),
+    });
+  });
+
+  otherRouter.get("/search/:page", async (ctx: Context) => {
+    const { q } = ctx.query;
+    const { page = 1 } = ctx.params;
+    const vodResourceService = Container.get(VodResourceService);
+    const vodTypeService = Container.get(VodTypeService);
+    const [vodResources, total] = await vodResourceService.getList({
+      range: [(page - 1) * 100, page * 100 - 1],
+      filter: {
+        q,
+      },
+      sort: ["vod_time", "DESC"],
+    });
+
+    const hits = await vodResourceService.findHits(20);
+
+    const types = await vodTypeService.all();
+    const typeCount = {};
+    for (let index = 0; index < types.length; index++) {
+      const type = types[index];
+      typeCount[type.name] = await vodResourceService.countByType(type.name);
+    }
+
+    await ctx.render("search", {
+      vodResources,
+      total,
+      page: 1,
+      hits,
+      types,
+      search: q,
+      typeCount,
     });
   });
 
@@ -190,11 +233,37 @@ export default function useOtherRoutes(
       }
     }
 
+    let vodType = await vodTypeService.findByName(post.type_name);
+
+    if (!vodType) {
+      vodType = await vodTypeService.createOne({
+        name: post.type_name,
+        count: 1,
+      });
+    }
+
+    const next = await vodResourceService.getById(+post.id + 1);
+    const prev = await vodResourceService.getById(+post.id - 1 || 0);
+
+    const [maybeLikes, maybeLikesCount] = await vodResourceService.getList({
+      range: [0, 5],
+      sort: ["vod_time", "DESC"],
+      filter: {
+        type_name: post.type_name,
+      },
+    });
+
     await ctx.render("posts/play.art", {
       post,
       playUrl: m3u8Addresses[index],
       index: parseInt(index),
       types: types.map((type) => type.name || "未知"),
+      vodType,
+      next,
+      prev,
+      m3u8Addresses,
+      maybeLikes,
+      maybeLikesCount,
     });
   });
 

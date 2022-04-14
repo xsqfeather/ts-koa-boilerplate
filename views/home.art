@@ -16,8 +16,16 @@
         <br />
         <br /><br />
         <div class="container">
-            <div class="row">
-                <a class="navbar-brand" href="/"><img src="/statics/images/logo.jpg" alt="" class="img-fluid w-100"></a>
+            <div class="row center">
+                <div class="col-sm">
+                    <a class="navbar-brand" href="/"><img src="/statics/images/logo.jpg" alt=""
+                            class="img-fluid w-100"></a>
+
+                </div>
+                <div class="col-sm h4"
+                    style="vertical-align: middle;float: none; display: flex; align-items:flex-end; justify-content: right;">
+                    正不正经你都可以来。
+                </div>
             </div>
         </div>
         <hr />

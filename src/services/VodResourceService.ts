@@ -52,42 +52,9 @@ export default class VodResourceService extends CurdService<VodResource> {
     if (toInsert?.vod_play_url !== vod_play_url) {
       toInsert.vod_play_url = vod_play_url;
     }
-    await this.vodResourceRepository.persistAndFlush(toInsert);
 
-    if (!toInsert?.vod_pic?.includes(HOST_PATH)) {
-      let imageUrl = vod_pic;
-      try {
-        const image = await this.storageFileService.addOnePublicImageFromUrl(
-          vod_pic
-        );
-        if (!image) {
-          imageUrl = vod_pic;
-        } else {
-          imageUrl = HOST_PATH + "/_imgs/" + image.fileName;
-        }
-      } catch (error) {
-        imageUrl = vod_pic;
-        console.error(error);
-      }
-
-      toInsert.vod_pic = imageUrl;
-    } else {
-      const tempArr = vod_pic.split("/");
-      const localPath = "/images/" + tempArr[tempArr.length - 1];
-      const image = await this.storageFileService.findOneByPath(localPath);
-      if (!image) {
-        let imageUrl = vod_pic;
-        try {
-          const image = await this.storageFileService.addOnePublicImageFromUrl(
-            vod_pic
-          );
-          imageUrl = HOST_PATH + "/_imgs/" + image.fileName;
-        } catch (error) {
-          imageUrl = vod_pic;
-          console.error(error);
-        }
-        toInsert.vod_pic = imageUrl;
-      }
+    if (!toInsert?.vod_pic !== vod_pic) {
+      toInsert.vod_pic = vod_pic;
     }
 
     await this.vodResourceRepository.persistAndFlush(toInsert);

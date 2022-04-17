@@ -64,6 +64,9 @@ export default class IpfsService {
   }
 
   async catFile(ipfsCid: string): Promise<Buffer> {
+    if (!ipfsClient) {
+      await this.initIpfsClient();
+    }
     const chucks: Uint8Array[] = [];
     for await (const chunk of ipfsClient.cat(ipfsCid)) {
       chucks.push(chunk);

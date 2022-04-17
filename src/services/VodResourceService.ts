@@ -46,6 +46,7 @@ export default class VodResourceService extends CurdService<VodResource> {
           imageUrl = HOST_PATH + "/_imgs/" + image.fileName;
         } catch (error) {
           console.error(error);
+          imageUrl = vod_pic;
         }
         return await this.createOne({
           ...vod,
@@ -72,6 +73,7 @@ export default class VodResourceService extends CurdService<VodResource> {
         );
         imageUrl = HOST_PATH + "/_imgs/" + image.fileName;
       } catch (error) {
+        imageUrl = vod_pic;
         console.error(error);
       }
 

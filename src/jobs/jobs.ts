@@ -16,12 +16,9 @@ export const job = new CronJob.CronJob(
       for (let index = 0; index < collectUrls.length; index++) {
         const url = collectUrls[index];
         const currentPage = await redisClient.get(url + "currentPage");
-        console.log("当前页面", currentPage, index);
-        console.log(url + (currentPage || 1).toString());
         const rlt = await axios.get(url + (currentPage || 1).toString());
         if (!rlt?.data?.list?.length) {
           await redisClient.set(url + "currentPage", 1);
-          console.log("当前页面没有数据", currentPage);
           break;
         }
 

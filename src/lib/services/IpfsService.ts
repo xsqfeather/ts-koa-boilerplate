@@ -23,8 +23,6 @@ export default class IpfsService {
       }
       return checkStat;
     } catch (error) {
-      console.log("checkStat filed", error);
-
       await ipfsClient.files.mkdir(path);
       return this.createDir(path);
     }
@@ -56,12 +54,15 @@ export default class IpfsService {
       await this.initIpfsClient();
     }
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const uploadRlt = await ipfsClient.add(urlSource(url) as any);
+    const uploadRlt = await ipfsClient.add(urlSource(url) as any, {
+      progress: (bytes: number, path?: string) => {
+        console.log({
+          bytes,
+          path,
+        });
+      },
+    });
     return uploadRlt.cid.toString();
-  }
-
-  publishName(ipfsCid: string): Promise<PublishResult> {
-    return ipfsClient.name.publish(ipfsCid);
   }
 
   async catFile(ipfsCid: string): Promise<Buffer> {

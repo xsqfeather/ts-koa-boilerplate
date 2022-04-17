@@ -50,24 +50,16 @@ export default class VodResourceService extends CurdService<VodResource> {
     }
 
     if (toInsert?.vod_play_url !== vod_play_url) {
-      console.log("正在更新播放地址");
-
       toInsert.vod_play_url = vod_play_url;
     }
     await this.vodResourceRepository.persistAndFlush(toInsert);
 
-    console.log(toInsert.vod_pic);
-
     if (!toInsert?.vod_pic?.includes(HOST_PATH)) {
-      console.log(toInsert.vod_pic);
-      console.log("正在更新封面");
-
       let imageUrl = vod_pic;
       try {
         const image = await this.storageFileService.addOnePublicImageFromUrl(
           vod_pic
         );
-        console.log(toInsert.vod_pic, image);
         if (!image) {
           imageUrl = vod_pic;
         } else {
@@ -97,8 +89,6 @@ export default class VodResourceService extends CurdService<VodResource> {
         toInsert.vod_pic = imageUrl;
       }
     }
-
-    console.log(toInsert.vod_pic);
 
     await this.vodResourceRepository.persistAndFlush(toInsert);
 
@@ -197,7 +187,6 @@ export default class VodResourceService extends CurdService<VodResource> {
     const { currentPage, url } = videoCollector;
     const listUrl =
       url + (url.includes("?") ? "&" : "?") + "pg=" + currentPage.toString();
-    console.log({ listUrl });
 
     const inserted = await this.bulkInsertFromUrl(listUrl, videoCollector.type);
     if (inserted > 0) {

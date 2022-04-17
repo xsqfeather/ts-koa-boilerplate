@@ -75,7 +75,6 @@ export default class CurdService<T> {
         cache: true,
       }
     );
-    console.log(`after ${this.className} emitter`);
     return records;
   }
 

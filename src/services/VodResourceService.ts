@@ -30,7 +30,6 @@ export default class VodResourceService extends CurdService<VodResource> {
 
   async createOrUpdate(vod: any): Promise<Loaded<VodResource, never>> {
     const { vod_play_url, vod_pic, vod_name } = vod;
-    console.log({ vod });
 
     if (!vod_pic) {
       return;
@@ -57,7 +56,10 @@ export default class VodResourceService extends CurdService<VodResource> {
     }
     await this.vodResourceRepository.persistAndFlush(toInsert);
 
+    console.log(toInsert.vod_pic);
+
     if (!toInsert?.vod_pic?.includes(HOST_PATH)) {
+      console.log(toInsert.vod_pic);
       console.log("正在更新封面");
 
       let imageUrl = vod_pic;
@@ -65,6 +67,7 @@ export default class VodResourceService extends CurdService<VodResource> {
         const image = await this.storageFileService.addOnePublicImageFromUrl(
           vod_pic
         );
+        console.log(toInsert.vod_pic, image);
         if (!image) {
           imageUrl = vod_pic;
         } else {
@@ -94,6 +97,8 @@ export default class VodResourceService extends CurdService<VodResource> {
         toInsert.vod_pic = imageUrl;
       }
     }
+
+    console.log(toInsert.vod_pic);
 
     await this.vodResourceRepository.persistAndFlush(toInsert);
 

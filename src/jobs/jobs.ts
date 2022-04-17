@@ -13,8 +13,8 @@ export const job = new CronJob.CronJob(
       const insertVodQueue = new JobQueue("insertVodQueue");
       await insertVodQueue.init();
 
-      for (let index = 0; index < collectUrls.length; index++) {
-        const url = collectUrls[index];
+      for (let index = 0; index < collectUrls.length * 5; index++) {
+        const url = collectUrls[index % 5];
         const currentPage = await redisClient.get(url + "currentPage");
         const rlt = await axios.get(url + (currentPage || 1).toString());
         if (!rlt?.data?.list?.length) {

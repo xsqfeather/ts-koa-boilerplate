@@ -24,8 +24,12 @@ startApp({
         const toInserted = JSON.parse(task);
         const vodResourceService = Container.get(VodResourceService);
         const vodTypeService = Container.get(VodTypeService);
-        vodTypeService.createOneByName(toInserted.type_name);
-        vodResourceService.createOrUpdate(toInserted);
+        try {
+          await vodTypeService.createOneByName(toInserted.type_name);
+          await vodResourceService.createOrUpdate(toInserted);
+        } catch (error) {
+          console.error(error);
+        }
       }
     }, 250);
   },

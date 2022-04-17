@@ -67,6 +67,7 @@ export default class VodResourceService extends CurdService<VodResource> {
 
       toInsert.vod_play_url = vod_play_url;
     }
+    await this.vodResourceRepository.persistAndFlush(toInsert);
 
     if (toInsert && !toInsert.vod_pic.includes(HOST_PATH)) {
       console.log("正在更新封面");

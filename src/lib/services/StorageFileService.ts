@@ -71,13 +71,15 @@ export default class StorageFileService extends CurdService<StorageFile> {
   async addOnePublicImageFromUrl(url: string): Promise<StorageFile> {
     const imageDir = await this.storageDirService.getPublicImageDir();
     const ipfsCid = await this.ipfsService.addOneFileFromUrl(url);
+    const tempArr = url.split("/");
+    const tempArrDot = url.split(".");
     return this.createOne({
-      fileName: url.split("/")[-1],
-      localPath: null,
+      fileName: tempArr[tempArr.length - 1],
+      localPath: "/images/" + tempArr[tempArr.length - 1],
       ipfsCid,
       dir: imageDir,
-      ext: url.split(".")[-1],
-      type: "image/*",
+      ext: tempArrDot[tempArrDot.length - 1],
+      type: "image/" + tempArrDot[tempArrDot.length - 1],
       otherUrls: [],
     });
   }

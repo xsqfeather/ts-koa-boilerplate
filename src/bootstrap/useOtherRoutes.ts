@@ -271,6 +271,7 @@ export default function useOtherRoutes(
     const filepath = "/images/" + ctx.params.filename;
     const storageService = Container.get(StorageFileService);
     const storageFile = await storageService.findOneByPath(filepath);
+
     const buffer = await storageService.catFile(storageFile);
     ctx.response.set("content-type", storageFile.type);
     ctx.body = buffer;

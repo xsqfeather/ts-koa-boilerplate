@@ -22,8 +22,8 @@ export class StorageFile extends BaseEntity {
   @Property({ type: "json" })
   otherUrls: [];
 
-  @Property()
-  localPath: string;
+  @Property({ nullable: true })
+  localPath?: string;
 
   @ManyToOne(() => StorageDir)
   dir: StorageDir;

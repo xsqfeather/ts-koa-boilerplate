@@ -24,7 +24,7 @@ startApp({
           vodTypeService.createOneByName(toInserted.type_name);
           vodResourceService.createOrUpdate(toInserted);
         }
-      }, 1000);
+      }, 1500);
     }
   },
 });

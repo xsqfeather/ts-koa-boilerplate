@@ -8,6 +8,8 @@ import DI from "../lib/DI";
 import VideoCollectorService from "./VideoCollectorService";
 import VodTypeService from "./VodTypeService";
 import { Loaded } from "@mikro-orm/core";
+import StorageFileService from "../lib/services/StorageFileService";
+import { HOST_PATH } from "../constants/path";
 
 @Service()
 export default class VodResourceService extends CurdService<VodResource> {
@@ -18,6 +20,9 @@ export default class VodResourceService extends CurdService<VodResource> {
 
   @Inject(() => VodTypeService)
   private vodTypeService: VodTypeService;
+
+  @Inject(() => StorageFileService)
+  private storageFileService: StorageFileService;
 
   constructor() {
     super(VodResource);
@@ -31,8 +36,22 @@ export default class VodResourceService extends CurdService<VodResource> {
 
     if (!toInsert) {
       try {
-        console.log("准备插入====================");
-        return await this.createOne(vod);
+        let imageUrl = vod_pic;
+        try {
+          const image = await this.storageFileService.addOnePublicImageFromUrl(
+            vod_pic
+          );
+          imageUrl = HOST_PATH + "/_imgs/" + image.fileName;
+        } catch (error) {
+          console.error(error);
+        }
+
+        console.log({ imageUrl }, "=====================");
+
+        return await this.createOne({
+          ...vod,
+          vod_pic: imageUrl,
+        });
       } catch (error) {
         console.error(error);
       }
@@ -42,8 +61,18 @@ export default class VodResourceService extends CurdService<VodResource> {
       toInsert.vod_play_url = vod_play_url;
     }
 
-    if (toInsert && toInsert.vod_pic !== vod_pic) {
-      toInsert.vod_pic = vod_pic;
+    if (toInsert && !toInsert.vod_pic.includes(HOST_PATH)) {
+      let imageUrl = vod_pic;
+      try {
+        const image = await this.storageFileService.addOnePublicImageFromUrl(
+          vod_pic
+        );
+        imageUrl = HOST_PATH + "/_imgs/" + image.fileName;
+      } catch (error) {
+        console.error(error);
+      }
+
+      toInsert.vod_pic = imageUrl;
     }
 
     await this.vodResourceRepository.persistAndFlush(toInsert);

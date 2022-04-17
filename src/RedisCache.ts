@@ -8,7 +8,7 @@ export default class RedisCache {
   constructor() {
     this.client = createClient();
     this.client.on("error", (err) => console.log("Redis Client Error", err));
-    this.client.connect();
+    this.client.connect(); //todo new redis await
   }
 
   async connect(): Promise<RedisClientType> {

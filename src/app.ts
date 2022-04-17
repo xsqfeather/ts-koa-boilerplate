@@ -30,6 +30,6 @@ startApp({
       } catch (error) {
         console.error(error);
       }
-    }, 250);
+    }, 2500);
   },
 });

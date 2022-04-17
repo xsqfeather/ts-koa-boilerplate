@@ -108,7 +108,7 @@ export class VodResource extends BaseEntity {
   @Property({ nullable: true })
   vod_name: string;
 
-  @Property({ nullable: true })
+  @Property({ default: "" })
   vod_pic: string;
 
   @Property({ nullable: true })

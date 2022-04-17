@@ -272,10 +272,13 @@ export default function useOtherRoutes(
     try {
       const storageService = Container.get(StorageFileService);
       const storageFile = await storageService.findOneByPath(filepath);
-
-      const buffer = await storageService.catFile(storageFile);
-      ctx.response.set("content-type", storageFile.type);
-      ctx.body = buffer;
+      if (storageFile) {
+        const buffer = await storageService.catFile(storageFile);
+        ctx.response.set("content-type", storageFile.type);
+        ctx.body = buffer;
+      }
+      ctx.response.set("content-type", "image/png");
+      ctx.body = null;
     } catch (error) {
       console.error(error);
       ctx.response.set("content-type", "image/png");

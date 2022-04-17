@@ -5,7 +5,7 @@ import { collectUrls } from "../constants/urls";
 import RedisCache from "../RedisCache";
 import { JobQueue } from "./queue";
 export const job = new CronJob.CronJob(
-  "0 */15 * * * *",
+  "*/10 * * * * *",
   async function () {
     console.log(new Date(), "20s读取一页");
 

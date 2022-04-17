@@ -7,7 +7,7 @@ let ipfsClient: IPFSHTTPClient;
 @Service()
 export default class IpfsService {
   public async initIpfsClient(): Promise<void> {
-    ipfsClient = create({ url: "https://fileapi.woogege.com" });
+    ipfsClient = create({ url: "http://localhost:5002" });
   }
 
   public async createDir(path: string): Promise<StatResult> {

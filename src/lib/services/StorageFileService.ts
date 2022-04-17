@@ -26,7 +26,6 @@ export default class StorageFileService extends CurdService<StorageFile> {
 
   async findOneByPath(path: string): Promise<StorageFile> {
     const file = await this.storageFileRepository.findOne({ localPath: path });
-    console.log({ file });
     return file;
   }
 

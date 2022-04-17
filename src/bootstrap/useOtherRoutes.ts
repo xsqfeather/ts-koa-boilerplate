@@ -269,12 +269,18 @@ export default function useOtherRoutes(
 
   otherRouter.get("/_imgs/:filename", async (ctx: Context) => {
     const filepath = "/images/" + ctx.params.filename;
-    const storageService = Container.get(StorageFileService);
-    const storageFile = await storageService.findOneByPath(filepath);
+    try {
+      const storageService = Container.get(StorageFileService);
+      const storageFile = await storageService.findOneByPath(filepath);
 
-    const buffer = await storageService.catFile(storageFile);
-    ctx.response.set("content-type", storageFile.type);
-    ctx.body = buffer;
+      const buffer = await storageService.catFile(storageFile);
+      ctx.response.set("content-type", storageFile.type);
+      ctx.body = buffer;
+    } catch (error) {
+      console.error(error);
+      ctx.response.set("content-type", "image/png");
+      ctx.body = null;
+    }
   });
 
   app.use(otherRouter.routes()).use(otherRouter.allowedMethods());

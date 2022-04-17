@@ -2,7 +2,7 @@ import axios from "axios";
 import CronJob from "cron";
 import Container from "typedi";
 import { collectUrls } from "../constants/urls";
-import RedisCache from "../redisCache";
+import RedisCache from "../RedisCache";
 import { JobQueue } from "./queue";
 export const job = new CronJob.CronJob(
   "0 */2 * * * *",

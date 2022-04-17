@@ -1,5 +1,5 @@
 export const collectUrls = [
-  "https://caiji.huakuiapi.com/inc/apijson_vod.php?ac=detail&pg",
+  "https://caiji.huakuiapi.com/inc/apijson_vod.php?ac=detail&pg=",
   "https://apittzy.com/api.php/provide/vod/?ac=detail&pg=",
   "https://api.maozyapi.com/inc/apijson_vod.php?ac=detail&pg=",
   "https://caiji.huakuiapi.com/inc/apijson_vod.php?ac=detail&pg=",

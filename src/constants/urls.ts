@@ -10,4 +10,6 @@ export const collectUrls = [
   "https://kkzy.me/api.php/provide/vod/?ac=detail&pg=",
   "https://sdzyapi.com/api.php/provide/vod/?ac=detail&pg=",
   "https://api.yulecj.com/api.php/provide/vod/?ac=detail&pg=",
+  "https://api.guangsuapi.com/api.php/provide/vod/?ac=detail&pg=",
+  "https://www.feisuzyapi.com/api.php/provide/vod/?ac=detail&pg=",
 ];

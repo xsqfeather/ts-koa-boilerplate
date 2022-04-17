@@ -29,7 +29,7 @@ startApp({
         } catch (error) {
           console.error(error);
         }
-      }, 2500);
+      }, 1000);
     }
   },
 });

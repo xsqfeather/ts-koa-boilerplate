@@ -51,6 +51,9 @@ export default class IpfsService {
   }
 
   async addOneFileFromUrl(url: string): Promise<string> {
+    if (!ipfsClient) {
+      await this.initIpfsClient();
+    }
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const uploadRlt = await ipfsClient.add(urlSource(url) as any);
     return uploadRlt.cid.toString();

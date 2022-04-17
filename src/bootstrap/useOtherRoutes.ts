@@ -146,32 +146,36 @@ export default function useOtherRoutes(
     const { page = 1 } = ctx.params;
     const vodResourceService = Container.get(VodResourceService);
     const vodTypeService = Container.get(VodTypeService);
-    const [vodResources, total] = await vodResourceService.getList({
-      range: [(page - 1) * 100, page * 100 - 1],
-      filter: {
-        q,
-      },
-      sort: ["vod_time", "DESC"],
-    });
+    try {
+      const [vodResources, total] = await vodResourceService.getList({
+        range: [(page - 1) * 100, page * 100 - 1],
+        filter: {
+          q,
+        },
+        sort: ["vod_time", "DESC"],
+      });
 
-    const hits = await vodResourceService.findHits(20);
+      const hits = await vodResourceService.findHits(20);
 
-    const types = await vodTypeService.all();
-    const typeCount = {};
-    for (let index = 0; index < types.length; index++) {
-      const type = types[index];
-      typeCount[type.name] = await vodResourceService.countByType(type.name);
+      const types = await vodTypeService.all();
+      const typeCount = {};
+      for (let index = 0; index < types.length; index++) {
+        const type = types[index];
+        typeCount[type.name] = await vodResourceService.countByType(type.name);
+      }
+
+      await ctx.render("search", {
+        vodResources,
+        total,
+        page: 1,
+        hits,
+        types,
+        search: q,
+        typeCount,
+      });
+    } catch (error) {
+      ctx.body = error;
     }
-
-    await ctx.render("search", {
-      vodResources,
-      total,
-      page: 1,
-      hits,
-      types,
-      search: q,
-      typeCount,
-    });
   });
 
   otherRouter.get("/type_posts/:type/:page", async (ctx: Context) => {

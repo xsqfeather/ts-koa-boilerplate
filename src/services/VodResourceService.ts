@@ -38,26 +38,8 @@ export default class VodResourceService extends CurdService<VodResource> {
 
     if (!toInsert) {
       try {
-        console.log("开始插入===================");
-
-        let imageUrl = vod_pic;
-        try {
-          if (vod_pic) {
-            const image =
-              await this.storageFileService.addOnePublicImageFromUrl(vod_pic);
-            if (!image) {
-              imageUrl = vod_pic;
-            } else {
-              imageUrl = HOST_PATH + "/_imgs/" + image.fileName;
-            }
-          }
-        } catch (error) {
-          console.error(error);
-          imageUrl = vod_pic;
-        }
         return await this.createOne({
           ...vod,
-          vod_pic: imageUrl,
         });
       } catch (error) {
         console.error(error);

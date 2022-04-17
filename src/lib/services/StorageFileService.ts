@@ -74,7 +74,7 @@ export default class StorageFileService extends CurdService<StorageFile> {
     const ipfsCid = await this.ipfsService.addOneFileFromUrl(url);
     const tempArr = url.split("/");
     const tempArrDot = url.split(".");
-    return this.createOne({
+    const file = await this.createOne({
       fileName: tempArr[tempArr.length - 1],
       localPath: "/images/" + tempArr[tempArr.length - 1],
       ipfsCid,
@@ -83,6 +83,7 @@ export default class StorageFileService extends CurdService<StorageFile> {
       type: "image/" + tempArrDot[tempArrDot.length - 1],
       otherUrls: [],
     });
+    return file;
   }
 
   async addOnePublicVideo(file: any): Promise<{

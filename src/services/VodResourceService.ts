@@ -30,7 +30,10 @@ export default class VodResourceService extends CurdService<VodResource> {
 
   async createOrUpdate(vod: any): Promise<Loaded<VodResource, never>> {
     const { vod_play_url, vod_pic, vod_name } = vod;
-    console.log({ vod_pic });
+
+    if (!vod_pic) {
+      return;
+    }
 
     const toInsert = await this.vodResourceRepository.findOne({
       vod_name,
@@ -105,7 +108,7 @@ export default class VodResourceService extends CurdService<VodResource> {
 
   async findOneAndUpdateHit(id: number): Promise<Loaded<VodResource, never>> {
     const vod = await this.getById(id);
-    vod.vod_hits = vod.vod_hits + 1;
+    vod.vod_hits = (vod?.vod_hits || 0) + 1;
     await this.vodResourceRepository.persistAndFlush(vod);
     return vod;
   }

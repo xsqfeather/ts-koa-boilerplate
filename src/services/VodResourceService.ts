@@ -30,7 +30,12 @@ export default class VodResourceService extends CurdService<VodResource> {
     });
 
     if (!toInsert) {
-      return await this.createOne(vod);
+      try {
+        console.log("准备插入====================");
+        return await this.createOne(vod);
+      } catch (error) {
+        console.error(error);
+      }
     }
 
     if (toInsert && toInsert.vod_play_url !== vod_play_url) {

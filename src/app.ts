@@ -18,11 +18,9 @@ startApp({
       setInterval(async () => {
         const task = await insertVodQueue.popMsg();
         if (task) {
-          console.log("每秒更新一次");
           const toInserted = JSON.parse(task);
           const vodResourceService = Container.get(VodResourceService);
           const vodTypeService = Container.get(VodTypeService);
-          console.log(toInserted.type_name);
           vodTypeService.createOneByName(toInserted.type_name);
           vodResourceService.createOrUpdate(toInserted);
         }

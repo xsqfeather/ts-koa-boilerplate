@@ -83,6 +83,8 @@ export default class StorageFileService extends CurdService<StorageFile> {
       type: "image/" + tempArrDot[tempArrDot.length - 1],
       otherUrls: [],
     });
+    console.log({ file });
+
     return file;
   }
 

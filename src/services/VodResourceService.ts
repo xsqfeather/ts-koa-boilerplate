@@ -57,10 +57,14 @@ export default class VodResourceService extends CurdService<VodResource> {
     }
 
     if (toInsert && toInsert.vod_play_url !== vod_play_url) {
+      console.log("正在更新播放地址");
+
       toInsert.vod_play_url = vod_play_url;
     }
 
     if (toInsert && !toInsert.vod_pic.includes(HOST_PATH)) {
+      console.log("正在更新封面");
+
       let imageUrl = vod_pic;
       try {
         const image = await this.storageFileService.addOnePublicImageFromUrl(

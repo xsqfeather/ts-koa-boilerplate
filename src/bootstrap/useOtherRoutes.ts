@@ -2,6 +2,7 @@ import Router from "@koa/router";
 import Koa, { Context } from "koa";
 import render from "koa-art-template";
 import Container from "typedi";
+import DI from "../lib/DI";
 import StorageFileService from "../lib/services/StorageFileService";
 import VodResourceService from "../services/VodResourceService";
 import VodTypeService from "../services/VodTypeService";
@@ -22,6 +23,7 @@ export default function useOtherRoutes(
     return next();
   });
   otherRouter.get("/", async (ctx: Context) => {
+    await DI.orm.em.flush();
     const vodResourceService = Container.get(VodResourceService);
     const vodTypeService = Container.get(VodTypeService);
     const [vodResources, total] = await vodResourceService.getList({
@@ -43,6 +45,7 @@ export default function useOtherRoutes(
     });
   });
   otherRouter.get("/pages/:page", async (ctx: Context) => {
+    await DI.orm.em.flush();
     const { page } = ctx.params;
     const vodResourceService = Container.get(VodResourceService);
     const [vodResources, total] = await vodResourceService.getList({
@@ -66,6 +69,7 @@ export default function useOtherRoutes(
     });
   });
   otherRouter.get("/posts/:id", async (ctx: Context) => {
+    await DI.orm.em.flush();
     const { id } = ctx.params;
     const vodResourceService = Container.get(VodResourceService);
     const post = await vodResourceService.findOneAndUpdateHit(+id);
@@ -131,6 +135,7 @@ export default function useOtherRoutes(
   });
 
   otherRouter.get("/types/:page", async (ctx: Context) => {
+    await DI.orm.em.flush();
     const { page } = ctx.params;
     const vodTypeService = Container.get(VodTypeService);
 
@@ -180,11 +185,16 @@ export default function useOtherRoutes(
   });
 
   otherRouter.get("/type_posts/:type/:page", async (ctx: Context) => {
+    await DI.orm.em.flush();
     const { page = 1, type } = ctx.params;
     const vodTypeService = Container.get(VodTypeService);
     const vodResourceService = Container.get(VodResourceService);
 
     const vodType = await vodTypeService.getById(type);
+
+    if (!vodType) {
+      return ctx.redirect("/");
+    }
 
     const types = await vodTypeService.all();
     const typeCount = {};
@@ -197,7 +207,7 @@ export default function useOtherRoutes(
       range: [0, 2],
       sort: ["vod_hits", "DESC"],
       filter: {
-        type_name: vodType.name,
+        type_name: vodType?.name || "未知",
       },
     });
 
@@ -205,7 +215,7 @@ export default function useOtherRoutes(
       range: [(page - 1) * 100, page * 100 - 1],
       sort: ["vod_time", "DESC"],
       filter: {
-        type_name: vodType.name,
+        type_name: vodType?.name || "未知",
       },
     });
     await ctx.render("type/list.art", {
@@ -221,6 +231,7 @@ export default function useOtherRoutes(
   });
 
   otherRouter.get("/posts/:id/play/:index", async (ctx: Context) => {
+    await DI.orm.em.flush();
     const { index, id } = ctx.params;
     const vodResourceService = Container.get(VodResourceService);
     const post = await vodResourceService.getById(+id);
@@ -239,6 +250,9 @@ export default function useOtherRoutes(
     }
 
     let vodType = await vodTypeService.findByName(post.type_name);
+    if (!vodType) {
+      ctx.redirect("/");
+    }
 
     if (!vodType) {
       vodType = await vodTypeService.createOne({
@@ -273,6 +287,7 @@ export default function useOtherRoutes(
   });
 
   otherRouter.get("/_imgs/:filename", async (ctx: Context) => {
+    await DI.orm.em.flush();
     const filepath = "/images/" + ctx.params.filename;
     try {
       const storageService = Container.get(StorageFileService);

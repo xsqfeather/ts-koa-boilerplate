@@ -3,7 +3,7 @@
 
 <head>
     <% include('head-content') %>
-        <title>巫师影视网-{{#vodType.name}}</title>
+        <title>巫师影视网-{{#vodType?.name}}</title>
 </head>
 
 <body>
@@ -22,7 +22,7 @@
                 <div class="row">
                     <div class="col-sm-12">
                         <div class="text-center">
-                            <h2 class="lg-title">{{#vodType.name}}</h2>
+                            <h2 class="lg-title">{{#vodType?.name}}</h2>
                         </div>
                     </div>
                 </div>

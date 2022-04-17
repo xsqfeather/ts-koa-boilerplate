@@ -12,10 +12,10 @@ startApp({
 
     if (!parseInt(instance)) {
       job.start();
-      const insertVodQueue = new JobQueue("insertVodQueue");
-      await insertVodQueue.init();
-      // eslint-disable-next-line @typescript-eslint/ban-types
     }
+    const insertVodQueue = new JobQueue("insertVodQueue");
+    await insertVodQueue.init();
+    // eslint-disable-next-line @typescript-eslint/ban-types
 
     setInterval(async () => {
       const task = await insertVodQueue.popMsg();

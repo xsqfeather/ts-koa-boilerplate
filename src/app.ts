@@ -7,8 +7,6 @@ import VodTypeService from "./services/VodTypeService";
 
 startApp({
   afterStart: async () => {
-    console.log("========", (process as any).env.NODE_APP_INSTANCE);
-
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const instance = (process as any).env.NODE_APP_INSTANCE;
 
@@ -24,7 +22,8 @@ startApp({
           const toInserted = JSON.parse(task);
           const vodResourceService = Container.get(VodResourceService);
           const vodTypeService = Container.get(VodTypeService);
-          vodTypeService.createOneByName(toInserted.vod_time);
+          console.log(toInserted.type_name);
+          vodTypeService.createOneByName(toInserted.type_name);
           vodResourceService.createOrUpdate(toInserted);
         }
       }, 1000);

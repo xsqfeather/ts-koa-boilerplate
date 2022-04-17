@@ -30,6 +30,7 @@ export default class VodResourceService extends CurdService<VodResource> {
 
   async createOrUpdate(vod: any): Promise<Loaded<VodResource, never>> {
     const { vod_play_url, vod_pic, vod_name } = vod;
+    console.log({ vod });
 
     if (!vod_pic) {
       return;

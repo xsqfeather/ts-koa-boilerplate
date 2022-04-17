@@ -31,6 +31,9 @@ export default class IpfsService {
   }
 
   async addOneFile(file: any): Promise<string> {
+    if (!ipfsClient) {
+      await this.initIpfsClient();
+    }
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const filePath = (file as any)?.path;
     if (filePath) {

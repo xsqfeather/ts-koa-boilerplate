@@ -8,7 +8,8 @@ config/production.ts
 /public/img
 /public/download
 /radata
-
+/migrations
+/temp
 
 # yarn.lock
 

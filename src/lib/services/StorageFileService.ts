@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Inject, Service } from "typedi";
 import { StorageFile } from "../entities/StorageFile";
 import CurdService from "./CurdService";
@@ -23,7 +24,7 @@ export default class StorageFileService extends CurdService<StorageFile> {
     super(StorageFile);
   }
 
-  findOneByPath(path: string): Promise<StorageFile> {
+  async findOneByPath(path: string): Promise<StorageFile> {
     return this.storageFileRepository.findOne({ localPath: path });
   }
 

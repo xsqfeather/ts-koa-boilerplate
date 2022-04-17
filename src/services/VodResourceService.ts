@@ -43,6 +43,11 @@ export default class VodResourceService extends CurdService<VodResource> {
           const image = await this.storageFileService.addOnePublicImageFromUrl(
             vod_pic
           );
+          if (!image) {
+            imageUrl = vod_pic;
+          } else {
+            imageUrl = HOST_PATH + "/_imgs/" + image.fileName;
+          }
           imageUrl = HOST_PATH + "/_imgs/" + image.fileName;
         } catch (error) {
           console.error(error);
@@ -71,7 +76,11 @@ export default class VodResourceService extends CurdService<VodResource> {
         const image = await this.storageFileService.addOnePublicImageFromUrl(
           vod_pic
         );
-        imageUrl = HOST_PATH + "/_imgs/" + image.fileName;
+        if (!image) {
+          imageUrl = vod_pic;
+        } else {
+          imageUrl = HOST_PATH + "/_imgs/" + image.fileName;
+        }
       } catch (error) {
         imageUrl = vod_pic;
         console.error(error);

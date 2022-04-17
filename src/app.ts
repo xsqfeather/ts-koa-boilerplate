@@ -19,6 +19,8 @@ startApp({
 
     setInterval(async () => {
       const task = await insertVodQueue.popMsg();
+      console.log({ task });
+
       if (task) {
         const toInserted = JSON.parse(task);
         const vodResourceService = Container.get(VodResourceService);

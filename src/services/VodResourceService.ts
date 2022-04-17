@@ -8,8 +8,6 @@ import DI from "../lib/DI";
 import VideoCollectorService from "./VideoCollectorService";
 import VodTypeService from "./VodTypeService";
 import { Loaded } from "@mikro-orm/core";
-import StorageFileService from "../lib/services/StorageFileService";
-import { HOST_PATH } from "../constants/path";
 
 @Service()
 export default class VodResourceService extends CurdService<VodResource> {
@@ -20,9 +18,6 @@ export default class VodResourceService extends CurdService<VodResource> {
 
   @Inject(() => VodTypeService)
   private vodTypeService: VodTypeService;
-
-  @Inject(() => StorageFileService)
-  private storageFileService: StorageFileService;
 
   constructor() {
     super(VodResource);

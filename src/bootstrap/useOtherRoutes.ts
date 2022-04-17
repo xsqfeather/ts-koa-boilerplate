@@ -69,7 +69,9 @@ export default function useOtherRoutes(
     const { id } = ctx.params;
     const vodResourceService = Container.get(VodResourceService);
     const post = await vodResourceService.findOneAndUpdateHit(+id);
-    const urlWords = post.vod_play_url.split("$");
+    console.log({ post });
+
+    const urlWords = post?.vod_play_url?.split("$");
     const m3u8Addresses = [];
     for (let index = 0; index < urlWords.length; index++) {
       const word = urlWords[index];

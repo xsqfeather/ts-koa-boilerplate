@@ -16,14 +16,11 @@ import { ListQueryObject } from "../../dtos/common.dto";
 export default class CurdService<T> {
   private repository: EntityRepository<T>;
 
-  private className: string;
-
   private entity: EntityName<T>;
 
   constructor(entity: EntityName<T>) {
     this.entity = entity;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    this.className = (entity as any).name;
 
     this.repository = DI?.orm?.em.getRepository(entity);
   }

@@ -2,7 +2,6 @@ import { Service } from "typedi";
 import { create, IPFSHTTPClient, urlSource } from "ipfs-http-client";
 import { StatResult } from "ipfs-core-types/src/files/index";
 import { unlinkSync, readFileSync } from "fs";
-import { PublishResult } from "ipfs-core-types/src/name";
 
 let ipfsClient: IPFSHTTPClient;
 @Service()

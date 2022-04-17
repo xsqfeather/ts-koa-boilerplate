@@ -5,7 +5,7 @@ import { collectUrls } from "../constants/urls";
 import RedisCache from "../RedisCache";
 import { JobQueue } from "./queue";
 export const job = new CronJob.CronJob(
-  "0 */5 * * * *",
+  "0 */2 * * * *",
   async function () {
     const redisCache = Container.get(RedisCache);
     try {
@@ -13,8 +13,8 @@ export const job = new CronJob.CronJob(
       const insertVodQueue = new JobQueue("insertVodQueue");
       await insertVodQueue.init();
 
-      for (let index = 0; index < collectUrls.length * 5; index++) {
-        const url = collectUrls[index % 5];
+      for (let index = 0; index < collectUrls.length; index++) {
+        const url = collectUrls[index];
         const currentPage = await redisClient.get(url + "currentPage");
         const rlt = await axios.get(url + (currentPage || 1).toString());
         if (!rlt?.data?.list?.length) {

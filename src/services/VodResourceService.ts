@@ -23,6 +23,29 @@ export default class VodResourceService extends CurdService<VodResource> {
     super(VodResource);
   }
 
+  async createOrUpdate(vod: any): Promise<Loaded<VodResource, never>> {
+    const { vod_play_url, vod_pic, vod_name } = vod;
+    const toInsert = await this.vodResourceRepository.findOne({
+      vod_name,
+    });
+
+    if (!toInsert) {
+      return await this.createOne(vod);
+    }
+
+    if (toInsert && toInsert.vod_play_url !== vod_play_url) {
+      toInsert.vod_play_url = vod_play_url;
+    }
+
+    if (toInsert && toInsert.vod_pic !== vod_pic) {
+      toInsert.vod_pic = vod_pic;
+    }
+
+    await this.vodResourceRepository.persistAndFlush(toInsert);
+
+    return toInsert;
+  }
+
   async findHits(limit = 5): Promise<Loaded<VodResource, never>[]> {
     return this.vodResourceRepository.find(
       {},

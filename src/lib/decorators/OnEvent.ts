@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import Emittery from "emittery";
-export const emitter = new Emittery();
+export const emitter: Emittery = new Emittery();
 
 export const OnEvent = (
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

@@ -30,6 +30,8 @@ export default class VodResourceService extends CurdService<VodResource> {
 
   async createOrUpdate(vod: any): Promise<Loaded<VodResource, never>> {
     const { vod_play_url, vod_pic, vod_name } = vod;
+    console.log({ vod_pic });
+
     const toInsert = await this.vodResourceRepository.findOne({
       vod_name,
     });
@@ -40,15 +42,15 @@ export default class VodResourceService extends CurdService<VodResource> {
 
         let imageUrl = vod_pic;
         try {
-          const image = await this.storageFileService.addOnePublicImageFromUrl(
-            vod_pic
-          );
-          if (!image) {
-            imageUrl = vod_pic;
-          } else {
-            imageUrl = HOST_PATH + "/_imgs/" + image.fileName;
+          if (vod_pic) {
+            const image =
+              await this.storageFileService.addOnePublicImageFromUrl(vod_pic);
+            if (!image) {
+              imageUrl = vod_pic;
+            } else {
+              imageUrl = HOST_PATH + "/_imgs/" + image.fileName;
+            }
           }
-          imageUrl = HOST_PATH + "/_imgs/" + image.fileName;
         } catch (error) {
           console.error(error);
           imageUrl = vod_pic;

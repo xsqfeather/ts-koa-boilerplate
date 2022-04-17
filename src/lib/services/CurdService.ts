@@ -12,6 +12,7 @@ import {
 import _ from "lodash";
 import DI from "../DI";
 import { ListQueryObject } from "../../dtos/common.dto";
+import { HOST_PATH } from "../../constants/path";
 
 export default class CurdService<T> {
   private repository: EntityRepository<T>;
@@ -64,6 +65,7 @@ export default class CurdService<T> {
     const records = await this.repository.findAndCount(
       {
         ...query,
+        vod_pic: new RegExp(`${HOST_PATH}.*`),
         deletedAt: null,
       },
       {

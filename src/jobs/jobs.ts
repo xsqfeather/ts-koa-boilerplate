@@ -5,9 +5,9 @@ import { collectUrls } from "../constants/urls";
 import RedisCache from "../RedisCache";
 import { JobQueue } from "./queue";
 export const job = new CronJob.CronJob(
-  "0 */2 * * * *",
+  "*/20 * * * * *",
   async function () {
-    console.log(new Date(), "每两分钟读取一页");
+    console.log(new Date(), "20s读取一页");
 
     const redisCache = Container.get(RedisCache);
     const redisClient = await redisCache.connect();

@@ -36,6 +36,8 @@ export default class VodResourceService extends CurdService<VodResource> {
 
     if (!toInsert) {
       try {
+        console.log("开始插入===================");
+
         let imageUrl = vod_pic;
         try {
           const image = await this.storageFileService.addOnePublicImageFromUrl(
@@ -45,9 +47,6 @@ export default class VodResourceService extends CurdService<VodResource> {
         } catch (error) {
           console.error(error);
         }
-
-        console.log({ imageUrl }, "=====================");
-
         return await this.createOne({
           ...vod,
           vod_pic: imageUrl,

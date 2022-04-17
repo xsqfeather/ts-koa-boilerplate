@@ -13,5 +13,5 @@ export const collectUrls = [
   "https://api.guangsuapi.com/api.php/provide/vod/?ac=detail&pg=",
   "https://www.feisuzyapi.com/api.php/provide/vod/?ac=detail&pg=",
   "https://api.tiankongapi.com/api.php/provide/vod/?ac=detail&pg=",
-  "https://api.bdxapi.com/api.php/provide/vod/from/bdxm3u8/at/xml/?ac=detail&&pg=",
+  "https://api.bdxapi.com/api.php/provide/vod/from/bdxm3u8/at/json/?ac=detail&pg=",
 ];

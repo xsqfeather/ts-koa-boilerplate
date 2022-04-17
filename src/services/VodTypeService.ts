@@ -43,4 +43,15 @@ export default class VodTypeService extends CurdService<VodType> {
       name,
     });
   }
+
+  async createOneByName(name: string): Promise<null | VodType> {
+    const count = await this.countByName(name);
+    if (count === 0) {
+      return this.createOne({
+        name,
+        count: 0,
+      });
+    }
+    return null;
+  }
 }

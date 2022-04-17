@@ -38,7 +38,7 @@ export const production: Options = {
   port: 5432,
   user: "postgres",
   password: "123666",
-  dbName: "koa_ts_development",
+  dbName: "koa_ts_production",
   allowGlobalContext: true,
   debug: false,
 };

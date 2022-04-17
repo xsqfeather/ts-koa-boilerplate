@@ -82,7 +82,7 @@ export default class CurdService<T> {
   async insertOne(input: RequiredEntityData<T>): Promise<T> {
     try {
       const record = this.repository.create(input);
-      await this.repository.persistAndFlush(record);
+      await this.repository.nativeInsert(record);
       return record;
     } catch (error) {
       console.error(error);

@@ -1,4 +1,4 @@
-import { Options } from "@mikro-orm/core";
+import { FlushMode, Options } from "@mikro-orm/core";
 import { TsMorphMetadataProvider } from "@mikro-orm/reflection";
 
 export const development: Options = {
@@ -13,6 +13,7 @@ export const development: Options = {
   dbName: "koa_ts_development",
   allowGlobalContext: true,
   debug: true,
+  flushMode: FlushMode.ALWAYS,
 };
 
 export const test: Options = {
@@ -41,4 +42,5 @@ export const production: Options = {
   dbName: "koa_ts_production",
   allowGlobalContext: true,
   debug: false,
+  flushMode: FlushMode.ALWAYS,
 };

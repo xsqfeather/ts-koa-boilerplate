@@ -12,24 +12,24 @@ startApp({
 
     if (!parseInt(instance)) {
       job.start();
-    }
-    const insertVodQueue = new JobQueue("insertVodQueue");
-    await insertVodQueue.init();
-    // eslint-disable-next-line @typescript-eslint/ban-types
+      const insertVodQueue = new JobQueue("insertVodQueue");
+      await insertVodQueue.init();
+      // eslint-disable-next-line @typescript-eslint/ban-types
 
-    setInterval(async () => {
-      try {
-        const task = await insertVodQueue.popMsg();
-        if (task) {
-          const toInserted = JSON.parse(task);
-          const vodResourceService = Container.get(VodResourceService);
-          const vodTypeService = Container.get(VodTypeService);
-          await vodTypeService.createOneByName(toInserted.type_name);
-          await vodResourceService.createOrUpdate(toInserted);
+      setInterval(async () => {
+        try {
+          const task = await insertVodQueue.popMsg();
+          if (task) {
+            const toInserted = JSON.parse(task);
+            const vodResourceService = Container.get(VodResourceService);
+            const vodTypeService = Container.get(VodTypeService);
+            await vodTypeService.createOneByName(toInserted.type_name);
+            await vodResourceService.createOrUpdate(toInserted);
+          }
+        } catch (error) {
+          console.error(error);
         }
-      } catch (error) {
-        console.error(error);
-      }
-    }, 2500);
+      }, 2500);
+    }
   },
 });

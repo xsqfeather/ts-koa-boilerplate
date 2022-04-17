@@ -69,11 +69,10 @@ export default function useOtherRoutes(
     const { id } = ctx.params;
     const vodResourceService = Container.get(VodResourceService);
     const post = await vodResourceService.findOneAndUpdateHit(+id);
-    console.log({ post });
 
     const urlWords = post?.vod_play_url?.split("$");
     const m3u8Addresses = [];
-    for (let index = 0; index < urlWords.length; index++) {
+    for (let index = 0; index < urlWords?.length; index++) {
       const word = urlWords[index];
       if (word.includes("m3u8")) {
         m3u8Addresses.push(word.replace(/\.m3u8.*/, ".m3u8"));
